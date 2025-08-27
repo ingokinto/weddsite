@@ -29,7 +29,7 @@ class PsychedelicMusicPlayer {
                         <button class="close-btn" onclick="musicPlayer.closePlayer()">×</button>
                     </div>
                     <div class="track-info">
-                        <div class="track-name">Johanna & Lukas - Festival Mix</div>
+                        <div class="track-name">Hanna & Lukas - Festival Mix</div>
                         <div class="track-artist">Hochzeits-Soundtrack</div>
                     </div>
                     <div class="controls">
