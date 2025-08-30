@@ -162,10 +162,10 @@ document.addEventListener('DOMContentLoaded', function() {
             requestAnimationFrame(() => {
                 const navbar = document.querySelector('.navbar');
                 if (window.scrollY > 100) {
-                    navbar.style.background = 'rgba(26, 10, 46, 0.98)';
+                    navbar.style.background = 'rgba(15, 8, 5, 0.98)';
                     navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
                 } else {
-                    navbar.style.background = 'rgba(26, 10, 46, 0.95)';
+                    navbar.style.background = 'rgba(15, 8, 5, 0.95)';
                     navbar.style.boxShadow = 'none';
                 }
                 ticking = false;
@@ -260,41 +260,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 12000);
     }
 
-    // Create particles more frequently for more psychedelic effect
-    setInterval(createParticle, 2000); // More frequent particles
+    // Mobile detection
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+    
+    // Create particles based on device capability
+    if (!isSmallMobile) {
+        const particleInterval = isMobile ? 5000 : 2000; // Less frequent on mobile
+        setInterval(createParticle, particleInterval);
+    }
 
     // Optimized fractal particles - reduced frequency
     function createFractalParticle() {
         const particle = document.createElement('div');
         const shapes = ['polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)', 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)', 'polygon(50% 0%, 0% 100%, 100% 100%)'];
         const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
-        const colors = ['#ff6b6b', '#4ecdc4', '#ff1493', '#8a2be2'];
+        const colors = ['#8b4513', '#a0522d', '#cd853f', '#d2691e'];
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         
         particle.className = 'fractal-particle';
         particle.style.cssText = `
             position: fixed;
-            width: 15px;
-            height: 15px;
+            width: ${isMobile ? '10px' : '15px'};
+            height: ${isMobile ? '10px' : '15px'};
             background: ${randomColor};
             clip-path: ${randomShape};
             pointer-events: none;
             z-index: 1;
             left: ${Math.random() * 100}vw;
             top: ${Math.random() * 100}vh;
-            animation: fractalFloat 15s ease-in-out infinite;
-            opacity: 0.4;
+            animation: fractalFloat ${isMobile ? '20s' : '15s'} ease-in-out infinite;
+            opacity: ${isMobile ? '0.2' : '0.4'};
         `;
         
         document.body.appendChild(particle);
         
         setTimeout(() => {
             particle.remove();
-        }, 15000);
+        }, isMobile ? 20000 : 15000);
     }
 
-    // Create fractal particles more frequently for psychedelic effect
-    setInterval(createFractalParticle, 3000); // More frequent fractal particles
+    // Create fractal particles based on device capability
+    if (!isSmallMobile) {
+        const fractalInterval = isMobile ? 8000 : 3000; // Much less frequent on mobile
+        setInterval(createFractalParticle, fractalInterval);
+    }
 
     // Add CSS for enhanced particles
     const style = document.createElement('style');
@@ -710,8 +720,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Enhanced psychedelic cursor trail effect
+        // Enhanced psychedelic cursor trail effect
     function createCursorTrail() {
+        // Skip on mobile devices
+        if (isMobile) return;
+        
         const cursorTrail = document.createElement('div');
         cursorTrail.className = 'cursor-trail';
         cursorTrail.style.cssText = `
@@ -738,9 +751,9 @@ document.addEventListener('DOMContentLoaded', function() {
             trailX += (mouseX - trailX) * 0.15;
             trailY += (mouseY - trailY) * 0.15;
             
-                    // Use the new forest/wood color palette
-        const colors = ['#8b4513', '#a0522d', '#cd853f', '#d2691e', '#daa520', '#b8860b'];
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            // Use the new forest/wood color palette
+            const colors = ['#8b4513', '#a0522d', '#cd853f', '#d2691e', '#daa520', '#b8860b'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
             
             cursorTrail.style.left = trailX - 10 + 'px';
             cursorTrail.style.top = trailY - 10 + 'px';
@@ -755,6 +768,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Create interactive floating elements with mouse repulsion
     function createPsychedelicElements() {
+        // Skip on very small devices
+        if (isSmallMobile) return;
+        
         const animations = [
             'psychedelicRotate 18s linear infinite',
             'psychedelicRotateReverse 22s linear infinite',
@@ -767,10 +783,11 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
         
         const elements = [];
+        const numElements = isMobile ? 8 : 15; // Fewer elements on mobile
         
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < numElements; i++) {
             const element = document.createElement('div');
-            const size = Math.random() * 80 + 40;
+            const size = isMobile ? (Math.random() * 40 + 20) : (Math.random() * 80 + 40);
             const isCircle = Math.random() > 0.5;
             
             // Random starting position
@@ -782,9 +799,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 width: ${size}px;
                 height: ${size}px;
                 background: linear-gradient(45deg, 
-                    rgba(139, 69, 19, ${Math.random() * 0.4 + 0.2}), 
-                    rgba(160, 82, 45, ${Math.random() * 0.4 + 0.2}),
-                    rgba(205, 133, 63, ${Math.random() * 0.3 + 0.1})
+                    rgba(139, 69, 19, ${isMobile ? (Math.random() * 0.2 + 0.1) : (Math.random() * 0.4 + 0.2)}), 
+                    rgba(160, 82, 45, ${isMobile ? (Math.random() * 0.2 + 0.1) : (Math.random() * 0.4 + 0.2)}),
+                    rgba(205, 133, 63, ${isMobile ? (Math.random() * 0.15 + 0.05) : (Math.random() * 0.3 + 0.1)})
                 );
                 border-radius: ${isCircle ? '50%' : '20px'};
                 pointer-events: none;
@@ -801,8 +818,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 element: element,
                 x: x,
                 y: y,
-                vx: (Math.random() - 0.5) * 2, // Random velocity
-                vy: (Math.random() - 0.5) * 2,
+                vx: (Math.random() - 0.5) * (isMobile ? 1 : 2), // Slower on mobile
+                vy: (Math.random() - 0.5) * (isMobile ? 1 : 2),
                 size: size
             });
         }
@@ -1052,37 +1069,44 @@ setTimeout(() => {
         `;
         document.body.appendChild(waveContainer);
         
-        // Create multiple wave layers with different rotation speeds and directions
-        const animations = [
-            { name: 'psychedelicRotate', duration: 20, direction: 'normal' },
-            { name: 'psychedelicRotateReverse', duration: 35, direction: 'normal' },
-            { name: 'psychedelicRotateFast', duration: 15, direction: 'normal' },
-            { name: 'psychedelicRotateSlow', duration: 50, direction: 'normal' },
-            { name: 'psychedelicRotate', duration: 25, direction: 'reverse' }
-        ];
+        // Adjust number of waves based on device capability
+        const numWaves = isSmallMobile ? 0 : (isMobile ? 2 : 5);
         
-        for (let i = 0; i < 5; i++) {
-            const wave = document.createElement('div');
-            const anim = animations[i];
-            wave.style.cssText = `
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: conic-gradient(
-                    from ${i * 72}deg,
-                    transparent,
-                    rgba(16, 185, 129, 0.03),
-                    transparent,
-                    rgba(251, 191, 36, 0.03),
-                    transparent,
-                    rgba(5, 150, 105, 0.02),
-                    transparent
-                );
-                animation: ${anim.name} ${anim.duration}s linear infinite ${anim.direction};
-                transform-origin: center;
-            `;
-            waveContainer.appendChild(wave);
+        if (numWaves > 0) {
+            // Create multiple wave layers with different rotation speeds and directions
+            const animations = [
+                { name: 'psychedelicRotate', duration: isMobile ? 30 : 20, direction: 'normal' },
+                { name: 'psychedelicRotateReverse', duration: isMobile ? 45 : 35, direction: 'normal' },
+                { name: 'psychedelicRotateFast', duration: isMobile ? 25 : 15, direction: 'normal' },
+                { name: 'psychedelicRotateSlow', duration: isMobile ? 60 : 50, direction: 'normal' },
+                { name: 'psychedelicRotate', duration: isMobile ? 35 : 25, direction: 'reverse' }
+            ];
+            
+            for (let i = 0; i < numWaves; i++) {
+                const wave = document.createElement('div');
+                const anim = animations[i];
+                const waveOpacity = isMobile ? 0.02 : 0.03;
+                
+                wave.style.cssText = `
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: conic-gradient(
+                        from ${i * (360 / numWaves)}deg,
+                        transparent,
+                        rgba(139, 69, 19, ${waveOpacity}),
+                        transparent,
+                        rgba(160, 82, 45, ${waveOpacity}),
+                        transparent,
+                        rgba(205, 133, 63, ${waveOpacity * 0.8}),
+                        transparent
+                    );
+                    animation: ${anim.name} ${anim.duration}s linear infinite ${anim.direction};
+                    transform-origin: center;
+                `;
+                waveContainer.appendChild(wave);
+            }
         }
     } 

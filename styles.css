@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 15%, #2d1a0a 30%, #3d2a0a 45%, #4d3a0a 60%, #5d4a0a 75%, #6d5a0a 90%, #7d6a0a 100%);
     color: #e8f4f8;
     overflow-x: hidden;
@@ -83,12 +83,12 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(10, 10, 10, 0.95);
+    background: rgba(15, 8, 5, 0.95);
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 1rem 0;
     transition: background 0.3s ease;
-    border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+    border-bottom: 1px solid rgba(160, 82, 45, 0.3);
     /* Performance optimization */
     will-change: background;
 }
@@ -106,11 +106,11 @@ body {
     font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
     font-weight: 700;
     font-size: 1.5rem;
-    background: linear-gradient(45deg, #8b4513, #a0522d, #cd853f, #d2691e);
+    background: linear-gradient(45deg, #daa520, #cd853f, #b8860b, #a0522d);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 20px rgba(139, 69, 19, 0.5);
+    text-shadow: 0 0 20px rgba(218, 165, 32, 0.5);
     letter-spacing: 1px;
 }
 
@@ -129,8 +129,8 @@ body {
 }
 
 .nav-link:hover {
-    color: #8b4513;
-    text-shadow: 0 0 10px rgba(139, 69, 19, 0.8);
+    color: #daa520;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.8);
 }
 
 .nav-link::after {
@@ -140,7 +140,7 @@ body {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(45deg, #8b4513, #a0522d);
+    background: linear-gradient(45deg, #daa520, #cd853f);
     transition: width 0.3s ease;
 }
 
@@ -387,13 +387,13 @@ body {
 
 /* Reduced section decorative elements */
 .section::before {
-    content: '🔮 ✨';
+    content: '';
     position: absolute;
     top: 5%;
     left: 10%;
     font-size: 1.2rem;
-    opacity: 0.05;
-    animation: floatSymbols 35s ease-in-out infinite;
+    opacity: 0;
+    animation: none;
     z-index: -1;
 }
 
@@ -759,6 +759,9 @@ body {
     margin-bottom: 2rem;
     color: #8b4513;
     text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .countdown-container {
@@ -769,6 +772,8 @@ body {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     color: #e8f4f8;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-weight: 400;
 }
 
 .countdown {
@@ -826,6 +831,8 @@ body {
     font-size: 0.9rem;
     color: #e8f4f8;
     opacity: 0.8;
+    font-family: 'MedievalSharp', cursive;
+    font-weight: 400;
 }
 
 .hero-dates {
@@ -833,6 +840,8 @@ body {
     margin: 2rem 0;
     color: #8b4513;
     text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+    font-family: 'MedievalSharp', cursive;
+    font-weight: 400;
 }
 
 .cta-button {
@@ -844,6 +853,7 @@ body {
     border-radius: 50px;
     font-weight: 600;
     font-size: 1.1rem;
+    font-family: 'MedievalSharp', cursive;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
 }
@@ -1048,6 +1058,16 @@ body {
 .event-name {
     color: #e8f4f8;
     font-weight: 400;
+    font-family: 'MedievalSharp', cursive !important;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* Ensure event names use the correct font */
+.timeline .event .event-name {
+    font-family: 'MedievalSharp', cursive !important;
+    font-weight: 400;
+    color: #e8f4f8;
 }
 
 /* Anreise Section */
@@ -1084,6 +1104,8 @@ body {
     margin-bottom: 0.5rem;
     color: #e8f4f8;
     opacity: 0.9;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-weight: 400;
 }
 
 /* Verpflegung Section */
@@ -1121,6 +1143,9 @@ body {
     margin-bottom: 1rem;
     color: #e8f4f8;
     opacity: 0.9;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .food-card ul {
@@ -1134,6 +1159,8 @@ body {
     opacity: 0.8;
     position: relative;
     padding-left: 1.5rem;
+    font-family: 'MedievalSharp', cursive;
+    font-weight: 400;
 }
 
 .food-card li::before {
@@ -1199,6 +1226,8 @@ body {
     padding: 0.5rem 0;
     color: #e8f4f8;
     opacity: 0.9;
+    font-family: 'MedievalSharp', cursive;
+    font-weight: 400;
 }
 
 .ticket-button {
@@ -1209,6 +1238,7 @@ body {
     border-radius: 50px;
     font-weight: 600;
     font-size: 1rem;
+    font-family: 'MedievalSharp', cursive;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
@@ -1239,6 +1269,8 @@ body {
     margin-bottom: 1rem;
     color: #e8f4f8;
     opacity: 0.9;
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-weight: 400;
 }
 
 .kontakt-form form {
@@ -1254,7 +1286,7 @@ body {
     border-radius: 10px;
     padding: 1rem;
     color: #e8f4f8;
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'MedievalSharp', cursive;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1278,6 +1310,7 @@ body {
     border-radius: 50px;
     font-weight: 600;
     font-size: 1rem;
+    font-family: 'MedievalSharp', cursive;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
@@ -1300,6 +1333,7 @@ body {
 .footer p {
     color: #e8f4f8;
     opacity: 0.8;
+    font-family: 'UnifrakturMaguntia', cursive;
 }
 
 /* Responsive Design */
@@ -1406,70 +1440,228 @@ body::after {
     }
 }
 
-/* Performance optimization for weak devices */
-@media (max-width: 768px) {
+/* Touch device optimization */
+@media (hover: none) and (pointer: coarse) {
+    /* Disable hover effects on touch devices */
+    .day-card:hover,
+    .anreise-card:hover,
+    .food-card:hover,
+    .ticket-card:hover,
+    .countdown-item:hover,
+    .nav-link:hover::after {
+        transform: none !important;
+        box-shadow: none !important;
+        width: 0 !important;
+    }
+    
+    /* Reduce animation complexity on touch devices */
     .fractal-bg {
-        animation: fractalMove 30s ease-in-out infinite;
+        animation: none !important;
+    }
+    
+    .psychedelic-patterns::before,
+    .psychedelic-patterns::after {
+        animation-duration: 30s !important;
+    }
+    
+    .floating-shapes::before,
+    .floating-shapes::after {
+        animation-duration: 20s !important;
+    }
+}
+
+/* Performance optimization for mobile devices */
+@media (max-width: 768px) {
+    /* Disable complex animations on mobile */
+    .fractal-bg {
+        animation: none;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(160, 82, 45, 0.2) 0%, transparent 50%);
     }
     
     .fractal-bg::before {
-        animation: fractalRotate 45s linear infinite;
+        animation: none;
+        background: none;
+    }
+    
+    .fractal-bg::after {
+        animation: none;
+        content: '🍄 ✨ 🌿';
+        opacity: 0.05;
+    }
+    
+    .psychedelic-patterns {
+        opacity: 0.1;
+    }
+    
+    .psychedelic-patterns::before {
+        animation: psychedelicRotate 30s linear infinite;
+    }
+    
+    .psychedelic-patterns::after {
+        animation: psychedelicRotateReverse 40s linear infinite;
+    }
+    
+    .floating-shapes {
+        opacity: 0.2;
+    }
+    
+    .floating-shapes::before {
+        animation: psychedelicRotateFast 15s linear infinite;
+    }
+    
+    .floating-shapes::after {
+        animation: psychedelicRotateReverse 20s linear infinite;
+    }
+    
+    .wave-patterns {
+        opacity: 0.1;
+    }
+    
+    .wave-patterns::before,
+    .wave-patterns::after {
+        animation: none;
     }
     
     .hero-title {
-        animation: gradientShift 4s ease-in-out infinite;
+        animation: gradientShift 5s ease-in-out infinite;
+        font-size: 2.5rem;
+    }
+    
+    .hero-title::before {
+        animation: gradientShift 5s ease-in-out infinite reverse;
     }
     
     .countdown-number {
-        animation: countdownGlow 4s ease-in-out infinite;
+        animation: countdownGlow 5s ease-in-out infinite;
+        font-size: 2rem;
     }
     
     .section-title {
-        animation: sectionTitleGlow 6s ease-in-out infinite;
+        animation: sectionTitleGlow 7s ease-in-out infinite;
+        font-size: 2rem;
     }
     
     /* Reduce backdrop-filter on mobile for better performance */
-    .navbar,
+    .navbar {
+        backdrop-filter: blur(3px);
+        background: rgba(15, 8, 5, 0.98);
+    }
+    
     .countdown-item,
     .day-card,
     .anreise-card,
     .food-card,
     .ticket-card {
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(3px);
+    }
+    
+    /* Simplify card hover effects */
+    .day-card:hover,
+    .anreise-card:hover,
+    .food-card:hover,
+    .ticket-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(139, 69, 19, 0.2);
+    }
+    
+    /* Disable cursor trail on mobile */
+    .cursor-trail {
+        display: none;
     }
 }
 
-/* Further optimization for very weak devices */
+/* Further optimization for very small devices */
 @media (max-width: 480px) {
-    .fractal-bg {
+    /* Disable all complex animations on very small devices */
+    .fractal-bg,
+    .fractal-bg::before,
+    .fractal-bg::after {
         animation: none;
+        background: radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 70%);
     }
     
-    .fractal-bg::before {
+    .psychedelic-patterns,
+    .psychedelic-patterns::before,
+    .psychedelic-patterns::after {
         animation: none;
+        opacity: 0.05;
+    }
+    
+    .floating-shapes,
+    .floating-shapes::before,
+    .floating-shapes::after {
+        animation: none;
+        opacity: 0.1;
+    }
+    
+    .wave-patterns,
+    .wave-patterns::before,
+    .wave-patterns::after {
+        animation: none;
+        opacity: 0.05;
     }
     
     .hero-title {
         animation: none;
+        font-size: 2rem;
+        text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+    }
+    
+    .hero-title::before {
+        animation: none;
+        opacity: 0.3;
     }
     
     .countdown-number {
         animation: none;
+        font-size: 1.8rem;
+        text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
     }
     
     .section-title {
         animation: none;
+        font-size: 1.5rem;
+        text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
     }
     
-    /* Remove backdrop-filter completely on very weak devices */
-    .navbar,
+    /* Remove backdrop-filter completely on very small devices */
+    .navbar {
+        backdrop-filter: none;
+        background: rgba(15, 8, 5, 0.98);
+        border-bottom: 1px solid rgba(160, 82, 45, 0.2);
+    }
+    
     .countdown-item,
     .day-card,
     .anreise-card,
     .food-card,
     .ticket-card {
         backdrop-filter: none;
-        background: rgba(26, 26, 46, 0.9);
+        background: rgba(10, 10, 10, 0.95);
+        border: 1px solid rgba(139, 69, 19, 0.2);
+    }
+    
+    /* Disable all hover effects on very small devices */
+    .day-card:hover,
+    .anreise-card:hover,
+    .food-card:hover,
+    .ticket-card:hover,
+    .countdown-item:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Simplify countdown items */
+    .countdown-item {
+        padding: 1rem;
+        min-width: 70px;
+    }
+    
+    .countdown-item::before {
+        animation: none;
+        background: none;
     }
 }
 
@@ -1502,7 +1694,7 @@ body::after {
 }
 
 .player-header h3 {
-    color: #22c55e;
+    color: #daa520;
     margin: 0;
     font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
     letter-spacing: 1px;
@@ -1548,7 +1740,7 @@ body::after {
 }
 
 .play-btn {
-    background: linear-gradient(45deg, #22c55e, #4ade80);
+    background: linear-gradient(45deg, #daa520, #cd853f);
     border: none;
     color: white;
     width: 50px;
@@ -1557,12 +1749,12 @@ body::after {
     font-size: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3);
 }
 
 .play-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 8px 20px rgba(218, 165, 32, 0.4);
 }
 
 .progress-container {
@@ -1580,7 +1772,7 @@ body::after {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #22c55e, #4ade80);
+    background: linear-gradient(90deg, #daa520, #cd853f);
     width: 0%;
     transition: width 0.1s ease;
 }
@@ -1619,7 +1811,7 @@ body::after {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #0a1a0a 0%, #1a2e1a 25%, #2d4a2d 50%, #3d6b3d 75%, #2d4a2d 100%);
+    background: linear-gradient(135deg, #1a0f0a 0%, #2d1a0a 25%, #4d2a0a 50%, #6d3a0a 75%, #8d4a0a 100%);
     z-index: 10000;
     display: flex;
     justify-content: center;
@@ -1635,19 +1827,19 @@ body::after {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(74, 222, 128, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(22, 163, 74, 0.3) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(160, 82, 45, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(205, 133, 63, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(210, 105, 30, 0.3) 0%, transparent 50%);
     animation: fractalMove 20s ease-in-out infinite;
 }
 
 .password-container {
     position: relative;
     z-index: 2;
-    background: rgba(10, 26, 10, 0.9);
+    background: rgba(26, 15, 10, 0.9);
     backdrop-filter: blur(20px);
     border-radius: 30px;
-    border: 2px solid rgba(34, 197, 94, 0.3);
+    border: 2px solid rgba(160, 82, 45, 0.3);
     padding: 3rem;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     max-width: 500px;
@@ -1664,7 +1856,7 @@ body::after {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, #4ade80, #22c55e, #16a34a, #15803d, #14532d);
+    background: linear-gradient(45deg, #daa520, #cd853f, #b8860b, #a0522d, #8b4513);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1677,6 +1869,7 @@ body::after {
     margin-bottom: 2rem;
     color: rgba(232, 244, 248, 0.8);
     line-height: 1.6;
+    font-family: 'UnifrakturMaguntia', cursive;
 }
 
 .password-form {
@@ -1695,7 +1888,7 @@ body::after {
     color: white;
     outline: none;
     transition: all 0.3s ease;
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'MedievalSharp', cursive;
 }
 
 #password-input::placeholder {
@@ -1703,8 +1896,8 @@ body::after {
 }
 
 #password-input:focus {
-    border-color: #06b6d4;
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    border-color: #daa520;
+    box-shadow: 0 0 20px rgba(218, 165, 32, 0.3);
     background: rgba(255, 255, 255, 0.15);
 }
 
@@ -1712,20 +1905,20 @@ body::after {
     padding: 1rem 2rem;
     font-size: 1.2rem;
     font-weight: 600;
-    background: linear-gradient(45deg, #22c55e, #4ade80);
+    background: linear-gradient(45deg, #daa520, #cd853f);
     border: none;
     border-radius: 15px;
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Exo 2', sans-serif;
-    box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+    font-family: 'MedievalSharp', cursive;
+    box-shadow: 0 10px 30px rgba(218, 165, 32, 0.3);
 }
 
 .password-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4);
-    background: linear-gradient(45deg, #16a34a, #22c55e);
+    box-shadow: 0 15px 40px rgba(218, 165, 32, 0.4);
+    background: linear-gradient(45deg, #b8860b, #daa520);
 }
 
 .password-button:active {
@@ -1743,6 +1936,7 @@ body::after {
     margin: 0;
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
+    font-family: 'MedievalSharp', cursive;
 }
 
 /* Error message styling */
