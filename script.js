@@ -260,8 +260,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 12000);
     }
 
-    // Create particles less frequently for better performance
-    setInterval(createParticle, 5000); // Increased from 3s to 5s
+    // Create particles more frequently for more psychedelic effect
+    setInterval(createParticle, 2000); // More frequent particles
 
     // Optimized fractal particles - reduced frequency
     function createFractalParticle() {
@@ -293,46 +293,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 15000);
     }
 
-    // Create fractal particles less frequently
-    setInterval(createFractalParticle, 8000); // Increased from 4s to 8s
+    // Create fractal particles more frequently for psychedelic effect
+    setInterval(createFractalParticle, 3000); // More frequent fractal particles
 
     // Add CSS for enhanced particles
     const style = document.createElement('style');
     style.textContent = `
         @keyframes floatUp {
             0% {
-                transform: translateY(0) rotate(0deg) scale(1);
+                transform: translateY(0) rotate(0deg) scale(1) skew(0deg);
                 opacity: 1;
             }
+            25% {
+                transform: translateY(-25vh) rotate(90deg) scale(1.4) skew(5deg);
+                opacity: 0.8;
+            }
             50% {
-                transform: translateY(-50vh) rotate(180deg) scale(1.2);
+                transform: translateY(-50vh) rotate(180deg) scale(0.8) skew(-5deg);
                 opacity: 0.6;
             }
+            75% {
+                transform: translateY(-75vh) rotate(270deg) scale(1.6) skew(3deg);
+                opacity: 0.4;
+            }
             100% {
-                transform: translateY(-100vh) rotate(360deg) scale(0.3);
+                transform: translateY(-100vh) rotate(360deg) scale(0.3) skew(0deg);
                 opacity: 0;
             }
         }
         
         @keyframes fractalFloat {
             0% {
-                transform: translateY(0) rotate(0deg) scale(1);
+                transform: translateY(0) rotate(0deg) scale(1) skew(0deg);
                 opacity: 0.4;
             }
-            25% {
-                transform: translateY(-25vh) rotate(90deg) scale(1.1);
-                opacity: 0.6;
+            20% {
+                transform: translateY(-20vh) rotate(72deg) scale(1.3) skew(5deg);
+                opacity: 0.7;
             }
-            50% {
-                transform: translateY(-50vh) rotate(180deg) scale(0.7);
-                opacity: 0.3;
-            }
-            75% {
-                transform: translateY(-75vh) rotate(270deg) scale(1);
+            40% {
+                transform: translateY(-40vh) rotate(144deg) scale(0.6) skew(-5deg);
                 opacity: 0.5;
             }
+            60% {
+                transform: translateY(-60vh) rotate(216deg) scale(1.5) skew(3deg);
+                opacity: 0.3;
+            }
+            80% {
+                transform: translateY(-80vh) rotate(288deg) scale(0.8) skew(-3deg);
+                opacity: 0.6;
+            }
             100% {
-                transform: translateY(-100vh) rotate(360deg) scale(0.2);
+                transform: translateY(-100vh) rotate(360deg) scale(0.2) skew(0deg);
                 opacity: 0;
             }
         }
@@ -401,8 +413,8 @@ document.addEventListener('DOMContentLoaded', function() {
             opacity: 0.2;
         `;
         
-        // Reduced number of waves for better performance
-        for (let i = 0; i < 2; i++) {
+        // More waves for psychedelic effect
+        for (let i = 0; i < 5; i++) {
             const wave = document.createElement('div');
             wave.style.cssText = `
                 position: absolute;
@@ -410,13 +422,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: 200%;
                 top: -50%;
                 left: -50%;
-                background: conic-gradient(from ${i * 180}deg, 
+                background: conic-gradient(from ${i * 72}deg, 
                     transparent, 
-                    rgba(255, 107, 107, 0.08), 
+                    rgba(139, 69, 19, 0.15), 
                     transparent, 
-                    rgba(78, 205, 196, 0.08), 
+                    rgba(160, 82, 45, 0.15), 
+                    transparent,
+                    rgba(205, 133, 63, 0.12),
                     transparent);
-                animation: waveRotate ${20 + i * 10}s linear infinite;
+                animation: waveRotate ${8 + i * 3}s linear infinite;
             `;
             waveContainer.appendChild(wave);
         }
@@ -724,9 +738,9 @@ document.addEventListener('DOMContentLoaded', function() {
             trailX += (mouseX - trailX) * 0.15;
             trailY += (mouseY - trailY) * 0.15;
             
-            // Use the new green/yellow color palette
-            const colors = ['#10b981', '#059669', '#047857', '#fbbf24', '#f59e0b'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    // Use the new forest/wood color palette
+        const colors = ['#8b4513', '#a0522d', '#cd853f', '#d2691e', '#daa520', '#b8860b'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
             
             cursorTrail.style.left = trailX - 10 + 'px';
             cursorTrail.style.top = trailY - 10 + 'px';
@@ -768,9 +782,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 width: ${size}px;
                 height: ${size}px;
                 background: linear-gradient(45deg, 
-                    rgba(16, 185, 129, ${Math.random() * 0.2 + 0.1}), 
-                    rgba(251, 191, 36, ${Math.random() * 0.2 + 0.1}),
-                    rgba(5, 150, 105, ${Math.random() * 0.15 + 0.05})
+                    rgba(139, 69, 19, ${Math.random() * 0.4 + 0.2}), 
+                    rgba(160, 82, 45, ${Math.random() * 0.4 + 0.2}),
+                    rgba(205, 133, 63, ${Math.random() * 0.3 + 0.1})
                 );
                 border-radius: ${isCircle ? '50%' : '20px'};
                 pointer-events: none;
