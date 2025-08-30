@@ -60,7 +60,8 @@ class PsychedelicMusicPlayer {
         try {
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             this.analyser = this.audioContext.createAnalyser();
-            this.analyser.fftSize = 256;
+            // Reduced FFT size for better performance
+            this.analyser.fftSize = 128;
             this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
             console.log('🎵 Audio context setup successful');
         } catch (error) {
@@ -119,7 +120,7 @@ class PsychedelicMusicPlayer {
                         clearInterval(audioMonitor);
                     });
                 }
-            }, 500);
+            }, 1000); // Increased interval for better performance
             
             // Clear monitor after 10 seconds
             setTimeout(() => {
@@ -142,6 +143,12 @@ class PsychedelicMusicPlayer {
         this.audio.addEventListener('error', (error) => {
             console.log('🎵 Audio error:', error);
             this.showTrackNotFound();
+        });
+        
+        // Fix: Remove throttling for time updates to ensure accurate display
+        this.audio.addEventListener('timeupdate', () => {
+            this.updateProgress();
+            this.updateCurrentTime();
         });
     }
     
@@ -211,30 +218,41 @@ class PsychedelicMusicPlayer {
         const visualizerContainer = this.playerContainer.querySelector('.visualizer-container');
         if (!visualizerContainer) return;
         
-        visualizerContainer.innerHTML = '';
+        // Clear container only when needed
+        if (!visualizerContainer.children.length) {
+            visualizerContainer.innerHTML = '';
+            
+            // Reduced bar count for better performance
+            const barCount = 16;
+            const barWidth = visualizerContainer.offsetWidth / barCount;
+            
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.style.cssText = `
+                    width: ${barWidth - 1}px;
+                    height: 0px;
+                    background: linear-gradient(to top, #ff6b6b, #4ecdc4);
+                    border-radius: 2px;
+                    transition: height 0.1s ease;
+                `;
+                visualizerContainer.appendChild(bar);
+            }
+        }
         
-        const barCount = 32;
-        const barWidth = visualizerContainer.offsetWidth / barCount;
-        
-        for (let i = 0; i < barCount; i++) {
-            const bar = document.createElement('div');
-            const value = this.dataArray[i] || 0;
+        // Update existing bars
+        const bars = visualizerContainer.children;
+        for (let i = 0; i < bars.length; i++) {
+            const value = this.dataArray[i * 2] || 0; // Sample every other frequency for performance
             const height = (value / 255) * 60;
-            
-            bar.style.cssText = `
-                width: ${barWidth - 1}px;
-                height: ${height}px;
-                background: linear-gradient(to top, #ff6b6b, #4ecdc4);
-                border-radius: 2px;
-                transition: height 0.1s ease;
-            `;
-            
-            visualizerContainer.appendChild(bar);
+            bars[i].style.height = height + 'px';
         }
         
         // Continue visualization only if still playing
         if (this.isPlaying) {
-            requestAnimationFrame(() => this.visualize());
+            // Reduced frame rate for better performance
+            setTimeout(() => {
+                requestAnimationFrame(() => this.visualize());
+            }, 50); // 20 FPS instead of 60 FPS
         }
     }
     
@@ -250,31 +268,39 @@ class PsychedelicMusicPlayer {
         if (!this.audio) return;
         
         const progressFill = this.playerContainer.querySelector('.progress-fill');
-        const percent = (this.audio.currentTime / this.audio.duration) * 100;
-        progressFill.style.width = percent + '%';
+        if (progressFill && !isNaN(this.audio.duration) && this.audio.duration > 0) {
+            const percent = (this.audio.currentTime / this.audio.duration) * 100;
+            progressFill.style.width = percent + '%';
+        }
     }
     
     updateCurrentTime() {
         if (!this.audio) return;
         
         const currentTime = this.playerContainer.querySelector('.current-time');
-        currentTime.textContent = this.formatTime(this.audio.currentTime);
+        if (currentTime) {
+            currentTime.textContent = this.formatTime(this.audio.currentTime);
+        }
     }
     
     updateTotalTime() {
         if (!this.audio) return;
         
         const totalTime = this.playerContainer.querySelector('.total-time');
-        totalTime.textContent = this.formatTime(this.audio.duration);
+        if (totalTime) {
+            totalTime.textContent = this.formatTime(this.audio.duration);
+        }
     }
     
     updatePlayButton() {
         const playBtn = this.playerContainer.querySelector('.play-btn');
-        playBtn.textContent = this.isPlaying ? '⏸' : '▶';
+        if (playBtn) {
+            playBtn.textContent = this.isPlaying ? '⏸' : '▶';
+        }
     }
     
     formatTime(seconds) {
-        if (isNaN(seconds)) return '0:00';
+        if (isNaN(seconds) || seconds < 0) return '0:00';
         
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
@@ -305,11 +331,19 @@ class PsychedelicMusicPlayer {
 }
 
 // Initialize the music player
-let musicPlayer;
+let musicPlayer = null;
 
 // Function to initialize music player (called from main script)
 function initMusicPlayer() {
     console.log('🎵 initMusicPlayer called');
+    
+    // Prevent multiple instances
+    if (musicPlayer) {
+        console.log('🎵 Music player already exists, returning existing instance');
+        return musicPlayer;
+    }
+    
     musicPlayer = new PsychedelicMusicPlayer();
     console.log('🎵 Music player created:', musicPlayer);
+    return musicPlayer;
 } 

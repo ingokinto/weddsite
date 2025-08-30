@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 passwordOverlay.classList.add('unlocked');
                 
                 // Initialize and start music immediately
-                if (typeof initMusicPlayer === 'function') {
+                if (typeof initMusicPlayer === 'function' && !musicPlayer) {
                     initMusicPlayer();
                     
                     // Start music after a short delay to ensure player is ready
@@ -45,6 +45,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             window.startMusic();
                         }
                     }, 1000);
+                } else if (musicPlayer && window.startMusic) {
+                    // If player already exists, just start music
+                    setTimeout(() => {
+                        console.log('🎵 Starting existing music player after password unlock!');
+                        window.startMusic();
+                    }, 500);
                 }
                 
                 // Reset button
@@ -102,11 +108,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
         document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
 
-        // Add pulse effect when seconds change
-        if (seconds % 10 === 0) {
+        // Reduced pulse effect frequency for better performance
+        if (seconds % 30 === 0) {
             const countdownItems = document.querySelectorAll('.countdown-item');
             countdownItems.forEach(item => {
-                item.style.transform = 'scale(1.1)';
+                item.style.transform = 'scale(1.05)';
                 setTimeout(() => {
                     item.style.transform = 'scale(1)';
                 }, 200);
@@ -149,24 +155,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar background change on scroll
+    // Optimized navbar background change on scroll with throttling
+    let ticking = false;
     window.addEventListener('scroll', () => {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(26, 10, 46, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
-        } else {
-            navbar.style.background = 'rgba(26, 10, 46, 0.95)';
-            navbar.style.boxShadow = 'none';
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(26, 10, 46, 0.98)';
+                    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+                } else {
+                    navbar.style.background = 'rgba(26, 10, 46, 0.95)';
+                    navbar.style.boxShadow = 'none';
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
     });
 
-    // Parallax effect for fractal background
+    // Optimized parallax effect for fractal background
+    let parallaxTicking = false;
     window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const fractalBg = document.querySelector('.fractal-bg');
-        if (fractalBg) {
-            fractalBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+        if (!parallaxTicking) {
+            requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+                const fractalBg = document.querySelector('.fractal-bg');
+                if (fractalBg) {
+                    fractalBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+                parallaxTicking = false;
+            });
+            parallaxTicking = true;
         }
     });
 
@@ -211,12 +231,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Contact form handling - REMOVED (replaced with new version below)
 
-    // Enhanced floating particles effect
+    // Optimized floating particles effect - reduced frequency
     function createParticle() {
         const particle = document.createElement('div');
         const colors = ['#ff6b6b', '#4ecdc4', '#ff1493', '#8a2be2', '#ffd700', '#00ff88'];
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        const size = Math.random() * 6 + 2;
+        const size = Math.random() * 4 + 2; // Reduced size
         
         particle.className = 'floating-particle';
         particle.style.cssText = `
@@ -229,21 +249,21 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 1;
             left: ${Math.random() * 100}vw;
             top: 100vh;
-            box-shadow: 0 0 ${size * 2}px ${randomColor};
-            animation: floatUp ${Math.random() * 4 + 6}s linear infinite;
+            box-shadow: 0 0 ${size * 1.5}px ${randomColor};
+            animation: floatUp ${Math.random() * 3 + 8}s linear infinite;
         `;
         
         document.body.appendChild(particle);
         
         setTimeout(() => {
             particle.remove();
-        }, 10000);
+        }, 12000);
     }
 
-    // Create particles more frequently
-    setInterval(createParticle, 3000); // Reduced from 1.5s to 3s
+    // Create particles less frequently for better performance
+    setInterval(createParticle, 5000); // Increased from 3s to 5s
 
-    // Create fractal particles
+    // Optimized fractal particles - reduced frequency
     function createFractalParticle() {
         const particle = document.createElement('div');
         const shapes = ['polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)', 'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%)', 'polygon(50% 0%, 0% 100%, 100% 100%)'];
@@ -254,27 +274,27 @@ document.addEventListener('DOMContentLoaded', function() {
         particle.className = 'fractal-particle';
         particle.style.cssText = `
             position: fixed;
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             background: ${randomColor};
             clip-path: ${randomShape};
             pointer-events: none;
             z-index: 1;
             left: ${Math.random() * 100}vw;
             top: ${Math.random() * 100}vh;
-            animation: fractalFloat 12s ease-in-out infinite;
-            opacity: 0.6;
+            animation: fractalFloat 15s ease-in-out infinite;
+            opacity: 0.4;
         `;
         
         document.body.appendChild(particle);
         
         setTimeout(() => {
             particle.remove();
-        }, 12000);
+        }, 15000);
     }
 
-    // Create fractal particles
-    setInterval(createFractalParticle, 4000); // Reduced frequency
+    // Create fractal particles less frequently
+    setInterval(createFractalParticle, 8000); // Increased from 4s to 8s
 
     // Add CSS for enhanced particles
     const style = document.createElement('style');
@@ -285,31 +305,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 opacity: 1;
             }
             50% {
-                transform: translateY(-50vh) rotate(180deg) scale(1.5);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg) scale(0.5);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes fractalFloat {
-            0% {
-                transform: translateY(0) rotate(0deg) scale(1);
+                transform: translateY(-50vh) rotate(180deg) scale(1.2);
                 opacity: 0.6;
-            }
-            25% {
-                transform: translateY(-25vh) rotate(90deg) scale(1.2);
-                opacity: 0.8;
-            }
-            50% {
-                transform: translateY(-50vh) rotate(180deg) scale(0.8);
-                opacity: 0.4;
-            }
-            75% {
-                transform: translateY(-75vh) rotate(270deg) scale(1.1);
-                opacity: 0.7;
             }
             100% {
                 transform: translateY(-100vh) rotate(360deg) scale(0.3);
@@ -317,20 +314,43 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
+        @keyframes fractalFloat {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.4;
+            }
+            25% {
+                transform: translateY(-25vh) rotate(90deg) scale(1.1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-50vh) rotate(180deg) scale(0.7);
+                opacity: 0.3;
+            }
+            75% {
+                transform: translateY(-75vh) rotate(270deg) scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(0.2);
+                opacity: 0;
+            }
+        }
+        
         .floating-particle {
-            box-shadow: 0 0 10px currentColor;
+            box-shadow: 0 0 8px currentColor;
         }
         
         .fractal-particle {
-            box-shadow: 0 0 15px currentColor;
+            box-shadow: 0 0 12px currentColor;
         }
     `;
     document.head.appendChild(style);
 
-    // Add hover effects for cards
+    // Optimized hover effects for cards
     document.querySelectorAll('.day-card, .anreise-card, .food-card, .ticket-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
+            this.style.transform = 'translateY(-8px) scale(1.01)';
         });
         
         card.addEventListener('mouseleave', function() {
@@ -338,8 +358,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Enhanced typing effect for hero title with psychedelic colors
-    function typeWriter(element, text, speed = 100) {
+    // Simplified typing effect for hero title
+    function typeWriter(element, text, speed = 150) {
         let i = 0;
         element.textContent = '';
         element.setAttribute('data-text', text);
@@ -347,12 +367,6 @@ document.addEventListener('DOMContentLoaded', function() {
         function type() {
             if (i < text.length) {
                 element.textContent += text.charAt(i);
-                
-                // Add rainbow effect to each character
-                const colors = ['#ff6b6b', '#4ecdc4', '#ff1493', '#8a2be2', '#ffd700', '#00ff88'];
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                element.style.textShadow = `0 0 20px ${randomColor}`;
-                
                 i++;
                 setTimeout(type, speed);
             }
@@ -367,12 +381,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (heroTitle) {
             const originalText = heroTitle.textContent;
             setTimeout(() => {
-                typeWriter(heroTitle, originalText, 150);
+                typeWriter(heroTitle, originalText, 200); // Increased speed
             }, 1000);
         }
     });
 
-    // Add psychedelic background waves
+    // Simplified psychedelic background waves - reduced complexity
     function createPsychedelicWaves() {
         const waveContainer = document.createElement('div');
         waveContainer.className = 'psychedelic-waves';
@@ -384,10 +398,11 @@ document.addEventListener('DOMContentLoaded', function() {
             height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.3;
+            opacity: 0.2;
         `;
         
-        for (let i = 0; i < 3; i++) {
+        // Reduced number of waves for better performance
+        for (let i = 0; i < 2; i++) {
             const wave = document.createElement('div');
             wave.style.cssText = `
                 position: absolute;
@@ -395,15 +410,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: 200%;
                 top: -50%;
                 left: -50%;
-                background: conic-gradient(from ${i * 120}deg, 
+                background: conic-gradient(from ${i * 180}deg, 
                     transparent, 
-                    rgba(255, 107, 107, 0.1), 
+                    rgba(255, 107, 107, 0.08), 
                     transparent, 
-                    rgba(78, 205, 196, 0.1), 
-                    transparent, 
-                    rgba(255, 20, 147, 0.1), 
+                    rgba(78, 205, 196, 0.08), 
                     transparent);
-                animation: waveRotate ${15 + i * 5}s linear infinite;
+                animation: waveRotate ${20 + i * 10}s linear infinite;
             `;
             waveContainer.appendChild(wave);
         }
@@ -425,20 +438,20 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(waveStyle);
 
-    // Initialize psychedelic waves
-    setTimeout(createPsychedelicWaves, 2000);
+    // Initialize psychedelic waves with delay
+    setTimeout(createPsychedelicWaves, 3000);
 
-    // Add psychedelic effect to section titles
+    // Simplified psychedelic effect to section titles
     document.querySelectorAll('.section-title').forEach(title => {
         title.setAttribute('data-text', title.textContent);
         
-        // Add rainbow effect on hover
+        // Simplified hover effect
         title.addEventListener('mouseenter', function() {
-            this.style.animation = 'sectionTitleGlow 1s ease-in-out infinite';
+            this.style.animation = 'sectionTitleGlow 2s ease-in-out infinite';
         });
         
         title.addEventListener('mouseleave', function() {
-            this.style.animation = 'sectionTitleGlow 4s ease-in-out infinite';
+            this.style.animation = 'sectionTitleGlow 5s ease-in-out infinite';
         });
     });
 
@@ -460,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cursor: pointer;
             z-index: 1000;
             box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 3s ease-in-out infinite;
             transition: all 0.3s ease;
         `;
         
@@ -482,7 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
             justify-content: center;
             font-size: 10px;
             color: white;
-            animation: musicPulse 1s ease-in-out infinite;
+            animation: musicPulse 2s ease-in-out infinite;
         `;
         musicIndicator.innerHTML = '▶';
         musicIndicator.title = 'Musik bereit - Klick zum Starten';
@@ -548,8 +561,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
             }
             50% {
-                transform: scale(1.1);
-                box-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+                transform: scale(1.05);
+                box-shadow: 0 0 25px rgba(255, 107, 107, 0.7);
             }
         }
         
@@ -559,7 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 background: #4ecdc4;
             }
             50% {
-                transform: scale(1.2);
+                transform: scale(1.1);
                 background: #ff6b6b;
             }
         }
@@ -569,10 +582,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize music visualizer and auto-start music (without showing player)
     setTimeout(() => {
         createMusicVisualizer();
-        // Auto-initialize music player in background
-        if (typeof initMusicPlayer === 'function') {
-            initMusicPlayer();
-        }
         
         // Global flag to prevent multiple starts
         let musicStarted = false;
@@ -628,9 +637,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add click listener to document
         document.addEventListener('click', startMusicOnClick);
-    }, 2000);
+    }, 1000); // Reduced delay from 3000ms to 1000ms
 
-    // Add scroll progress indicator
+    // Optimized scroll progress indicator
     function createScrollProgress() {
         const progressBar = document.createElement('div');
         progressBar.className = 'scroll-progress';
@@ -647,11 +656,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(progressBar);
         
+        let scrollTicking = false;
         window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.body.offsetHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            progressBar.style.width = scrollPercent + '%';
+            if (!scrollTicking) {
+                requestAnimationFrame(() => {
+                    const scrollTop = window.pageYOffset;
+                    const docHeight = document.body.offsetHeight - window.innerHeight;
+                    const scrollPercent = (scrollTop / docHeight) * 100;
+                    progressBar.style.width = scrollPercent + '%';
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
         });
     }
 
@@ -680,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Add psychedelic cursor trail effect
+    // Enhanced psychedelic cursor trail effect
     function createCursorTrail() {
         const cursorTrail = document.createElement('div');
         cursorTrail.className = 'cursor-trail';
@@ -705,16 +721,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         function animateTrail() {
-            trailX += (mouseX - trailX) * 0.1;
-            trailY += (mouseY - trailY) * 0.1;
+            trailX += (mouseX - trailX) * 0.15;
+            trailY += (mouseY - trailY) * 0.15;
             
-            const colors = ['#ff6b6b', '#4ecdc4', '#ff1493', '#8a2be2', '#ffd700'];
+            // Use the new green/yellow color palette
+            const colors = ['#10b981', '#059669', '#047857', '#fbbf24', '#f59e0b'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             
             cursorTrail.style.left = trailX - 10 + 'px';
             cursorTrail.style.top = trailY - 10 + 'px';
-            cursorTrail.style.background = randomColor;
-            cursorTrail.style.boxShadow = `0 0 20px ${randomColor}`;
+            cursorTrail.style.background = `radial-gradient(circle, ${randomColor}80, transparent)`;
+            cursorTrail.style.boxShadow = `0 0 20px ${randomColor}60`;
             
             requestAnimationFrame(animateTrail);
         }
@@ -722,10 +739,180 @@ document.addEventListener('DOMContentLoaded', function() {
         animateTrail();
     }
 
-    // Initialize cursor trail
-    setTimeout(createCursorTrail, 3000);
+    // Create interactive floating elements with mouse repulsion
+    function createPsychedelicElements() {
+        const animations = [
+            'psychedelicRotate 18s linear infinite',
+            'psychedelicRotateReverse 22s linear infinite',
+            'psychedelicRotateFast 14s linear infinite',
+            'psychedelicRotateSlow 35s linear infinite',
+            'psychedelicRotate 25s linear infinite reverse',
+            'psychedelicRotateReverse 30s linear infinite reverse',
+            'psychedelicRotateFast 16s linear infinite reverse',
+            'psychedelicRotateSlow 40s linear infinite reverse'
+        ];
+        
+        const elements = [];
+        
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            const size = Math.random() * 80 + 40;
+            const isCircle = Math.random() > 0.5;
+            
+            // Random starting position
+            const x = Math.random() * (window.innerWidth - size);
+            const y = Math.random() * (window.innerHeight - size);
+            
+            element.style.cssText = `
+                position: fixed;
+                width: ${size}px;
+                height: ${size}px;
+                background: linear-gradient(45deg, 
+                    rgba(16, 185, 129, ${Math.random() * 0.2 + 0.1}), 
+                    rgba(251, 191, 36, ${Math.random() * 0.2 + 0.1}),
+                    rgba(5, 150, 105, ${Math.random() * 0.15 + 0.05})
+                );
+                border-radius: ${isCircle ? '50%' : '20px'};
+                pointer-events: none;
+                z-index: -1;
+                animation: ${animations[i % animations.length]};
+                top: ${y}px;
+                left: ${x}px;
+                transform-origin: center;
+                transition: all 0.3s ease;
+            `;
+            
+            document.body.appendChild(element);
+            elements.push({
+                element: element,
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 2, // Random velocity
+                vy: (Math.random() - 0.5) * 2,
+                size: size
+            });
+        }
+        
+        // Mouse interaction
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Animation loop for movement and repulsion
+        function animateElements() {
+            elements.forEach(item => {
+                // Add repulsion from mouse
+                const dx = item.x - mouseX;
+                const dy = item.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const repulsionRadius = 150;
+                
+                if (distance < repulsionRadius) {
+                    const force = (repulsionRadius - distance) / repulsionRadius;
+                    const angle = Math.atan2(dy, dx);
+                    item.vx += Math.cos(angle) * force * 0.5;
+                    item.vy += Math.sin(angle) * force * 0.5;
+                }
+                
+                // Update position
+                item.x += item.vx;
+                item.y += item.vy;
+                
+                // Add some friction
+                item.vx *= 0.98;
+                item.vy *= 0.98;
+                
+                // Bounce off walls
+                if (item.x <= 0 || item.x >= window.innerWidth - item.size) {
+                    item.vx *= -0.8;
+                    item.x = Math.max(0, Math.min(window.innerWidth - item.size, item.x));
+                }
+                if (item.y <= 0 || item.y >= window.innerHeight - item.size) {
+                    item.vy *= -0.8;
+                    item.y = Math.max(0, Math.min(window.innerHeight - item.size, item.y));
+                }
+                
+                // Apply position
+                item.element.style.left = item.x + 'px';
+                item.element.style.top = item.y + 'px';
+            });
+            
+            requestAnimationFrame(animateElements);
+        }
+        
+        animateElements();
+    }
+    
+    // Apply varied animations to UI elements
+    function applyVariedAnimations() {
+        // Countdown numbers with different animations
+        const countdownNumbers = document.querySelectorAll('.countdown-number');
+        const countdownAnimations = [
+            'countdownGlow 3s ease-in-out infinite',
+            'countdownGlowReverse 4s ease-in-out infinite',
+            'countdownGlowFast 2.5s ease-in-out infinite',
+            'countdownGlowReverse 3.5s ease-in-out infinite'
+        ];
+        
+        countdownNumbers.forEach((number, index) => {
+            number.style.animation = countdownAnimations[index % countdownAnimations.length];
+        });
+        
+        // Section titles with different animations
+        const sectionTitles = document.querySelectorAll('.section-title');
+        const titleAnimations = [
+            'sectionTitleGlow 5s ease-in-out infinite',
+            'sectionTitleGlowReverse 6s ease-in-out infinite',
+            'sectionTitleGlowSlow 7s ease-in-out infinite',
+            'sectionTitleGlow 4.5s ease-in-out infinite',
+            'sectionTitleGlowReverse 5.5s ease-in-out infinite'
+        ];
+        
+        sectionTitles.forEach((title, index) => {
+            title.style.animation = titleAnimations[index % titleAnimations.length];
+        });
+        
+        // Buttons with different pulse animations
+        const buttons = document.querySelectorAll('.cta-button, .ticket-button, .submit-button');
+        const buttonAnimations = [
+            'cardPulse 3s ease-in-out infinite',
+            'cardPulse 4s ease-in-out infinite reverse',
+            'cardPulse 2.5s ease-in-out infinite',
+            'cardPulse 3.5s ease-in-out infinite reverse'
+        ];
+        
+        buttons.forEach((button, index) => {
+            button.style.animation = buttonAnimations[index % buttonAnimations.length];
+        });
+        
+        // Cards with different pulse animations
+        const cards = document.querySelectorAll('.day-card, .anreise-card, .food-card, .ticket-card');
+        const cardAnimations = [
+            'cardPulse 4s ease-in-out infinite',
+            'cardPulse 5s ease-in-out infinite reverse',
+            'cardPulse 3s ease-in-out infinite',
+            'cardPulse 4.5s ease-in-out infinite reverse'
+        ];
+        
+        cards.forEach((card, index) => {
+            card.style.animation = cardAnimations[index % cardAnimations.length];
+        });
+        
+        console.log('🎨 Applied varied animations to UI elements');
+    }
 
-    // Add loading screen
+    // Initialize psychedelic effects with delay
+    setTimeout(() => {
+        createCursorTrail();
+        createPsychedelicElements();
+        createPsychedelicWaves();
+        applyVariedAnimations();
+        console.log('✨ Psychedelic effects initialized');
+    }, 1000);
+
+    // Simplified loading screen
     window.addEventListener('load', () => {
         const loadingScreen = document.createElement('div');
         loadingScreen.style.cssText = `
@@ -744,8 +931,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         loadingScreen.innerHTML = `
             <div style="text-align: center;">
-                <div style="font-family: 'Orbitron', monospace; font-size: 2rem; color: #4ecdc4; margin-bottom: 1rem;">
-                    NEVER STOP DREAMING
+                <div class="runic-text" style="font-size: 2rem; color: #4ecdc4; margin-bottom: 1rem;">
+                    ᚷᛁᛒᚢ ᚨᚢᛃᚨ ᛊᛁᛒᛃᚨ ᛒᚨᚱᚾᚨ
                 </div>
                 <div style="width: 50px; height: 50px; border: 3px solid #4ecdc4; border-top: 3px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
             </div>
@@ -767,10 +954,10 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 loadingScreen.remove();
             }, 500);
-        }, 2000);
+        }, 1500); // Reduced loading time
     });
 
-    console.log('💒 Johanna & Lukas Festival-Hochzeit 2026 - Website loaded successfully! 🎵'); 
+    console.log('Johanna & Lukas Festival-Hochzeit 2026 - Website loaded successfully!'); 
 
     // Contact form functionality
     const contactForm = document.querySelector('.kontakt-form form');
@@ -826,9 +1013,62 @@ document.addEventListener('DOMContentLoaded', function() {
     }); 
 });
 
-// Initialize music player after a delay
+// Initialize music player only once after a delay
 setTimeout(() => {
-    if (typeof initMusicPlayer === 'function') {
+    if (typeof initMusicPlayer === 'function' && !musicPlayer) {
+        console.log('🎵 Initializing music player...');
         initMusicPlayer();
     }
-}, 2000); 
+}, 1000); // Reduced delay for faster music initialization 
+
+    
+    
+    // Create additional psychedelic wave effects with varied rotations
+    function createPsychedelicWaves() {
+        const waveContainer = document.createElement('div');
+        waveContainer.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        `;
+        document.body.appendChild(waveContainer);
+        
+        // Create multiple wave layers with different rotation speeds and directions
+        const animations = [
+            { name: 'psychedelicRotate', duration: 20, direction: 'normal' },
+            { name: 'psychedelicRotateReverse', duration: 35, direction: 'normal' },
+            { name: 'psychedelicRotateFast', duration: 15, direction: 'normal' },
+            { name: 'psychedelicRotateSlow', duration: 50, direction: 'normal' },
+            { name: 'psychedelicRotate', duration: 25, direction: 'reverse' }
+        ];
+        
+        for (let i = 0; i < 5; i++) {
+            const wave = document.createElement('div');
+            const anim = animations[i];
+            wave.style.cssText = `
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: conic-gradient(
+                    from ${i * 72}deg,
+                    transparent,
+                    rgba(16, 185, 129, 0.03),
+                    transparent,
+                    rgba(251, 191, 36, 0.03),
+                    transparent,
+                    rgba(5, 150, 105, 0.02),
+                    transparent
+                );
+                animation: ${anim.name} ${anim.duration}s linear infinite ${anim.direction};
+                transform-origin: center;
+            `;
+            waveContainer.appendChild(wave);
+        }
+    } 

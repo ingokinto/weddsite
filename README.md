@@ -31,11 +31,55 @@ Eine psychedelische Landing Page für die Festival-Hochzeit von Johanna und Luka
 5. **Tickets** - Verschiedene Ticket-Kategorien mit Preisen
 6. **Kontakt** - Kontaktformular und Informationen
 
-## 🚀 Installation
+## 🚀 Installation & Setup
 
-1. Klone das Repository oder lade die Dateien herunter
-2. Öffne `index.html` in einem modernen Browser
-3. Die Website funktioniert ohne zusätzliche Abhängigkeiten
+### Option 1: Einfacher lokaler Server (Empfohlen)
+
+**Wichtig**: Die Website muss über einen lokalen Server laufen, um CORS-Fehler zu vermeiden!
+
+#### Mit Python (einfachste Option):
+```bash
+# Python 3
+python3 -m http.server 8000
+
+# Python 2
+python -m SimpleHTTPServer 8000
+```
+
+#### Mit Node.js:
+```bash
+# Installiere http-server global
+npm install -g http-server
+
+# Starte den Server
+http-server -p 8000
+```
+
+#### Mit PHP:
+```bash
+php -S localhost:8000
+```
+
+#### Mit Live Server (VS Code Extension):
+1. Installiere die "Live Server" Extension in VS Code
+2. Rechtsklick auf `index.html`
+3. Wähle "Open with Live Server"
+
+### Option 2: Schnellstart-Script
+
+Führe das Setup-Script aus:
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+### Nach dem Server-Start:
+1. Öffne deinen Browser
+2. Gehe zu: `http://localhost:8000`
+3. Die Website sollte jetzt ohne CORS-Fehler funktionieren
+
+### Option 3: Direkte Datei (Nicht empfohlen)
+⚠️ **Warnung**: Das direkte Öffnen von `index.html` kann CORS-Fehler verursachen!
 
 ## 🛠️ Technologien
 
@@ -65,9 +109,27 @@ Eine psychedelische Landing Page für die Festival-Hochzeit von Johanna und Luka
 6. Siehe `MP3-SETUP.md` für detaillierte Anweisungen
 
 ### 🎨 Visualizer
-- **32-Band Frequenzanalyse** in Echtzeit
+- **16-Band Frequenzanalyse** in Echtzeit (optimiert für Performance)
 - **Psychedelische Farben** passend zum Design
 - **Responsive Animationen** zur Musik
+
+## 🔧 Troubleshooting
+
+### CORS-Fehler beheben:
+```
+Access to internal resource at 'file://...' from origin 'null' has been blocked by CORS policy
+```
+
+**Lösung**: Verwende einen lokalen Server (siehe Installation oben)
+
+### Musik funktioniert nicht:
+1. Stelle sicher, dass `festival-track.mp3` im Projektordner liegt
+2. Überprüfe die Browser-Konsole auf Fehler
+3. Erlaube Audio-Autoplay in deinem Browser
+
+### Performance-Probleme:
+- Siehe `PERFORMANCE-OPTIMIZATION.md` für Details
+- Die Website ist für schwache Geräte optimiert
 
 ## 🎯 Browser-Support
 
@@ -103,4 +165,4 @@ Eine psychedelische Landing Page für die Festival-Hochzeit von Johanna und Luka
 
 ---
 
-**Entwickelt mit ❤️ für Johanna & Lukas** 
+**Entwickelt mit ❤️ von Johanna & Lukas** 
