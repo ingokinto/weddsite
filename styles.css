@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 15%, #2d1a0a 30%, #3d2a0a 45%, #4d3a0a 60%, #5d4a0a 75%, #6d5a0a 90%, #7d6a0a 100%);
     color: #e8f4f8;
     overflow-x: hidden;
@@ -26,7 +26,7 @@ body {
 
 /* Medieval/Runic style for Latin letters */
 .medieval-text {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-weight: 700;
     letter-spacing: 1px;
     text-shadow: 
@@ -103,7 +103,7 @@ body {
 }
 
 .logo-text {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-weight: 700;
     font-size: 1.5rem;
     background: linear-gradient(45deg, #daa520, #cd853f, #b8860b, #a0522d);
@@ -601,19 +601,21 @@ body {
 }
 
 .hero-title {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-size: 4rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, #8b4513, #a0522d, #cd853f, #d2691e, #b8860b, #daa520, #ffd700);
+    background: linear-gradient(45deg, #daa520, #ffd700, #cd853f, #b8860b, #a0522d, #8b4513);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     background-size: 400% 400%;
     animation: gradientShift 2s ease-in-out infinite;
     text-shadow: 
-        0 0 30px rgba(139, 69, 19, 0.8),
-        0 0 60px rgba(160, 82, 45, 0.6);
+        0 0 20px rgba(218, 165, 32, 0.8),
+        0 0 40px rgba(218, 165, 32, 0.6),
+        0 0 60px rgba(218, 165, 32, 0.4),
+        0 0 80px rgba(218, 165, 32, 0.2);
     position: relative;
     /* Performance optimization */
     will-change: background-position;
@@ -627,14 +629,15 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, #654321, #8b4513, #a0522d, #daa520);
+    background: linear-gradient(45deg, #daa520, #ffd700, #cd853f, #b8860b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     background-size: 400% 400%;
     animation: gradientShift 2s ease-in-out infinite reverse;
-    opacity: 0.7;
-    filter: blur(2px);
+    opacity: 0.8;
+    filter: blur(3px);
+    z-index: -1;
 }
 
 @keyframes gradientShift {
@@ -757,11 +760,21 @@ body {
 .hero-subtitle {
     font-size: 1.5rem;
     margin-bottom: 2rem;
-    color: #8b4513;
-    text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
-    font-family: 'UnifrakturMaguntia', cursive;
-    font-weight: 400;
+    color: #daa520;
+    text-shadow: 
+        0 0 10px rgba(218, 165, 32, 0.8),
+        0 0 20px rgba(218, 165, 32, 0.6),
+        0 0 30px rgba(218, 165, 32, 0.4);
+    font-family: 'Germania One', 'Almendra', cursive;
+    font-weight: 700;
     font-style: normal;
+    background: linear-gradient(45deg, #daa520, #cd853f, #b8860b, #a0522d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 300% 300%;
+    animation: gradientShift 3s ease-in-out infinite;
+    letter-spacing: 1px;
 }
 
 .countdown-container {
@@ -772,7 +785,7 @@ body {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     color: #e8f4f8;
-    font-family: 'UnifrakturMaguntia', cursive;
+    font-family: 'Germania One', 'Almendra', cursive;
     font-weight: 400;
 }
 
@@ -838,10 +851,20 @@ body {
 .hero-dates {
     font-size: 1.3rem;
     margin: 2rem 0;
-    color: #8b4513;
-    text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
-    font-family: 'MedievalSharp', cursive;
-    font-weight: 400;
+    color: #daa520;
+    text-shadow: 
+        0 0 10px rgba(218, 165, 32, 0.8),
+        0 0 20px rgba(218, 165, 32, 0.6),
+        0 0 30px rgba(218, 165, 32, 0.4);
+    font-family: 'MedievalSharp', 'Germania One', cursive;
+    font-weight: 700;
+    background: linear-gradient(45deg, #daa520, #cd853f, #b8860b, #a0522d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 300% 300%;
+    animation: gradientShift 3s ease-in-out infinite reverse;
+    letter-spacing: 1px;
 }
 
 .cta-button {
@@ -853,7 +876,7 @@ body {
     border-radius: 50px;
     font-weight: 600;
     font-size: 1.1rem;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
 }
@@ -905,7 +928,7 @@ body {
 }
 
 .section-title {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-size: 3rem;
     text-align: center;
     margin-bottom: 3rem;
@@ -1026,12 +1049,14 @@ body {
 }
 
 .day-card h3 {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    color: #8b4513;
+    color: #daa520;
     text-align: center;
     letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
 }
 
 .timeline {
@@ -1093,18 +1118,20 @@ body {
 }
 
 .anreise-card h3 {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-size: 1.3rem;
     margin-bottom: 1rem;
-    color: #8b4513;
+    color: #daa520;
     letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
 }
 
 .anreise-card p {
     margin-bottom: 0.5rem;
     color: #e8f4f8;
     opacity: 0.9;
-    font-family: 'UnifrakturMaguntia', cursive;
+    font-family: 'Germania One', 'Almendra', cursive;
     font-weight: 400;
 }
 
@@ -1132,20 +1159,24 @@ body {
 }
 
 .food-card h3 {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: #8b4513;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #daa520;
     letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
 }
 
 .food-card p {
     margin-bottom: 1rem;
     color: #e8f4f8;
     opacity: 0.9;
-    font-family: 'UnifrakturMaguntia', cursive;
-    font-weight: 400;
+    font-family: 'Germania One', 'Almendra', cursive;
+    font-weight: 600;
     font-style: normal;
+    font-size: 1.1rem;
+    line-height: 1.4;
 }
 
 .food-card ul {
@@ -1154,20 +1185,24 @@ body {
 }
 
 .food-card li {
-    padding: 0.3rem 0;
+    padding: 0.5rem 0;
     color: #e8f4f8;
-    opacity: 0.8;
+    opacity: 0.9;
     position: relative;
     padding-left: 1.5rem;
     font-family: 'MedievalSharp', cursive;
-    font-weight: 400;
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.4;
 }
 
 .food-card li::before {
-    content: '•';
+    content: '✦';
     position: absolute;
     left: 0;
-    color: #8b4513;
+    color: #daa520;
+    font-size: 1.2rem;
+    text-shadow: 0 0 5px rgba(218, 165, 32, 0.5);
 }
 
 /* Tickets Section */
@@ -1201,11 +1236,13 @@ body {
 }
 
 .ticket-card h3 {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #8b4513;
+    color: #daa520;
     letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
 }
 
 .price {
@@ -1238,7 +1275,7 @@ body {
     border-radius: 50px;
     font-weight: 600;
     font-size: 1rem;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
@@ -1258,18 +1295,20 @@ body {
 }
 
 .kontakt-info h3 {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    color: #8b4513;
+    color: #daa520;
     letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
 }
 
 .kontakt-info p {
     margin-bottom: 1rem;
     color: #e8f4f8;
     opacity: 0.9;
-    font-family: 'UnifrakturMaguntia', cursive;
+    font-family: 'Germania One', 'Almendra', cursive;
     font-weight: 400;
 }
 
@@ -1286,7 +1325,7 @@ body {
     border-radius: 10px;
     padding: 1rem;
     color: #e8f4f8;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1310,7 +1349,7 @@ body {
     border-radius: 50px;
     font-weight: 600;
     font-size: 1rem;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
@@ -1320,6 +1359,45 @@ body {
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(139, 69, 19, 0.5);
     background: linear-gradient(45deg, #654321, #8b4513);
+}
+
+/* Form status messages */
+.form-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.form-status.success {
+    background: rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(34, 197, 94, 0.5);
+    color: #22c55e;
+    opacity: 1;
+}
+
+.form-status.error {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #ef4444;
+    opacity: 1;
+}
+
+.form-status.loading {
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    color: #3b82f6;
+    opacity: 1;
+}
+
+/* Disable form during submission */
+.form-disabled {
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 /* Footer */
@@ -1333,7 +1411,7 @@ body {
 .footer p {
     color: #e8f4f8;
     opacity: 0.8;
-    font-family: 'UnifrakturMaguntia', cursive;
+    font-family: 'Germania One', 'Almendra', cursive;
 }
 
 /* Responsive Design */
@@ -1476,8 +1554,8 @@ body::after {
     .fractal-bg {
         animation: none;
         background: 
-            radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.2) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(160, 82, 45, 0.2) 0%, transparent 50%);
+            radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(160, 82, 45, 0.1) 0%, transparent 50%);
     }
     
     .fractal-bg::before {
@@ -1488,35 +1566,38 @@ body::after {
     .fractal-bg::after {
         animation: none;
         content: '🍄 ✨ 🌿';
+        opacity: 0.03;
+    }
+    
+    /* Significantly reduce psychedelic patterns */
+    .psychedelic-patterns {
         opacity: 0.05;
     }
     
-    .psychedelic-patterns {
-        opacity: 0.1;
-    }
-    
     .psychedelic-patterns::before {
-        animation: psychedelicRotate 30s linear infinite;
+        animation: psychedelicRotate 60s linear infinite;
     }
     
     .psychedelic-patterns::after {
-        animation: psychedelicRotateReverse 40s linear infinite;
+        animation: psychedelicRotateReverse 80s linear infinite;
     }
     
+    /* Reduce floating shapes */
     .floating-shapes {
-        opacity: 0.2;
+        opacity: 0.1;
     }
     
     .floating-shapes::before {
-        animation: psychedelicRotateFast 15s linear infinite;
+        animation: psychedelicRotateFast 30s linear infinite;
     }
     
     .floating-shapes::after {
-        animation: psychedelicRotateReverse 20s linear infinite;
+        animation: psychedelicRotateReverse 40s linear infinite;
     }
     
+    /* Disable wave patterns on mobile */
     .wave-patterns {
-        opacity: 0.1;
+        opacity: 0.05;
     }
     
     .wave-patterns::before,
@@ -1524,28 +1605,74 @@ body::after {
         animation: none;
     }
     
+    /* Simplify hero title animations */
     .hero-title {
-        animation: gradientShift 5s ease-in-out infinite;
+        animation: gradientShift 8s ease-in-out infinite;
         font-size: 2.5rem;
+        text-shadow: 
+            0 0 15px rgba(218, 165, 32, 0.8),
+            0 0 30px rgba(218, 165, 32, 0.6),
+            0 0 45px rgba(218, 165, 32, 0.4);
     }
     
     .hero-title::before {
-        animation: gradientShift 5s ease-in-out infinite reverse;
+        animation: gradientShift 8s ease-in-out infinite reverse;
     }
     
+    .hero-subtitle {
+        text-shadow: 
+            0 0 8px rgba(218, 165, 32, 0.8),
+            0 0 16px rgba(218, 165, 32, 0.6);
+        font-weight: 700;
+    }
+    
+    .hero-dates {
+        text-shadow: 
+            0 0 8px rgba(218, 165, 32, 0.8),
+            0 0 16px rgba(218, 165, 32, 0.6);
+        font-weight: 700;
+    }
+    
+    /* Simplify countdown animations */
     .countdown-number {
-        animation: countdownGlow 5s ease-in-out infinite;
+        animation: countdownGlow 8s ease-in-out infinite;
         font-size: 2rem;
     }
     
     .section-title {
-        animation: sectionTitleGlow 7s ease-in-out infinite;
+        animation: sectionTitleGlow 10s ease-in-out infinite;
         font-size: 2rem;
+    }
+    
+    /* Enhance food card text on mobile */
+    .food-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    /* Ensure all card headers maintain golden color on mobile */
+    .day-card h3,
+    .anreise-card h3,
+    .ticket-card h3,
+    .kontakt-info h3 {
+        color: #daa520;
+        text-shadow: 0 0 8px rgba(218, 165, 32, 0.5);
+    }
+    
+    .food-card p {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .food-card li {
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.4rem 0;
     }
     
     /* Reduce backdrop-filter on mobile for better performance */
     .navbar {
-        backdrop-filter: blur(3px);
+        backdrop-filter: blur(2px);
         background: rgba(15, 8, 5, 0.98);
     }
     
@@ -1554,7 +1681,7 @@ body::after {
     .anreise-card,
     .food-card,
     .ticket-card {
-        backdrop-filter: blur(3px);
+        backdrop-filter: blur(2px);
     }
     
     /* Simplify card hover effects */
@@ -1562,13 +1689,38 @@ body::after {
     .anreise-card:hover,
     .food-card:hover,
     .ticket-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(139, 69, 19, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(139, 69, 19, 0.15);
     }
     
     /* Disable cursor trail on mobile */
     .cursor-trail {
         display: none;
+    }
+    
+    /* Reduce decorative elements */
+    .day-card::before,
+    .food-card::before,
+    .ticket-card::before {
+        animation: none;
+        opacity: 0.1;
+    }
+    
+    /* Simplify countdown item animations */
+    .countdown-item::before {
+        animation: countdownRotate 10s linear infinite;
+    }
+    
+    /* Reduce section decorative elements */
+    .section::before {
+        animation: none;
+        opacity: 0;
+    }
+    
+    /* Simplify navigation decorative elements */
+    .navbar::before {
+        animation: none;
+        opacity: 0.05;
     }
 }
 
@@ -1579,39 +1731,59 @@ body::after {
     .fractal-bg::before,
     .fractal-bg::after {
         animation: none;
-        background: radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 70%);
+        background: radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.05) 0%, transparent 80%);
     }
     
     .psychedelic-patterns,
     .psychedelic-patterns::before,
     .psychedelic-patterns::after {
         animation: none;
-        opacity: 0.05;
+        opacity: 0.02;
     }
     
     .floating-shapes,
     .floating-shapes::before,
     .floating-shapes::after {
         animation: none;
-        opacity: 0.1;
+        opacity: 0.05;
     }
     
     .wave-patterns,
     .wave-patterns::before,
     .wave-patterns::after {
         animation: none;
-        opacity: 0.05;
+        opacity: 0.02;
     }
     
     .hero-title {
         animation: none;
         font-size: 2rem;
-        text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+        text-shadow: 
+            0 0 10px rgba(218, 165, 32, 0.8),
+            0 0 20px rgba(218, 165, 32, 0.6);
+        color: #daa520 !important;
+        -webkit-text-fill-color: #daa520 !important;
     }
     
     .hero-title::before {
         animation: none;
         opacity: 0.3;
+    }
+    
+    .hero-subtitle {
+        text-shadow: 
+            0 0 8px rgba(218, 165, 32, 0.8),
+            0 0 16px rgba(218, 165, 32, 0.6);
+        color: #daa520 !important;
+        -webkit-text-fill-color: #daa520 !important;
+    }
+    
+    .hero-dates {
+        text-shadow: 
+            0 0 8px rgba(218, 165, 32, 0.8),
+            0 0 16px rgba(218, 165, 32, 0.6);
+        color: #daa520 !important;
+        -webkit-text-fill-color: #daa520 !important;
     }
     
     .countdown-number {
@@ -1624,6 +1796,37 @@ body::after {
         animation: none;
         font-size: 1.5rem;
         text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+    }
+    
+    /* Ensure food card text is readable on very small devices */
+    .food-card h3 {
+        font-size: 1.3rem;
+        color: #daa520 !important;
+        -webkit-text-fill-color: #daa520 !important;
+    }
+    
+    /* Ensure all card headers maintain golden color on very small devices */
+    .day-card h3,
+    .anreise-card h3,
+    .ticket-card h3,
+    .kontakt-info h3 {
+        color: #daa520 !important;
+        -webkit-text-fill-color: #daa520 !important;
+        text-shadow: 0 0 5px rgba(218, 165, 32, 0.5);
+    }
+    
+    .food-card p {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #e8f4f8 !important;
+        -webkit-text-fill-color: #e8f4f8 !important;
+    }
+    
+    .food-card li {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #e8f4f8 !important;
+        -webkit-text-fill-color: #e8f4f8 !important;
     }
     
     /* Remove backdrop-filter completely on very small devices */
@@ -1663,6 +1866,145 @@ body::after {
         animation: none;
         background: none;
     }
+    
+    /* Remove all decorative elements on very small devices */
+    .day-card::before,
+    .food-card::before,
+    .ticket-card::before,
+    .navbar::before,
+    .section::before {
+        display: none;
+    }
+    
+    /* Simplify hero background */
+    .hero::before,
+    .hero::after {
+        background: none;
+        animation: none;
+    }
+    
+    /* Reduce countdown container decorative elements */
+.countdown-container::before {
+    display: none;
+}
+
+/* Ultra-low performance mode for very old devices */
+@media (max-width: 360px) {
+    /* Disable all animations and effects */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    /* Remove all decorative backgrounds */
+    .fractal-bg,
+    .psychedelic-patterns,
+    .floating-shapes,
+    .wave-patterns,
+    .cursor-trail {
+        display: none !important;
+    }
+    
+    /* Simplify all backgrounds */
+    .hero {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #2d1a0a 100%);
+    }
+    
+    /* Remove all pseudo-elements */
+    .hero::before,
+    .hero::after,
+    .fractal-bg::before,
+    .fractal-bg::after,
+    .psychedelic-patterns::before,
+    .psychedelic-patterns::after,
+    .floating-shapes::before,
+    .floating-shapes::after,
+    .wave-patterns::before,
+    .wave-patterns::after,
+    .day-card::before,
+    .day-card::after,
+    .food-card::before,
+    .food-card::after,
+    .ticket-card::before,
+    .ticket-card::after,
+    .anreise-card::before,
+    .anreise-card::after,
+    .navbar::before,
+    .section::before,
+    .countdown-container::before,
+    .countdown-item::before {
+        display: none !important;
+    }
+    
+    /* Simplify text effects */
+    .hero-title,
+    .hero-title::before,
+    .countdown-number,
+    .section-title {
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        -webkit-text-fill-color: unset !important;
+        background-clip: unset !important;
+        color: #daa520 !important;
+        text-shadow: 0 0 5px rgba(139, 69, 19, 0.3) !important;
+        animation: none !important;
+    }
+    
+    /* Remove backdrop filters */
+    .navbar,
+    .countdown-item,
+    .day-card,
+    .anreise-card,
+    .food-card,
+    .ticket-card {
+        backdrop-filter: none !important;
+        background: rgba(10, 10, 10, 0.95) !important;
+    }
+}
+
+/* Performance optimization for devices with reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .fractal-bg,
+    .psychedelic-patterns,
+    .floating-shapes,
+    .wave-patterns {
+        animation: none !important;
+    }
+    
+    .cursor-trail {
+        display: none !important;
+    }
+}
+}
+
+/* Battery saver mode for mobile devices */
+@media (max-width: 768px) and (hover: none) {
+    /* Reduce animation complexity when on battery */
+    .fractal-bg {
+        animation-duration: 20s !important;
+    }
+    
+    .psychedelic-patterns::before {
+        animation-duration: 120s !important;
+    }
+    
+    .psychedelic-patterns::after {
+        animation-duration: 160s !important;
+    }
+    
+    .floating-shapes::before {
+        animation-duration: 60s !important;
+    }
+    
+    .floating-shapes::after {
+        animation-duration: 80s !important;
+    }
 }
 
 /* Music Player Styles */
@@ -1696,7 +2038,7 @@ body::after {
 .player-header h3 {
     color: #daa520;
     margin: 0;
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     letter-spacing: 1px;
 }
 
@@ -1852,7 +2194,7 @@ body::after {
 }
 
 .password-title {
-    font-family: 'MedievalSharp', 'UnifrakturMaguntia', cursive;
+    font-family: 'MedievalSharp', 'Germania One', 'Almendra', cursive;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -1869,7 +2211,7 @@ body::after {
     margin-bottom: 2rem;
     color: rgba(232, 244, 248, 0.8);
     line-height: 1.6;
-    font-family: 'UnifrakturMaguntia', cursive;
+    font-family: 'Germania One', 'Almendra', cursive;
 }
 
 .password-form {
@@ -1888,7 +2230,7 @@ body::after {
     color: white;
     outline: none;
     transition: all 0.3s ease;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
 }
 
 #password-input::placeholder {
@@ -1911,7 +2253,7 @@ body::after {
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
     box-shadow: 0 10px 30px rgba(218, 165, 32, 0.3);
 }
 
@@ -1936,7 +2278,7 @@ body::after {
     margin: 0;
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'MedievalSharp', 'Germania One', cursive;
 }
 
 /* Error message styling */
@@ -1995,4 +2337,25 @@ body::after {
         radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
     pointer-events: none;
     z-index: -1;
-} 
+}
+
+/* Mobile-specific optimizations for card backgrounds */
+@media (max-width: 768px) {
+    .day-card::after,
+    .food-card::after,
+    .ticket-card::after,
+    .anreise-card::after {
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.02) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.02) 0%, transparent 50%);
+    }
+}
+
+@media (max-width: 480px) {
+    .day-card::after,
+    .food-card::after,
+    .ticket-card::after,
+    .anreise-card::after {
+        background: none;
+    }
+}

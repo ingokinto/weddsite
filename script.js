@@ -990,36 +990,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Johanna & Lukas Festival-Hochzeit 2026 - Website loaded successfully!'); 
 
-    // Contact form functionality
-    const contactForm = document.querySelector('.kontakt-form form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = contactForm.querySelector('input[type="text"]').value;
-            const email = contactForm.querySelector('input[type="email"]').value;
-            const message = contactForm.querySelector('textarea').value;
-            
-            if (name && email && message) {
-                // Show success message
-                const submitButton = contactForm.querySelector('.submit-button');
-                const originalText = submitButton.textContent;
-                submitButton.textContent = 'Nachricht gesendet! ✓';
-                submitButton.style.background = 'linear-gradient(45deg, #4ecdc4, #45b7d1)';
-                
-                // Reset form
-                contactForm.reset();
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    submitButton.textContent = originalText;
-                    submitButton.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4)';
-                }, 3000);
-                
-                console.log('📧 Contact form submitted:', { name, email, message });
-            }
-        });
-    }
+    // Contact form functionality - REMOVED (handled by EmailJS in emailjs-config.js)
 
     // RSVP button functionality
     const rsvpButtons = document.querySelectorAll('.ticket-button');
