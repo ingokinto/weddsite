@@ -92,25 +92,278 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Main website functionality (only runs after password is entered)
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile optimization
-    if (window.innerWidth <= 768) {
-        console.log('📱 Mobile device detected - optimizing performance');
+    // Smart mobile optimization - keep psychedelic effects but optimize them
+    const isMobile = window.innerWidth <= 768;
+    const isLowEndMobile = window.innerWidth <= 480;
+    
+    if (isMobile) {
+        console.log('📱 Mobile device detected - applying smart performance optimization');
         
-        // Disable smooth scrolling on mobile
+        // Disable smooth scrolling on mobile for better performance
         document.documentElement.style.scrollBehavior = 'auto';
         
-        // Reduce animation complexity
-        const style = document.createElement('style');
-        style.textContent = `
+        // Add smart mobile optimization styles
+        const mobileStyle = document.createElement('style');
+        mobileStyle.textContent = `
             @media (max-width: 768px) {
-                * {
-                    animation: none !important;
-                    transition: none !important;
+                /* Reduce animation complexity but keep them */
+                .floating-shapes div {
+                    animation-duration: 8s !important;
+                    animation-iteration-count: infinite !important;
+                }
+                
+                .wave-patterns {
+                    animation-duration: 12s !important;
+                }
+                
+                .psychedelic-patterns {
+                    animation-duration: 15s !important;
+                }
+                
+                /* Optimize cursor trail for mobile */
+                .cursor-trail {
+                    display: none !important;
+                }
+                
+                /* Reduce fractal complexity on very small screens */
+                @media (max-width: 480px) {
+                    .fractal-bg {
+                        background-size: 200px 200px !important;
+                    }
+                    
+                    .floating-shapes div {
+                        animation-duration: 10s !important;
+                    }
                 }
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(mobileStyle);
     }
+    
+    // Intelligent psychedelic effects for mobile
+    function createMobilePsychedelicEffects() {
+        if (!isMobile) return;
+        
+        console.log('🎨 Creating mobile-optimized psychedelic effects');
+        
+        // Create mobile-friendly floating particles
+        const createMobileParticle = () => {
+            const particle = document.createElement('div');
+            const colors = ['rgba(139, 69, 19, 0.3)', 'rgba(160, 82, 45, 0.3)', 'rgba(205, 133, 63, 0.3)'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            particle.style.cssText = `
+                position: fixed;
+                width: ${isLowEndMobile ? '8px' : '12px'};
+                height: ${isLowEndMobile ? '8px' : '12px'};
+                background: ${randomColor};
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: -1;
+                left: ${Math.random() * 100}vw;
+                top: 100vh;
+                opacity: 0.6;
+                animation: mobileFloat ${isLowEndMobile ? '15s' : '12s'} ease-in-out infinite;
+            `;
+            
+            document.body.appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => particle.remove(), isLowEndMobile ? 15000 : 12000);
+        };
+        
+        // Create mobile-friendly wave effects
+        const createMobileWave = () => {
+            const wave = document.createElement('div');
+            wave.style.cssText = `
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: ${isLowEndMobile ? '40px' : '60px'};
+                background: linear-gradient(45deg, 
+                    rgba(139, 69, 19, 0.1), 
+                    rgba(160, 82, 45, 0.1), 
+                    rgba(205, 133, 63, 0.1)
+                );
+                pointer-events: none;
+                z-index: -1;
+                animation: mobileWave ${isLowEndMobile ? '8s' : '6s'} ease-in-out infinite;
+                transform-origin: bottom;
+            `;
+            
+            document.body.appendChild(wave);
+            
+            setTimeout(() => wave.remove(), isLowEndMobile ? 8000 : 6000);
+        };
+        
+        // Add mobile-optimized CSS animations
+        const mobilePsychedelicStyle = document.createElement('style');
+        mobilePsychedelicStyle.textContent = `
+            @keyframes mobileFloat {
+                0% {
+                    transform: translateY(0) scale(1);
+                    opacity: 0.6;
+                }
+                50% {
+                    transform: translateY(-50vh) scale(1.2);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translateY(-100vh) scale(0.5);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes mobileWave {
+                0%, 100% {
+                    transform: scaleY(1) skewX(0deg);
+                    opacity: 0.1;
+                }
+                25% {
+                    transform: scaleY(1.2) skewX(5deg);
+                    opacity: 0.2;
+                }
+                50% {
+                    transform: scaleY(0.8) skewX(-3deg);
+                    opacity: 0.15;
+                }
+                75% {
+                    transform: scaleY(1.1) skewX(2deg);
+                    opacity: 0.25;
+                }
+            }
+        `;
+        document.head.appendChild(mobilePsychedelicStyle);
+        
+        // Start mobile psychedelic effects with reduced frequency
+        const particleInterval = isLowEndMobile ? 8000 : 5000;
+        const waveInterval = isLowEndMobile ? 12000 : 8000;
+        
+        setInterval(createMobileParticle, particleInterval);
+        setInterval(createMobileWave, waveInterval);
+        
+        // Create initial effects
+        setTimeout(createMobileParticle, 1000);
+        setTimeout(createMobileWave, 2000);
+        
+        console.log('🎨 Mobile psychedelic effects initialized');
+    }
+    
+    // Initialize mobile psychedelic effects
+    if (isMobile) {
+        createMobilePsychedelicEffects();
+    }
+    
+    // Intelligent performance monitoring for psychedelic effects
+    function setupPerformanceMonitoring() {
+        if (!isMobile) return;
+        
+        console.log('📊 Setting up intelligent performance monitoring');
+        
+        let frameRate = 60;
+        let lastTime = performance.now();
+        let frameCount = 0;
+        let lowPerformanceMode = false;
+        
+        // Monitor frame rate
+        function monitorFrameRate() {
+            frameCount++;
+            const currentTime = performance.now();
+            
+            if (currentTime - lastTime >= 1000) {
+                frameRate = frameCount;
+                frameCount = 0;
+                lastTime = currentTime;
+                
+                // Adjust effects based on performance
+                if (frameRate < 30 && !lowPerformanceMode) {
+                    console.log('📊 Low performance detected, reducing effects');
+                    enableLowPerformanceMode();
+                } else if (frameRate > 45 && lowPerformanceMode) {
+                    console.log('📊 Performance improved, restoring effects');
+                    disableLowPerformanceMode();
+                }
+            }
+            
+            requestAnimationFrame(monitorFrameRate);
+        }
+        
+        // Low performance mode
+        function enableLowPerformanceMode() {
+            lowPerformanceMode = true;
+            
+            // Reduce animation complexity
+            const style = document.createElement('style');
+            style.id = 'low-performance-mode';
+            style.textContent = `
+                .floating-shapes::before,
+                .floating-shapes::after,
+                .wave-patterns::before,
+                .wave-patterns::after {
+                    animation-duration: 20s !important;
+                    opacity: 0.05 !important;
+                }
+                
+                .psychedelic-patterns {
+                    animation-duration: 30s !important;
+                    opacity: 0.02 !important;
+                }
+                
+                .fractal-bg {
+                    animation-duration: 40s !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Normal performance mode
+        function disableLowPerformanceMode() {
+            lowPerformanceMode = false;
+            
+            const lowPerfStyle = document.getElementById('low-performance-mode');
+            if (lowPerfStyle) {
+                lowPerfStyle.remove();
+            }
+        }
+        
+        // Battery status monitoring
+        if ('getBattery' in navigator) {
+            navigator.getBattery().then(battery => {
+                battery.addEventListener('levelchange', () => {
+                    if (battery.level < 0.2) {
+                        console.log('🔋 Low battery detected, reducing effects');
+                        enableLowPerformanceMode();
+                    } else if (battery.level > 0.5 && lowPerformanceMode) {
+                        console.log('🔋 Battery level improved, restoring effects');
+                        disableLowPerformanceMode();
+                    }
+                });
+                
+                // Initial battery check
+                if (battery.level < 0.2) {
+                    enableLowPerformanceMode();
+                }
+            });
+        }
+        
+        // Start monitoring
+        requestAnimationFrame(monitorFrameRate);
+        
+        // Check for reduced motion preference
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            console.log('♿ Reduced motion preference detected');
+            enableLowPerformanceMode();
+        }
+        
+        console.log('📊 Performance monitoring initialized');
+    }
+    
+    // Initialize performance monitoring
+    if (isMobile) {
+        setupPerformanceMonitoring();
+    }
+
     // Countdown Timer
     function updateCountdown() {
         const festivalDate = new Date('June 26, 2026 14:00:00').getTime();
@@ -311,8 +564,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 12000);
     }
 
-    // Mobile detection
-    const isMobile = window.innerWidth <= 768;
+    // Mobile detection (already defined above)
     const isSmallMobile = window.innerWidth <= 480;
     
     // Create particles based on device capability

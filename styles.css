@@ -1996,7 +1996,7 @@ body::after {
     
     /* Simplify all backgrounds */
     .hero {
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #2d1a0a 100%);
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #2d1a0a 100%) !important;
         padding-top: 100px !important; /* More space for mobile navbar */
         min-height: 100vh !important;
     }
@@ -2586,5 +2586,110 @@ body::after {
     
     .hero-dates {
         font-size: 1.6rem !important;
+    }
+}
+
+/* Mobile-optimized psychedelic effects */
+@media (max-width: 768px) {
+    /* Keep psychedelic effects but optimize them for mobile */
+    .floating-shapes::before,
+    .floating-shapes::after {
+        animation-duration: 8s !important;
+        animation-iteration-count: infinite !important;
+    }
+    
+    .wave-patterns::before,
+    .wave-patterns::after {
+        animation-duration: 12s !important;
+    }
+    
+    .psychedelic-patterns {
+        animation-duration: 15s !important;
+    }
+    
+    /* Optimize fractal background for mobile */
+    .fractal-bg {
+        background-size: 150px 150px !important;
+        animation-duration: 20s !important;
+    }
+    
+    /* Reduce particle count but keep the effect */
+    .floating-shapes::before {
+        width: 60px !important;
+        height: 60px !important;
+        opacity: 0.2 !important;
+    }
+    
+    .floating-shapes::after {
+        width: 50px !important;
+        height: 50px !important;
+        opacity: 0.15 !important;
+    }
+    
+    /* Optimize wave patterns for mobile */
+    .wave-patterns::before {
+        height: 100px !important;
+        background-size: 50px 50px !important;
+    }
+    
+    .wave-patterns::after {
+        height: 80px !important;
+        background-size: 40px 40px !important;
+    }
+    
+    /* Keep psychedelic pulse but optimize */
+    .psychedelic-patterns {
+        animation-duration: 15s !important;
+        opacity: 0.05 !important;
+    }
+}
+
+/* Very small mobile optimization (480px and below) */
+@media (max-width: 480px) {
+    /* Further reduce complexity for very small screens */
+    .floating-shapes::before,
+    .floating-shapes::after {
+        animation-duration: 10s !important;
+        opacity: 0.1 !important;
+    }
+    
+    .fractal-bg {
+        background-size: 100px 100px !important;
+        animation-duration: 25s !important;
+    }
+    
+    .wave-patterns::before,
+    .wave-patterns::after {
+        animation-duration: 15s !important;
+        height: 60px !important;
+    }
+    
+    /* Reduce psychedelic pattern intensity */
+    .psychedelic-patterns {
+        animation-duration: 20s !important;
+        opacity: 0.03 !important;
+    }
+}
+
+/* Performance optimization for low-end devices */
+@media (prefers-reduced-motion: reduce) {
+    .floating-shapes::before,
+    .floating-shapes::after,
+    .wave-patterns::before,
+    .wave-patterns::after,
+    .psychedelic-patterns,
+    .fractal-bg {
+        animation-duration: 30s !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
+/* Battery saver mode optimization */
+@media (prefers-reduced-motion: reduce) and (max-width: 768px) {
+    .floating-shapes,
+    .wave-patterns,
+    .psychedelic-patterns {
+        opacity: 0.05 !important;
+        animation-play-state: paused !important;
     }
 }
