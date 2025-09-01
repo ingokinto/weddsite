@@ -247,19 +247,19 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 
-    // Ticket button interactions
+    // Ticket button interactions - now links to Mews booking
     document.querySelectorAll('.ticket-button').forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Add click effect
+            // Add click effect for visual feedback
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
             }, 150);
             
-            // Show ticket purchase modal or redirect
-            alert('Ticket-Kauf wird bald verfügbar sein! ');
+            // Log the click for tracking
+            const card = this.closest('.ticket-card');
+            const title = card ? card.querySelector('h3').textContent : 'Unknown';
+            console.log('🎉 RSVP link clicked for:', title);
         });
     });
 
@@ -1023,8 +1023,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     console.log('Johanna & Lukas Festival-Hochzeit 2026 - Website loaded successfully!'); 
-
-    // Contact form functionality - REMOVED (handled by EmailJS in emailjs-config.js)
 
     // RSVP button functionality - now links to Mews booking system
     const rsvpButtons = document.querySelectorAll('.ticket-button');
