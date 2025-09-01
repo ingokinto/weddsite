@@ -1189,7 +1189,7 @@ body {
     color: #e8f4f8;
     opacity: 0.9;
     position: relative;
-    padding-left: 1.5rem;
+    padding-left: 2rem;
     font-family: 'MedievalSharp', cursive;
     font-weight: 600;
     font-size: 1.1rem;
@@ -1199,7 +1199,7 @@ body {
 .food-card li::before {
     content: '✦';
     position: absolute;
-    left: 0;
+    left: -5px;
     color: #daa520;
     font-size: 1.2rem;
     text-shadow: 0 0 5px rgba(218, 165, 32, 0.5);
@@ -1699,6 +1699,12 @@ body::after {
         font-size: 1rem;
         font-weight: 600;
         padding: 0.4rem 0;
+        padding-left: 2.2rem;
+    }
+    
+    .food-card li::before {
+        left: -8px;
+        font-size: 1rem;
     }
     
     /* Reduce backdrop-filter on mobile for better performance */
@@ -1858,6 +1864,12 @@ body::after {
         font-weight: 600;
         color: #e8f4f8 !important;
         -webkit-text-fill-color: #e8f4f8 !important;
+        padding-left: 2.5rem;
+    }
+    
+    .food-card li::before {
+        left: -10px !important;
+        font-size: 0.9rem !important;
     }
     
     /* Remove backdrop-filter completely on very small devices */
