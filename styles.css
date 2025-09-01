@@ -1290,6 +1290,34 @@ body {
     background: linear-gradient(45deg, #654321, #8b4513);
 }
 
+/* Mobile-specific button optimizations */
+@media (max-width: 768px) {
+    .ticket-button {
+        /* Improve touch target size */
+        min-height: 44px;
+        padding: 1.2rem 2rem;
+        /* Disable hover effects on mobile */
+        transform: none !important;
+        box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3) !important;
+        background: linear-gradient(45deg, #8b4513, #a0522d) !important;
+        /* Improve touch responsiveness */
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+    
+    .ticket-button:hover {
+        transform: none !important;
+        box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3) !important;
+        background: linear-gradient(45deg, #8b4513, #a0522d) !important;
+    }
+    
+    .ticket-button:active {
+        transform: scale(0.98) !important;
+        transition: transform 0.1s ease !important;
+    }
+}
+
 /* Kontakt Section */
 .kontakt-content {
     display: grid;

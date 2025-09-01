@@ -250,17 +250,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ticket button interactions - now links to Mews booking
     document.querySelectorAll('.ticket-button').forEach(button => {
         button.addEventListener('click', function(e) {
-            // Add click effect for visual feedback
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 150);
+            // Only add click effect on desktop (not mobile)
+            if (window.innerWidth > 768) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            }
             
             // Log the click for tracking
             const card = this.closest('.ticket-card');
             const title = card ? card.querySelector('h3').textContent : 'Unknown';
             console.log('🎉 RSVP link clicked for:', title);
         });
+        
+        // Add touch-specific handling for mobile
+        if (window.innerWidth <= 768) {
+            button.addEventListener('touchstart', function(e) {
+                // Prevent double-tap zoom on mobile
+                e.preventDefault();
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            button.addEventListener('touchend', function(e) {
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+            });
+        }
     });
 
     // Contact form handling - REMOVED (replaced with new version below)
