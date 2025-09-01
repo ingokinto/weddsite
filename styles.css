@@ -1343,6 +1343,18 @@ body {
     font-weight: 400;
 }
 
+.contact-link {
+    color: #daa520;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.contact-link:hover {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(218, 165, 32, 0.6);
+}
+
 .kontakt-form form {
     display: flex;
     flex-direction: column;
@@ -1652,16 +1664,28 @@ body::after {
     
     .hero-subtitle {
         text-shadow: 
-            0 0 8px rgba(218, 165, 32, 0.8),
-            0 0 16px rgba(218, 165, 32, 0.6);
+            0 0 10px rgba(218, 165, 32, 1),
+            0 0 18px rgba(218, 165, 32, 0.8);
         font-weight: 700;
+        color: #ffd700 !important;
+        -webkit-text-fill-color: #ffd700 !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        padding: 0.2rem 0.6rem !important;
+        border-radius: 6px !important;
+        display: inline-block !important;
     }
     
     .hero-dates {
         text-shadow: 
-            0 0 8px rgba(218, 165, 32, 0.8),
-            0 0 16px rgba(218, 165, 32, 0.6);
+            0 0 10px rgba(218, 165, 32, 1),
+            0 0 18px rgba(218, 165, 32, 0.8);
         font-weight: 700;
+        color: #ffd700 !important;
+        -webkit-text-fill-color: #ffd700 !important;
+        background: rgba(0, 0, 0, 0.2) !important;
+        padding: 0.2rem 0.6rem !important;
+        border-radius: 6px !important;
+        display: inline-block !important;
     }
     
     /* Simplify countdown animations */
@@ -1796,10 +1820,15 @@ body::after {
         animation: none;
         font-size: 2rem;
         text-shadow: 
-            0 0 10px rgba(218, 165, 32, 0.8),
-            0 0 20px rgba(218, 165, 32, 0.6);
-        color: #daa520 !important;
-        -webkit-text-fill-color: #daa520 !important;
+            0 0 15px rgba(218, 165, 32, 1),
+            0 0 25px rgba(218, 165, 32, 0.8),
+            0 0 35px rgba(218, 165, 32, 0.6);
+        color: #ffd700 !important;
+        -webkit-text-fill-color: #ffd700 !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: 10px !important;
+        display: inline-block !important;
     }
     
     .hero-title::before {
@@ -1809,18 +1838,26 @@ body::after {
     
     .hero-subtitle {
         text-shadow: 
-            0 0 8px rgba(218, 165, 32, 0.8),
-            0 0 16px rgba(218, 165, 32, 0.6);
-        color: #daa520 !important;
-        -webkit-text-fill-color: #daa520 !important;
+            0 0 12px rgba(218, 165, 32, 1),
+            0 0 20px rgba(218, 165, 32, 0.8);
+        color: #ffd700 !important;
+        -webkit-text-fill-color: #ffd700 !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        padding: 0.3rem 0.8rem !important;
+        border-radius: 8px !important;
+        display: inline-block !important;
     }
     
     .hero-dates {
         text-shadow: 
-            0 0 8px rgba(218, 165, 32, 0.8),
-            0 0 16px rgba(218, 165, 32, 0.6);
-        color: #daa520 !important;
-        -webkit-text-fill-color: #daa520 !important;
+            0 0 12px rgba(218, 165, 32, 1),
+            0 0 20px rgba(218, 165, 32, 0.8);
+        color: #ffd700 !important;
+        -webkit-text-fill-color: #ffd700 !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        padding: 0.3rem 0.8rem !important;
+        border-radius: 8px !important;
+        display: inline-block !important;
     }
     
     .countdown-number {
@@ -2485,5 +2522,36 @@ body::after {
     .food-card,
     .ticket-card {
         touch-action: manipulation;
+    }
+}
+
+/* High zoom level optimization (250%+) */
+@media (min-resolution: 2dppx), (min-resolution: 192dpi) {
+    .hero-title,
+    .hero-subtitle,
+    .hero-dates {
+        background: rgba(0, 0, 0, 0.4) !important;
+        -webkit-text-fill-color: #ffd700 !important;
+        color: #ffd700 !important;
+        text-shadow: 
+            0 0 20px rgba(218, 165, 32, 1),
+            0 0 30px rgba(218, 165, 32, 0.8),
+            0 0 40px rgba(218, 165, 32, 0.6) !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: 10px !important;
+        display: inline-block !important;
+        font-size: 1.5rem !important;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.8rem !important;
+    }
+    
+    .hero-dates {
+        font-size: 1.6rem !important;
     }
 }
