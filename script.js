@@ -40,16 +40,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Start music after a short delay to ensure player is ready
                     setTimeout(() => {
-                        if (window.startMusic) {
+                        if (musicPlayer && musicPlayer.startMusic) {
                             console.log('🎵 Auto-starting music after password unlock!');
-                            window.startMusic();
+                            musicPlayer.startMusic();
                         }
                     }, 1000);
-                } else if (musicPlayer && window.startMusic) {
+                } else if (musicPlayer && musicPlayer.startMusic) {
                     // If player already exists, just start music
                     setTimeout(() => {
                         console.log('🎵 Starting existing music player after password unlock!');
-                        window.startMusic();
+                        musicPlayer.startMusic();
                     }, 500);
                 }
                 
@@ -530,189 +530,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Enhanced music player button with auto-play indicator
-    function createMusicVisualizer() {
-        const visualizer = document.createElement('div');
-        visualizer.className = 'music-visualizer';
-        visualizer.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-            animation: pulse 3s ease-in-out infinite;
-            transition: all 0.3s ease;
-        `;
-        
-        visualizer.innerHTML = '🎵';
-        visualizer.title = 'Music Player öffnen (Musik läuft automatisch)';
-        
-        // Add music playing indicator
-        const musicIndicator = document.createElement('div');
-        musicIndicator.style.cssText = `
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 20px;
-            height: 20px;
-            background: #4ecdc4;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: white;
-            animation: musicPulse 2s ease-in-out infinite;
-        `;
-        musicIndicator.innerHTML = '▶';
-        musicIndicator.title = 'Musik bereit - Klick zum Starten';
-        visualizer.appendChild(musicIndicator);
-        
-        // Add click to start music indicator
-        const clickIndicator = document.createElement('div');
-        clickIndicator.style.cssText = `
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 107, 107, 0.9);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            white-space: nowrap;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-        `;
-        clickIndicator.innerHTML = '🎵 Klick für Musik';
-        visualizer.appendChild(clickIndicator);
-        
-        // Make the entire visualizer clickable for music
-        visualizer.addEventListener('click', () => {
-            // Show player first
-            if (typeof initMusicPlayer === 'function') {
-                if (!musicPlayer) {
-                    initMusicPlayer();
-                }
-                if (musicPlayer && musicPlayer.showPlayer) {
-                    musicPlayer.showPlayer();
-                }
-            } else {
-                alert('Lade Musik-Player... 🎶');
-            }
-            
-            // Then try to start music using central function
-            window.startMusic();
-        });
-        
-        visualizer.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.1)';
-            this.style.boxShadow = '0 0 30px rgba(255, 107, 107, 0.8)';
-        });
-        
-        visualizer.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-            this.style.boxShadow = '0 0 20px rgba(255, 107, 107, 0.5)';
-        });
-        
-        document.body.appendChild(visualizer);
-    }
-
-    // Add CSS for music visualizer
-    const musicStyle = document.createElement('style');
-    musicStyle.textContent = `
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 0 25px rgba(255, 107, 107, 0.7);
-            }
-        }
-        
-        @keyframes musicPulse {
-            0%, 100% {
-                transform: scale(1);
-                background: #4ecdc4;
-            }
-            50% {
-                transform: scale(1.1);
-                background: #ff6b6b;
-            }
-        }
-    `;
-    document.head.appendChild(musicStyle);
-
-    // Initialize music visualizer and auto-start music (without showing player)
+    // Simple music player initialization
     setTimeout(() => {
-        createMusicVisualizer();
+        // Initialize music player
+        if (typeof initMusicPlayer === 'function') {
+            initMusicPlayer();
+        }
         
-        // Global flag to prevent multiple starts
-        let musicStarted = false;
-        
-        // Simple music start function
-        window.startMusic = () => {
-            console.log('🎵 startMusic called');
-            console.log('🎵 musicPlayer:', musicPlayer);
-            console.log('🎵 musicPlayer.audio:', musicPlayer?.audio);
-            console.log('🎵 musicPlayer.isPlaying:', musicPlayer?.isPlaying);
-            
-            if (!musicPlayer) {
-                console.log('🎵 No music player!');
-                return;
-            }
-            
-            if (!musicPlayer.audio) {
-                console.log('🎵 No audio element!');
-                return;
-            }
-            
-            if (musicPlayer.isPlaying) {
-                console.log('🎵 Already playing!');
-                return;
-            }
-            
-            console.log('🎵 Attempting to play MP3...');
-            
-            musicPlayer.audio.play().then(() => {
-                console.log('🎵 SUCCESS: MP3 play promise resolved!');
-                musicPlayer.isPlaying = true;
-                musicPlayer.updatePlayButton();
-                musicPlayer.startVisualizer();
-                
-                // Update music indicator
-                const musicIndicator = document.querySelector('.music-visualizer div[style*="musicPulse"]');
-                if (musicIndicator) {
-                    musicIndicator.style.background = '#ff6b6b';
-                    musicIndicator.innerHTML = '🎵';
-                }
-            }).catch(e => {
-                console.log('🎵 ERROR: MP3 play promise rejected:', e);
-                console.log('🎵 Error name:', e.name);
-                console.log('🎵 Error message:', e.message);
-            });
-        };
-        
-        // Single click listener for document
+        // Single click listener for document to start music
         const startMusicOnClick = () => {
-            window.startMusic();
+            if (musicPlayer && musicPlayer.startMusic) {
+                musicPlayer.startMusic();
+            }
             document.removeEventListener('click', startMusicOnClick);
         };
         
         // Add click listener to document
         document.addEventListener('click', startMusicOnClick);
-    }, 1000); // Reduced delay from 3000ms to 1000ms
+    }, 1000);
 
     // Optimized scroll progress indicator
     function createScrollProgress() {

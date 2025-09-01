@@ -1,339 +1,198 @@
-// Enhanced Music Player with Fixed MP3 Track
-class PsychedelicMusicPlayer {
+// Simple, Robust Music Player
+class SimpleMusicPlayer {
     constructor() {
-        console.log('🎵 PsychedelicMusicPlayer constructor called');
+        console.log('🎵 SimpleMusicPlayer constructor called');
+        
+        // Create audio element
         this.audio = new Audio();
         this.isPlaying = false;
-        this.volume = 0.7;
-        this.audioContext = null;
-        this.analyser = null;
-        this.source = null;
-        this.dataArray = null;
+        this.isInitialized = false;
         
-        console.log('🎵 Audio element created:', this.audio);
-        
-        this.createPlayerUI();
-        this.setupAudioContext();
-        this.loadFixedTrack();
-        this.setupAudioEvents();
-    }
-    
-    createPlayerUI() {
-        console.log('🎵 Creating player UI');
-        
-        const playerHTML = `
-            <div class="music-player-container" style="display: none;">
-                <div class="music-player">
-                    <div class="player-header">
-                        <h3>🎵 Musik Player</h3>
-                        <button class="close-btn" onclick="musicPlayer.closePlayer()">×</button>
-                    </div>
-                    <div class="track-info">
-                        <div class="track-name">Hanna & Lukas - Festival Mix</div>
-                        <div class="track-artist">Hochzeits-Soundtrack</div>
-                    </div>
-                    <div class="controls">
-                        <button class="play-btn" onclick="musicPlayer.togglePlay()">▶</button>
-                        <div class="progress-container">
-                            <div class="progress-bar" onclick="musicPlayer.seekTo(event)">
-                                <div class="progress-fill"></div>
-                            </div>
-                        </div>
-                        <div class="time-display">
-                            <span class="current-time">0:00</span>
-                            <span class="total-time">0:00</span>
-                        </div>
-                    </div>
-                    <div class="visualizer-container"></div>
-                    <div class="status-info">🎵 Musik bereit!</div>
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', playerHTML);
-        this.playerContainer = document.querySelector('.music-player-container');
-        console.log('🎵 Player UI created:', this.playerContainer);
-    }
-    
-    setupAudioContext() {
-        console.log('🎵 Setting up audio context');
-        try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            this.analyser = this.audioContext.createAnalyser();
-            // Reduced FFT size for better performance
-            this.analyser.fftSize = 128;
-            this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-            console.log('🎵 Audio context setup successful');
-        } catch (error) {
-            console.log('🎵 Audio context setup failed:', error);
-        }
-    }
-    
-    loadFixedTrack() {
-        console.log('🎵 Loading MP3 file: ./festival-track.mp3');
-        
+        // Set audio properties
         this.audio.src = './festival-track.mp3';
         this.audio.loop = true;
         this.audio.volume = 0.7;
+        this.audio.preload = 'auto';
         
-        console.log('🎵 Audio src set:', this.audio.src);
-        console.log('🎵 Audio loop:', this.audio.loop);
-        console.log('🎵 Audio volume:', this.audio.volume);
+        // Create simple UI
+        this.createSimpleUI();
+        
+        // Setup audio events
+        this.setupAudioEvents();
+        
+        // Mark as initialized
+        this.isInitialized = true;
+        console.log('🎵 SimpleMusicPlayer initialized successfully');
+    }
+    
+    createSimpleUI() {
+        // Remove any existing player UI
+        const existingPlayer = document.querySelector('.music-player-container');
+        if (existingPlayer) {
+            existingPlayer.remove();
+        }
+        
+        // Create simple floating button
+        const buttonHTML = `
+            <div id="music-control-button" class="music-control-button">
+                <span id="music-icon">▶</span>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', buttonHTML);
+        
+        // Add click event
+        const button = document.getElementById('music-control-button');
+        button.addEventListener('click', () => this.togglePlay());
+        
+        // Add CSS
+        if (!document.getElementById('music-control-styles')) {
+            const style = document.createElement('style');
+            style.id = 'music-control-styles';
+            style.textContent = `
+                .music-control-button {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    width: 60px;
+                    height: 60px;
+                    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    z-index: 1000;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                    transition: all 0.3s ease;
+                    font-size: 24px;
+                    color: white;
+                }
+                
+                .music-control-button:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+                }
+                
+                .music-control-button:active {
+                    transform: scale(0.95);
+                }
+                
+                .music-control-button.playing {
+                    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+                    animation: pulse 2s infinite;
+                }
+                
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
     }
     
     setupAudioEvents() {
-        console.log('🎵 Setting up audio events');
-        
+        // Track loaded
         this.audio.addEventListener('loadeddata', () => {
-            console.log('🎵 Track loaded successfully!');
-            this.updateTrackInfo();
-            this.updateTotalTime();
-            
-            const statusInfo = this.playerContainer.querySelector('.status-info');
-            if (statusInfo) {
-                statusInfo.innerHTML = '🎵 Musik bereit - Klick zum Starten!';
-            }
+            console.log('🎵 Track loaded successfully');
         });
         
+        // Play event
         this.audio.addEventListener('play', () => {
-            console.log('🎵 Music is playing!');
+            console.log('🎵 Music started playing');
             this.isPlaying = true;
-            this.updatePlayButton();
-            
-            const musicIndicator = document.querySelector('.music-visualizer div[style*="musicPulse"]');
-            if (musicIndicator) {
-                musicIndicator.style.background = '#ff6b6b';
-                musicIndicator.innerHTML = '🎵';
-            }
-            
-            // Start visualizer after a delay to ensure audio is stable
-            setTimeout(() => {
-                this.startVisualizer();
-            }, 1000);
-            
-            // Monitor audio to prevent stopping
-            const audioMonitor = setInterval(() => {
-                if (this.audio && this.audio.paused && this.isPlaying) {
-                    console.log('🎵 Audio stopped unexpectedly, restarting...');
-                    this.audio.play().catch(e => {
-                        console.log('🎵 Restart failed:', e);
-                        clearInterval(audioMonitor);
-                    });
-                }
-            }, 1000); // Increased interval for better performance
-            
-            // Clear monitor after 10 seconds
-            setTimeout(() => {
-                clearInterval(audioMonitor);
-            }, 10000);
+            this.updateButton();
         });
         
+        // Pause event
         this.audio.addEventListener('pause', () => {
             console.log('🎵 Music paused');
             this.isPlaying = false;
-            this.updatePlayButton();
+            this.updateButton();
         });
         
-        this.audio.addEventListener('ended', () => {
-            console.log('🎵 Track ended, restarting...');
-            this.audio.currentTime = 0;
-            this.audio.play().catch(e => console.log('🎵 Restart failed:', e));
-        });
-        
+        // Error handling
         this.audio.addEventListener('error', (error) => {
-            console.log('🎵 Audio error:', error);
-            this.showTrackNotFound();
+            console.error('🎵 Audio error:', error);
+            this.showError();
         });
         
-        // Fix: Remove throttling for time updates to ensure accurate display
-        this.audio.addEventListener('timeupdate', () => {
-            this.updateProgress();
-            this.updateCurrentTime();
+        // When audio ends (shouldn't happen due to loop, but just in case)
+        this.audio.addEventListener('ended', () => {
+            console.log('🎵 Track ended, restarting due to loop');
         });
     }
     
-    showTrackNotFound() {
-        console.log('🎵 Showing track not found message');
-        const statusInfo = this.playerContainer.querySelector('.status-info');
-        if (statusInfo) {
-            statusInfo.innerHTML = `
-                <div style="color: #ff6b6b; font-size: 0.9rem; margin-bottom: 5px;">
-                    MP3-Datei fehlt
-                </div>
-                <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.8rem;">
-                    Bitte füge "festival-track.mp3" zum Projekt hinzu
-                </div>
-            `;
-        }
-    }
-    
-    togglePlay() {
-        console.log('🎵 Toggle play called, isPlaying:', this.isPlaying);
-        
-        if (!this.audio) {
-            console.log('🎵 No audio element!');
-            return;
-        }
+    updateButton() {
+        const button = document.getElementById('music-control-button');
+        const icon = document.getElementById('music-icon');
         
         if (this.isPlaying) {
-            console.log('🎵 Pausing audio...');
-            this.audio.pause();
+            button.classList.add('playing');
+            icon.textContent = '⏸';
         } else {
-            console.log('🎵 Playing audio...');
-            this.audio.play().catch(e => {
-                console.log('🎵 Play failed:', e);
-            });
+            button.classList.remove('playing');
+            icon.textContent = '▶';
         }
     }
     
-    startVisualizer() {
-        console.log('🎵 Starting visualizer');
-        if (!this.audioContext || !this.analyser || !this.audio) {
-            console.log('🎵 Visualizer setup incomplete');
+    showError() {
+        const button = document.getElementById('music-control-button');
+        button.style.background = '#ff6b6b';
+        button.title = 'MP3-Datei fehlt - Bitte füge "festival-track.mp3" hinzu';
+    }
+    
+    async togglePlay() {
+        if (!this.isInitialized) {
+            console.log('🎵 Player not yet initialized');
             return;
         }
         
-        // Only create source if it doesn't exist
-        if (!this.source) {
-            try {
-                console.log('🎵 Creating media element source');
-                this.source = this.audioContext.createMediaElementSource(this.audio);
-                this.source.connect(this.analyser);
-                this.analyser.connect(this.audioContext.destination);
-                console.log('🎵 Visualizer source created successfully');
-            } catch (error) {
-                console.log('🎵 Visualizer source creation error:', error);
-                return;
+        try {
+            if (this.isPlaying) {
+                console.log('🎵 Pausing music');
+                this.audio.pause();
+            } else {
+                console.log('🎵 Starting music');
+                await this.audio.play();
             }
+        } catch (error) {
+            console.error('🎵 Error toggling play:', error);
         }
-        
-        this.visualize();
     }
     
-    visualize() {
-        if (!this.analyser || !this.isPlaying) return;
-        
-        this.analyser.getByteFrequencyData(this.dataArray);
-        
-        const visualizerContainer = this.playerContainer.querySelector('.visualizer-container');
-        if (!visualizerContainer) return;
-        
-        // Clear container only when needed
-        if (!visualizerContainer.children.length) {
-            visualizerContainer.innerHTML = '';
-            
-            // Reduced bar count for better performance
-            const barCount = 16;
-            const barWidth = visualizerContainer.offsetWidth / barCount;
-            
-            for (let i = 0; i < barCount; i++) {
-                const bar = document.createElement('div');
-                bar.style.cssText = `
-                    width: ${barWidth - 1}px;
-                    height: 0px;
-                    background: linear-gradient(to top, #ff6b6b, #4ecdc4);
-                    border-radius: 2px;
-                    transition: height 0.1s ease;
-                `;
-                visualizerContainer.appendChild(bar);
-            }
+    async startMusic() {
+        if (!this.isInitialized) {
+            console.log('🎵 Player not yet initialized');
+            return;
         }
         
-        // Update existing bars
-        const bars = visualizerContainer.children;
-        for (let i = 0; i < bars.length; i++) {
-            const value = this.dataArray[i * 2] || 0; // Sample every other frequency for performance
-            const height = (value / 255) * 60;
-            bars[i].style.height = height + 'px';
-        }
-        
-        // Continue visualization only if still playing
         if (this.isPlaying) {
-            // Reduced frame rate for better performance
-            setTimeout(() => {
-                requestAnimationFrame(() => this.visualize());
-            }, 50); // 20 FPS instead of 60 FPS
+            console.log('🎵 Music already playing');
+            return;
+        }
+        
+        try {
+            console.log('🎵 Starting music via startMusic()');
+            await this.audio.play();
+        } catch (error) {
+            console.error('🎵 Error starting music:', error);
         }
     }
     
-    updateTrackInfo() {
-        const trackName = this.playerContainer.querySelector('.track-name');
-        const trackArtist = this.playerContainer.querySelector('.track-artist');
-        
-        trackName.textContent = 'Hanna & Lukas - Festival Mix';
-        trackArtist.textContent = 'Hochzeits-Soundtrack';
-    }
-    
-    updateProgress() {
-        if (!this.audio) return;
-        
-        const progressFill = this.playerContainer.querySelector('.progress-fill');
-        if (progressFill && !isNaN(this.audio.duration) && this.audio.duration > 0) {
-            const percent = (this.audio.currentTime / this.audio.duration) * 100;
-            progressFill.style.width = percent + '%';
+    stopMusic() {
+        if (this.isPlaying) {
+            console.log('🎵 Stopping music');
+            this.audio.pause();
         }
-    }
-    
-    updateCurrentTime() {
-        if (!this.audio) return;
-        
-        const currentTime = this.playerContainer.querySelector('.current-time');
-        if (currentTime) {
-            currentTime.textContent = this.formatTime(this.audio.currentTime);
-        }
-    }
-    
-    updateTotalTime() {
-        if (!this.audio) return;
-        
-        const totalTime = this.playerContainer.querySelector('.total-time');
-        if (totalTime) {
-            totalTime.textContent = this.formatTime(this.audio.duration);
-        }
-    }
-    
-    updatePlayButton() {
-        const playBtn = this.playerContainer.querySelector('.play-btn');
-        if (playBtn) {
-            playBtn.textContent = this.isPlaying ? '⏸' : '▶';
-        }
-    }
-    
-    formatTime(seconds) {
-        if (isNaN(seconds) || seconds < 0) return '0:00';
-        
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
-    
-    seekTo(event) {
-        if (!this.audio) return;
-        
-        const rect = event.target.getBoundingClientRect();
-        const percent = (event.clientX - rect.left) / rect.width;
-        this.audio.currentTime = percent * this.audio.duration;
-    }
-    
-    closePlayer() {
-        this.playerContainer.style.transform = 'translateX(320px)';
-        setTimeout(() => {
-            this.playerContainer.style.display = 'none';
-        }, 300);
-    }
-    
-    showPlayer() {
-        this.playerContainer.style.display = 'block';
-        setTimeout(() => {
-            this.playerContainer.style.transform = 'translateX(0)';
-        }, 10);
     }
 }
 
-// Initialize the music player
+// Global instance
 let musicPlayer = null;
 
-// Function to initialize music player (called from main script)
+// Initialize function
 function initMusicPlayer() {
     console.log('🎵 initMusicPlayer called');
     
@@ -343,7 +202,21 @@ function initMusicPlayer() {
         return musicPlayer;
     }
     
-    musicPlayer = new PsychedelicMusicPlayer();
-    console.log('🎵 Music player created:', musicPlayer);
-    return musicPlayer;
-} 
+    try {
+        musicPlayer = new SimpleMusicPlayer();
+        console.log('🎵 Music player created successfully');
+        return musicPlayer;
+    } catch (error) {
+        console.error('🎵 Failed to create music player:', error);
+        return null;
+    }
+}
+
+// Global start function
+window.startMusic = () => {
+    if (musicPlayer && musicPlayer.startMusic) {
+        musicPlayer.startMusic();
+    } else {
+        console.log('🎵 Music player not ready yet');
+    }
+}; 
