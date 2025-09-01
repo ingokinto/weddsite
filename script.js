@@ -92,11 +92,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Main website functionality (only runs after password is entered)
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile optimization
+    if (window.innerWidth <= 768) {
+        console.log('📱 Mobile device detected - optimizing performance');
+        
+        // Disable smooth scrolling on mobile
+        document.documentElement.style.scrollBehavior = 'auto';
+        
+        // Reduce animation complexity
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                * {
+                    animation: none !important;
+                    transition: none !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
     // Countdown Timer
     function updateCountdown() {
         const festivalDate = new Date('June 26, 2026 14:00:00').getTime();
         const now = new Date().getTime();
         const distance = festivalDate - now;
+        
+        // Reduce update frequency on mobile for better performance
+        const updateInterval = window.innerWidth <= 768 ? 5000 : 1000; // 5 seconds on mobile, 1 second on desktop
 
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -120,8 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Update countdown every second
-    setInterval(updateCountdown, 1000);
+    // Update countdown with mobile optimization
+    const countdownInterval = window.innerWidth <= 768 ? 5000 : 1000;
+    setInterval(updateCountdown, countdownInterval);
     updateCountdown(); // Initial call
 
     // Mobile Navigation Toggle
@@ -157,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Optimized navbar background change on scroll with throttling
     let ticking = false;
-    window.addEventListener('scroll', () => {
+    const scrollHandler = () => {
         if (!ticking) {
             requestAnimationFrame(() => {
                 const navbar = document.querySelector('.navbar');
@@ -172,6 +195,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             ticking = true;
         }
+    };
+    
+    // Reduce scroll event frequency on mobile
+    const scrollThrottle = window.innerWidth <= 768 ? 100 : 16; // 10fps on mobile, 60fps on desktop
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) return;
+        scrollTimeout = setTimeout(() => {
+            scrollHandler();
+            scrollTimeout = null;
+        }, scrollThrottle);
     });
 
     // Optimized parallax effect for fractal background
@@ -992,25 +1026,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Contact form functionality - REMOVED (handled by EmailJS in emailjs-config.js)
 
-    // RSVP button functionality
+    // RSVP button functionality - now links to Mews booking system
     const rsvpButtons = document.querySelectorAll('.ticket-button');
     rsvpButtons.forEach(button => {
         button.addEventListener('click', () => {
             const card = button.closest('.ticket-card');
             const title = card.querySelector('h3').textContent;
-            
-            // Show success message
-            const originalText = button.textContent;
-            button.textContent = 'Zugesagt! ✓';
-            button.style.background = 'linear-gradient(45deg, #4ecdc4, #45b7d1)';
-            
-            // Reset button after 3 seconds
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4)';
-            }, 3000);
-            
-            console.log('🎉 RSVP submitted for:', title);
+            console.log('🎉 RSVP link clicked for:', title);
         });
     }); 
 });

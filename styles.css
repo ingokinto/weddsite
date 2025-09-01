@@ -1279,6 +1279,9 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
 }
 
 .ticket-button:hover {
@@ -2345,9 +2348,7 @@ body::after {
     .food-card::after,
     .ticket-card::after,
     .anreise-card::after {
-        background: 
-            radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.02) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.02) 0%, transparent 50%);
+        background: none !important;
     }
 }
 
@@ -2357,5 +2358,92 @@ body::after {
     .ticket-card::after,
     .anreise-card::after {
         background: none;
+    }
+}
+
+/* AGGRESSIVE MOBILE PERFORMANCE OPTIMIZATION */
+@media (max-width: 768px) {
+    /* Disable ALL animations and transitions */
+    * {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+    
+    /* Remove all complex backgrounds */
+    .fractal-bg,
+    .psychedelic-patterns,
+    .floating-shapes,
+    .wave-patterns,
+    .cursor-trail {
+        display: none !important;
+    }
+    
+    /* Simplify hero section */
+    .hero {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #2d1a0a 100%) !important;
+    }
+    
+    .hero::before,
+    .hero::after {
+        display: none !important;
+    }
+    
+    /* Static text colors */
+    .hero-title,
+    .hero-subtitle,
+    .hero-dates {
+        background: none !important;
+        -webkit-text-fill-color: #daa520 !important;
+        color: #daa520 !important;
+        text-shadow: 0 0 5px rgba(218, 165, 32, 0.3) !important;
+    }
+    
+    .countdown-number,
+    .section-title {
+        background: none !important;
+        -webkit-text-fill-color: #8b4513 !important;
+        color: #8b4513 !important;
+        text-shadow: 0 0 5px rgba(139, 69, 19, 0.3) !important;
+    }
+    
+    /* Remove all backdrop filters */
+    .navbar,
+    .countdown-item,
+    .day-card,
+    .anreise-card,
+    .food-card,
+    .ticket-card {
+        backdrop-filter: none !important;
+        background: rgba(10, 10, 10, 0.95) !important;
+    }
+    
+    /* Remove all pseudo-elements */
+    .day-card::before,
+    .day-card::after,
+    .food-card::before,
+    .food-card::after,
+    .ticket-card::before,
+    .ticket-card::after,
+    .anreise-card::before,
+    .anreise-card::after,
+    .navbar::before,
+    .section::before,
+    .countdown-container::before,
+    .countdown-item::before {
+        display: none !important;
+    }
+    
+    /* Disable smooth scrolling */
+    html {
+        scroll-behavior: auto !important;
+    }
+    
+    /* Optimize for touch */
+    .day-card,
+    .anreise-card,
+    .food-card,
+    .ticket-card {
+        touch-action: manipulation;
     }
 }
