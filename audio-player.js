@@ -260,7 +260,7 @@ class PsychedelicMusicPlayer {
         const trackName = this.playerContainer.querySelector('.track-name');
         const trackArtist = this.playerContainer.querySelector('.track-artist');
         
-        trackName.textContent = 'Johanna & Lukas - Festival Mix';
+        trackName.textContent = 'Hanna & Lukas - Festival Mix';
         trackArtist.textContent = 'Hochzeits-Soundtrack';
     }
     
