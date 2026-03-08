@@ -40,9 +40,9 @@ function applyUrlParams() {
     }
 }
 
-// Prüft, ob der Passwort-Screen per URL-Parameter übersprungen werden soll (z. B. ?hannalukas oder #hannalukas)
+// Prüft, ob der Passwort-Screen per URL-Parameter übersprungen werden soll (z. B. ?hannalukas oder #hannalukas oder ?lukashanna oder #lukashanna)
 function hasBypassParam() {
-    const fromSearch = new URLSearchParams(window.location.search).has('hannalukas');
+    const fromSearch = new URLSearchParams(window.location.search).has('hannalukas') ;
     const fromHash = window.location.hash && new URLSearchParams(window.location.hash.replace(/^#/, '')).has('hannalukas');
     return fromSearch || fromHash;
 }
@@ -60,6 +60,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (hasBypassParam()) sessionStorage.setItem('websiteUnlocked', 'true');
         passwordOverlay.classList.add('unlocked');
         initEnvelope();
+        if (typeof initMusicPlayer === 'function' && !musicPlayer) {
+            initMusicPlayer();
+            setTimeout(() => {
+                if (musicPlayer && musicPlayer.startMusic) musicPlayer.startMusic();
+            }, 1000);
+        } else if (typeof musicPlayer !== 'undefined' && musicPlayer && musicPlayer.startMusic) {
+            setTimeout(() => musicPlayer.startMusic(), 500);
+        }
         return;
     }
 
