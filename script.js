@@ -1,7 +1,9 @@
-// URL-Parameter: ?Mpeter&FHanna → Lieber Peter, liebe Hanna (M = Lieber, F = Liebe)
-function applyUrlParams() {
-    const params = new URLSearchParams(window.location.search);
+// URL-Parameter: ?Mpeter&FHanna oder #Mpeter&FHanna
+// GitHub Pages leitet z. B. /weddsite auf /weddsite/ weiter – dabei geht ?... verloren. Links mit # funktionieren.
+function parseGuestsFromParamString(paramString) {
+    if (!paramString || !paramString.trim()) return [];
     const guests = [];
+    const params = new URLSearchParams(paramString.replace(/^#?\??/, ''));
     for (const key of params.keys()) {
         const match = key.match(/^[MF](.+)$/i);
         if (match) {
@@ -10,6 +12,12 @@ function applyUrlParams() {
             if (name) guests.push({ gender, name });
         }
     }
+    return guests;
+}
+
+function applyUrlParams() {
+    let guests = parseGuestsFromParamString(window.location.search);
+    if (guests.length === 0) guests = parseGuestsFromParamString(window.location.hash);
     if (guests.length === 0) return;
 
     // Bei mindestens einem F: F zuerst, dann F; bei nur F: Reihenfolge der URL
