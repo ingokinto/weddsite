@@ -56,14 +56,15 @@ class SimpleMusicPlayer {
                     right: 20px;
                     width: 60px;
                     height: 60px;
-                    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+                    background: linear-gradient(45deg,rgb(51, 171, 219),rgb(229, 123, 88));
+                    border: 2px solid rgba(212, 175, 55, 0.5);
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
                     z-index: 1000;
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
                     transition: all 0.3s ease;
                     font-size: 24px;
                     color: white;
@@ -71,7 +72,7 @@ class SimpleMusicPlayer {
                 
                 .music-control-button:hover {
                     transform: scale(1.1);
-                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+                    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
                 }
                 
                 .music-control-button:active {
@@ -79,7 +80,8 @@ class SimpleMusicPlayer {
                 }
                 
                 .music-control-button.playing {
-                    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+                    background: linear-gradient(45deg,rgb(51, 171, 219),rgb(229, 123, 88));
+                    box-shadow: 0 0 18px rgba(212, 175, 55, 0.6);
                     animation: pulse 2s infinite;
                 }
                 

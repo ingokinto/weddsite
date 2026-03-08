@@ -1,33 +1,262 @@
 <!DOCTYPE html>
 <html lang="de">
+<!-- add icon, maybe deactivate in production -->
+<link rel="icon" href="icon.png" type="image/x-icon">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Festival-Hochzeit 2026 - Hanna & Lukas</title>
+    <title>Einladung zur Hochzeit</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Runic:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Germania+One:wght@400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="apple-touch-icon" href="icon.png">
-    <link rel="manifest" href="site.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Grundlegendes Layout & Samt-Hintergrund */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cinzel', serif;
+            overflow: hidden;
+            /* Verhindert Scrollen während der Animation */
+        }
+
+        .scene-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- ZUSTAND 1: DER UMSCHLAG --- */
+        .envelope-wrapper {
+            position: absolute;
+            width: 125%;
+            max-width: 600px;
+            text-align: center;
+            transition: opacity 1s ease-in-out, transform 0.3s ease;
+            z-index: 10;
+        }
+
+        /* Envelope + seal grow on seal hover; envelope grows a little */
+        .envelope-wrapper:has(.seal-img:hover) {
+            transform: scale(1.16);
+        }
+
+        .envelope-img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
+            transition: opacity 0.4s ease-in-out;
+            /* Ermöglicht das Überblenden */
+        }
+
+
+        /* Dein angepasster Basis-Zustand */
+        .seal-img {
+            position: absolute;
+            width: 20%;
+            top: 45%;
+            left: 50%;
+            /* Deine neue Position */
+            transform: translate(-50%, 35%);
+            cursor: pointer;
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.6));
+            transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Seal grows more than the envelope on hover */
+        .seal-img:hover {
+            transform: translate(-50%, 35%) scale(1.28);
+            filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.8));
+        }
+
+        /* Klassen für die Ausblend-Animation */
+        .envelope-wrapper.hidden {
+            opacity: 0;
+            transform: scale(1.2) translateY(50px);
+            pointer-events: none;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        /* --- ZUSTAND 2: 3D-AUFKLAPPEN (WIE EIN BRIEF) --- */
+        .scroll-wrapper {
+            position: absolute;
+            width: 100%;
+            max-width: 700px;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+
+            /* NEUE ANIMATION: 3D-Aufklappen */
+            opacity: 0;
+            transform-style: preserve-3d;
+            /* Startet nach hinten geklappt und leicht gestaucht */
+            transform: perspective(1200px) rotateX(-70deg) scaleY(0.5) translateY(-50px);
+            transform-origin: top center;
+            /* Das Papier "hängt" quasi oben und klappt nach unten auf */
+
+            /* Ein dynamisches Timing: Erst schnell, dann federt es weich ein */
+            transition: opacity 0.5s ease-in-out 0.2s,
+                transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.15) 0.2s;
+        }
+
+        .scroll-wrapper.visible {
+            opacity: 1;
+            /* Endzustand: Liegt flach und ist voll sichtbar */
+            transform: perspective(1200px) rotateX(0deg) scaleY(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        .scroll-img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
+        }
+
+        /* Der Text über der Schriftrolle */
+        .scroll-content {
+            position: absolute;
+            top: 15%;
+            /* Hier deine eigenen Werte beibehalten, falls du sie geändert hast! */
+            bottom: 15%;
+            left: 15%;
+            right: 15%;
+            text-align: center;
+            color: #2c1e16;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+
+            /* NEU: Text ist am Anfang unsichtbar und leicht nach unten verschoben */
+            opacity: 0;
+            transform: translateY(20px);
+
+            /* Der Text fadet erst nach 1.2 Sekunden ein (wenn die Rolle fast offen ist) */
+            transition: opacity 0.8s ease-in-out 1.2s, transform 0.8s ease-out 1.2s;
+        }
+
+        /* Wenn die Rolle offen ist (.visible), wird der Text sichtbar */
+        .scroll-wrapper.visible .scroll-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            color: #8b0000;
+            margin: 0 0 10px 0;
+            font-weight: normal;
+        }
+
+        p {
+
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .divider {
+            font-size: 24px;
+            color: #d4af37;
+            margin: 20px 0;
+        }
+
+        /* RSVP Formular Design */
+        .rsvp-form {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+        }
+
+        .rsvp-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #d4af37;
+            background: transparent;
+            font-family: 'Cinzel', serif;
+            color: #2c1e16;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        .rsvp-form input::placeholder {
+            color: rgba(44, 30, 22, 0.6);
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #8b0000;
+            color: white;
+            border: 2px solid #660000;
+            padding: 12px 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: #660000;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Password Lock Overlay -->
+
+    <!-- Password Lock Overlay (structure from weddsite) -->
     <div id="password-overlay" class="password-overlay">
         <div class="password-container">
             <div class="password-content">
-                <h2 class="password-title">🔐 Festival-Hochzeit Zugang</h2>
-                <p class="password-subtitle">Bitte gib das Passwort ein, um die Website zu betreten</p>
-                
+                <h2 class="password-title">🔐 Einladung öffnen</h2>
+                <p class="password-subtitle">Bitte gib das Passwort ein, um die Einladung zu betreten</p>
+
                 <form id="password-form" class="password-form">
                     <input type="password" id="password-input" placeholder="Passwort eingeben" required>
-                    <button type="submit" class="password-button">🔓 Website betreten</button>
+                    <button type="submit" class="password-button">🔓 Öffnen</button>
                 </form>
-                
+
                 <div class="password-hint">
                     <p>💡 Tipp: Das Passwort ist der Name der Braut</p>
                 </div>
@@ -35,282 +264,55 @@
         </div>
     </div>
 
-    <!-- Loading Screen -->
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">HANNA & LUKAS</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#programm" class="nav-link">Programm</a></li>
-                <li><a href="#anreise" class="nav-link">Anreise</a></li>
-                <li><a href="#verpflegung" class="nav-link">Verpflegung</a></li>
-                <li><a href="#rsvp" class="nav-link">RSVP</a></li>
-                <li><a href="#kontakt" class="nav-link">Kontakt</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
+    <div class="scene-container">
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-            <div class="fractal-bg"></div>
-    <div class="psychedelic-patterns"></div>
-    <div class="floating-shapes"></div>
-    <div class="wave-patterns"></div>
-    <div class="cursor-trail"></div>
-    <div class="hero-content">
-            <h1 class="hero-title">HANNA & LUKAS</h1>
-            <p class="hero-subtitle">Festival-Hochzeit 2026</p>
-            <div class="countdown-container">
-                <div class="countdown-title">Countdown</div>
-                <div class="countdown">
-                    <div class="countdown-item">
-                        <span id="days" class="countdown-number">00</span>
-                        <span class="countdown-label">Tage</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span id="hours" class="countdown-number">00</span>
-                        <span class="countdown-label">Stunden</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span id="minutes" class="countdown-number">00</span>
-                        <span class="countdown-label">Minuten</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span id="seconds" class="countdown-number">00</span>
-                        <span class="countdown-label">Sekunden</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-dates">
-                <p>26. - 28. Juni 2026</p>
-            </div>
-            <a href="#rsvp" class="cta-button">Jetzt Zusagen</a>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <img src="envelope.png" alt="Briefumschlag" class="envelope-img" id="envelopeClosed">
+            <img src="envelopeopen.png" alt="Briefumschlag offen" class="envelope-img" id="envelopeOpen"
+                style="opacity: 0; position: absolute; top: 0; left: 0;">
 
-    <!-- Programm Section -->
-    <section id="programm" class="section">
-        <div class="container">
-            <h2 class="section-title">Hochzeitsprogramm</h2>
-            <div class="programm-grid">
-                <div class="day-card">
-                    <h3>Freitag, 26. Juni</h3>
-                    <div class="timeline">
-                        <div class="event">
-                            <span class="time">Ab 14:00</span>
-                            <span class="event-name">Ankunft der Gäste</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">16:00</span>
-                            <span class="event-name">Welcome Drinks</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">18:00</span>
-                            <span class="event-name">Abendessen</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">22:00</span>
-                            <span class="event-name">Lagerfeuer & Musik</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="day-card">
-                    <h3>Samstag, 27. Juni</h3>
-                    <div class="timeline">
-                        <div class="event">
-                            <span class="time">10:00</span>
-                            <span class="event-name">Frühstück</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">14:00</span>
-                            <span class="event-name">Trauung am Arendsee (Wendlangweg, 39619)</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">18:00</span>
-                            <span class="event-name">Hochzeitsfeier</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">22:00</span>
-                            <span class="event-name">Party</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="day-card">
-                    <h3>Sonntag, 28. Juni</h3>
-                    <div class="timeline">
-                        <div class="event">
-                            <span class="time">10:00</span>
-                            <span class="event-name">Brunch</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">14:00</span>
-                            <span class="event-name">Abschiedsgrillen</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">18:00</span>
-                            <span class="event-name">Farewell Drinks</span>
-                        </div>
-                        <div class="event">
-                            <span class="time">20:00</span>
-                            <span class="event-name">Ende der Feier</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <img src="siegel.png" alt="Wachssiegel" class="seal-img" id="sealBtn">
         </div>
-    </section>
+        <div class="scroll-wrapper" id="scrollWrapper">
+            <img src="scroll.jpg" alt="Schriftrolle" class="scroll-img">
 
-    <!-- Anreise Section -->
-    <section id="anreise" class="section">
-        <div class="container">
-            <h2 class="section-title">Anreise & Unterkunft</h2>
-            <div class="anreise-content">
-                <div class="anreise-card">
-                    <h3>Mit dem Auto</h3>
-                    <p>Adresse: Astraea Eco Resort, Vissum 14, 39619 Arendsee</p>
-                    <p>Kostenlose Parkplätze verfügbar. Bitte vorsichtig fahren.</p>
-                </div>
-                <div class="anreise-card">
-                    <h3>Öffentliche Verkehrsmittel</h3>
-                    <p>Buslinie 500 ab Salzwedel alle 2 Stunden</p>
-                    <p>Haltestelle: "Vissum Abzw., Arendsee (Altmark)"</p>
-                </div>
-                <div class="anreise-card">
-                    <h3>Camping & Unterkunft</h3>
-                    <p>Zimmer</p>
-                    <p>Jurten</p>
-                    <p>Tippis</p>
-                    <p>Camping & Stellplätze</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="scroll-content">
+                <h1>Unsere Hochzeit</h1>
+                <p>Liebe Familie, liebe Freunde,</p>
+                <p>wir laden euch herzlich ein, unseren besonderen Tag mit uns zu feiern.</p>
+                <p>
+                    <strong>Wann:</strong> Samstag, 06. Juni 2026<br>
+                    <strong>Wo:</strong> Wiesentalstraße 26, 72574 Bad Urach<br>
+                    <strong>Beginn:</strong> 14:00 Uhr
+                </p>
 
-    <!-- Verpflegung Section -->
-    <section id="verpflegung" class="section">
-        <div class="container">
-            <h2 class="section-title">Verpflegung</h2>
-            <div class="verpflegung-grid">
-                <div class="food-card">
-                    <h3>Hochzeitsmenü</h3>
-                    <p>Festival-Style Catering</p>
-                    <ul>
-                        <li>Vegan & Vegetarische Optionen</li>
-                        <li>Lokale Bio-Zutaten</li>
-                        <li>Festival-Buddha Bowls</li>
-                        <li>Campfire-Grillen</li>
-                    </ul>
-                </div>
-                <div class="food-card">
-                    <h3>Getränke & Cocktails</h3>
-                    <p>Festival-Bar</p>
-                    <ul>
-                        <li>Hochzeits-Mocktails</li>
-                        <li>Frische Smoothies</li>
-                        <li>Säfte & Wasser</li>
-                        <li>Kein Alkohol!</li>
-                    </ul>
-                </div>
-                <div class="food-card">
-                    <h3>Snacks & Desserts</h3>
-                    <p>Den ganzen Tag verfügbar</p>
-                    <ul>
-                        <li>Festival-Snacks</li>
-                        <li>Hochzeitskuchen</li>
-                        <li>Frisches Obst</li>
-                        <li>Energieriegel</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="divider">❦</div>
 
-    <!-- RSVP Section -->
-    <section id="rsvp" class="section">
-        <div class="container">
-            <h2 class="section-title">Unterkunft</h2>
-            <div class="tickets-grid">
-                <div class="ticket-card">
-                    <h3>Jurte</h3>
-                    <div class="price">240€</div>
-                    <ul>
-                        <li>28m², Bad en Suite</li>
-                        <li>Kaminofen, Dachfenster, beheizt und isoliert</li>
-                        <li>Metallfreien Zirbenholzbetten (Double oder Twin)</li>
-                        <li>Naturlatexmatratzen</li>
-                    </ul>
-                    <a href="https://app.mews.com/distributor/fb679b41-5aa9-4c10-bb22-b131009f846a?mewsAvailabilityBlockId=a839ede7-fd43-46e9-8390-b33a007bbe32&mewsStart=2026-06-26&mewsEnd=2026-06-28&language=de-DE" target="_blank" class="ticket-button">Zusagen</a>
-                </div>
-                <div class="ticket-card featured">
-                    <h3>Tipi</h3>
-                    <div class="price">130€</div>
-                    <ul>
-                        <li>Tipi mit Innenzeolt, 25m²</li>
-                        <li>beheizt</li>
-                        <li>Double/Twin</li>
-                        <li>geteilte Sanitärräume</li>
-                    </ul>
-                    <a href="https://app.mews.com/distributor/fb679b41-5aa9-4c10-bb22-b131009f846a?mewsAvailabilityBlockId=a839ede7-fd43-46e9-8390-b33a007bbe32&mewsStart=2026-06-26&mewsEnd=2026-06-28&language=de-DE" target="_blank" class="ticket-button">Zusagen</a>
-                </div>
-                <div class="ticket-card">
-                    <h3>Gästezimmer</h3>
-                    <div class="price">160€</div>
-                    <ul>
-                        <li>Verschieden große Zimmer mit oder ohne Bad en Suite</li>
-                        <li>Geschmacklich saniertes Fachwerkhaus</li>
-                        <li></li>
-                        <li>Camping oder Stellplatz möglich</li>
-                    </ul>
-                    <a href="https://app.mews.com/distributor/fb679b41-5aa9-4c10-bb22-b131009f846a?mewsAvailabilityBlockId=a839ede7-fd43-46e9-8390-b33a007bbe32&mewsStart=2026-06-26&mewsEnd=2026-06-28&language=de-DE" target="_blank" class="ticket-button">Zusagen</a>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="rsvp-form">
+                    <form id="rsvp-form">
+                        <input type="text" name="guest_names" id="guest_names" placeholder="Name(n) der Gäste" required>
 
-    <!-- Kontakt Section -->
-    <section id="kontakt" class="section">
-        <div class="container">
-            <h2 class="section-title">Kontakt & Fragen</h2>
-            <div class="kontakt-content">
-                <div class="kontakt-info">
-                    <h3>Hanna & Lukas</h3>
-                    <p>Telefon: +49 17658877937</p>
-                    <p><a href="https://t.me/+MpLJqd_ZhSM2MmMy" target="_blank" class="contact-link">Telegram-Gruppe</a></p>
-                </div>
-                <div class="kontakt-form">
-                    <form id="contact-form">
-                        <input type="text" name="user_name" id="user_name" placeholder="Name" required>
-                        <input type="email" name="user_email" id="user_email" placeholder="Email" required>
-                        <textarea name="user_message" id="user_message" placeholder="Nachricht oder Fragen zur Festival-Hochzeit" rows="5" required></textarea>
-                        <button type="submit" class="submit-button">Nachricht senden</button>
+                        <div class="radio-group">
+                            <label><input type="radio" name="attendance" value="yes" required> 💍 Ja, wir
+                                kommen!</label>
+                            <label><input type="radio" name="attendance" value="no"> Leider nicht</label>
+                        </div>
+
+                        <input type="text" name="notes" id="notes" placeholder="Bemerkungen oder Allergien?">
+
+                        <button type="submit">Antwort senden</button>
                     </form>
                     <div id="form-status" class="form-status"></div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Hanna & Lukas Festival-Hochzeit. Alle Rechte vorbehalten.</p>
-        </div>
-    </footer>
+    </div>
 
     <script src="script.js"></script>
     <script src="audio-player.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="emailjs-config.js"></script>
 </body>
-</html> 
+
+</html>

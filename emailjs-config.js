@@ -1,107 +1,107 @@
-// EmailJS Configuration
-// Replace these values with your actual EmailJS configuration
+// EmailJS Configuration – RSVP form
 const EMAILJS_CONFIG = {
-    PUBLIC_KEY: '4Y8NWjM8l-08Q0UJa', // Replace with your EmailJS public key
-    SERVICE_ID: 'service_b0oth0w', // Replace with your Gmail service ID
-    TEMPLATE_ID: 'template_ti0bz6f' // Replace with your email template ID
+    PUBLIC_KEY: '4Y8NWjM8l-08Q0UJa',
+    SERVICE_ID: 'service_b0oth0w',
+    TEMPLATE_ID: 'template_ti0bz6f'
 };
 
-// Initialize EmailJS
-(function() {
-    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-})();
-
-// Contact form handling
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show loading state
-            showFormStatus('loading', 'Nachricht wird gesendet...');
-            contactForm.classList.add('form-disabled');
-            
-            // Get form elements
-            const nameField = document.getElementById('user_name');
-            const emailField = document.getElementById('user_email');
-            const messageField = document.getElementById('user_message');
-            
-            // Prepare template parameters
-            const templateParams = {
-                from_name: nameField ? nameField.value : '',
-                from_email: emailField ? emailField.value : '',
-                message: messageField ? messageField.value : '',
-                to_name: 'Hanna & Lukas',
-                reply_to: emailField ? emailField.value : ''
-            };
-            
-            // Send email using EmailJS
-            emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    showFormStatus('success', 'Nachricht erfolgreich gesendet! 🎉');
-                    contactForm.reset();
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    showFormStatus('error', 'Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut.');
-                })
-                .finally(function() {
-                    contactForm.classList.remove('form-disabled');
-                });
-        });
+// Initialize EmailJS when the library is loaded
+function initEmailJS() {
+    if (typeof emailjs === 'undefined') {
+        console.warn('EmailJS not loaded yet');
+        return;
     }
-    
-    function showFormStatus(type, message) {
-        formStatus.textContent = message;
-        formStatus.className = `form-status ${type}`;
-        
-        // Auto-hide success messages after 5 seconds
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    console.log('EmailJS initialized');
+}
+
+if (typeof emailjs !== 'undefined') {
+    initEmailJS();
+} else {
+    window.addEventListener('load', initEmailJS);
+}
+
+// RSVP form handling
+document.addEventListener('DOMContentLoaded', function () {
+    const rsvpForm = document.getElementById('rsvp-form');
+    const formStatus = document.getElementById('form-status');
+
+    if (!rsvpForm) return;
+
+    rsvpForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        if (typeof emailjs === 'undefined') {
+            showFormStatus(formStatus, 'error', 'E-Mail-Dienst nicht geladen. Seite neu laden.');
+            return;
+        }
+
+        // Reset status visibility for new submit
+        if (formStatus) formStatus.style.opacity = '1';
+        showFormStatus(formStatus, 'loading', 'Antwort wird gesendet...');
+        rsvpForm.classList.add('form-disabled');
+
+        const guestNamesEl = document.getElementById('guest_names');
+        const attendanceRadio = rsvpForm.querySelector('input[name="attendance"]:checked');
+        const notesEl = document.getElementById('notes');
+
+        const guestNames = guestNamesEl ? guestNamesEl.value.trim() : '';
+        const attendance = attendanceRadio ? attendanceRadio.value : '';
+        const attendanceText = attendance === 'yes' ? 'Ja, wir kommen!' : 'Leider nicht';
+        const notes = notesEl && notesEl.value ? notesEl.value.trim() : '–';
+        const message = 'Zusage: ' + attendanceText + '\n\nBemerkungen / Allergien: ' + notes;
+
+        const templateParams = {
+            from_name: guestNames || 'Unbekannt',
+            from_email: 'rsvp@einladung.local',
+            message: message,
+            to_name: 'Brautpaar',
+            reply_to: ''
+        };
+
+        emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
+            .then(function (response) {
+                console.log('EmailJS success', response.status, response.text);
+                showFormStatus(formStatus, 'success', 'Vielen Dank! Die Antwort wurde versendet. 🎉');
+                rsvpForm.reset();
+            }, function (err) {
+                console.error('EmailJS error', err);
+                const msg = err.text || err.message || 'Unbekannter Fehler';
+                showFormStatus(formStatus, 'error', 'Fehler beim Senden. Bitte später erneut versuchen. (' + msg + ')');
+            })
+            .finally(function () {
+                rsvpForm.classList.remove('form-disabled');
+            });
+    });
+
+    function showFormStatus(el, type, message) {
+        if (!el) return;
+        el.textContent = message;
+        el.className = 'form-status ' + type;
         if (type === 'success') {
-            setTimeout(() => {
-                formStatus.style.opacity = '0';
-                setTimeout(() => {
-                    formStatus.className = 'form-status';
-                }, 300);
+            setTimeout(function () {
+                el.style.opacity = '0';
+                setTimeout(function () { el.className = 'form-status'; }, 300);
             }, 5000);
         }
     }
 });
 
-// Helper function to update configuration (call this after setting up EmailJS)
-function updateEmailJSConfig(publicKey, serviceId, templateId) {
-    EMAILJS_CONFIG.PUBLIC_KEY = publicKey;
-    EMAILJS_CONFIG.SERVICE_ID = serviceId;
-    EMAILJS_CONFIG.TEMPLATE_ID = templateId;
-    
-    // Re-initialize EmailJS with new config
-    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-}
-
-// Test function to verify EmailJS setup
-function testEmailJS() {
-    console.log('Testing EmailJS configuration...');
-    console.log('Public Key:', EMAILJS_CONFIG.PUBLIC_KEY);
-    console.log('Service ID:', EMAILJS_CONFIG.SERVICE_ID);
-    console.log('Template ID:', EMAILJS_CONFIG.TEMPLATE_ID);
-    
-    const testParams = {
-        from_name: 'Test User',
-        from_email: 'test@example.com',
-        message: 'This is a test message from the Festival-Hochzeit website.',
-        to_name: 'Hanna & Lukas',
-        reply_to: 'test@example.com'
+// Test from console: testEmailJS()
+window.testEmailJS = function () {
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS not loaded');
+        return;
+    }
+    var params = {
+        from_name: 'Test Gast',
+        from_email: 'rsvp@einladung.local',
+        message: 'Zusage: Ja, wir kommen!\n\nBemerkungen / Allergien: Test',
+        to_name: 'Brautpaar',
+        reply_to: ''
     };
-    
-    emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, testParams)
-        .then(function(response) {
-            console.log('TEST SUCCESS!', response.status, response.text);
-            alert('EmailJS test successful! Check your Gmail inbox.');
-        }, function(error) {
-            console.log('TEST FAILED...', error);
-            console.log('Error details:', error.text);
-            alert('EmailJS test failed. Check console for details.');
-        });
-} 
+    console.log('Sending test email with params:', params);
+    emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, params)
+        .then(function (r) { console.log('Test OK', r.status, r.text); alert('Test-E-Mail gesendet!'); })
+        .catch(function (e) { console.error('Test failed', e); alert('Test fehlgeschlagen: ' + (e.text || e.message)); });
+};
