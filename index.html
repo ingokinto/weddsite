@@ -61,10 +61,16 @@
             justify-content: flex-start;
         }
 
-        /* Smartphone: nur Seiten-Scroll, kein innerer Scroll – Text unter der Rolle, Anrede sichtbar */
+        /* Smartphone: nur Seiten-Scroll, Text fest unter der Rolle (Reihenfolge + z-index stabil) */
         @media (max-width: 768px) {
             body.letter-open .scroll-wrapper.visible {
                 flex-direction: column;
+                align-items: stretch;
+            }
+            body.letter-open .scroll-wrapper.visible .scroll-img {
+                flex-shrink: 0;
+                order: 1;
+                z-index: 0;
             }
             body.letter-open .scroll-wrapper.visible .scroll-content {
                 position: relative;
@@ -78,6 +84,9 @@
                 overflow: visible;
                 padding: 0 15%;
                 box-sizing: border-box;
+                order: 2;
+                z-index: 1;
+                transform: none;
             }
         }
 
@@ -330,19 +339,17 @@
             <div class="scroll-content">
                 <h1>Unsere Hochzeit</h1>
                 <p id="greeting">Liebe Familie, liebe Freunde,</p>
-                <p id="invitation-intro">wir laden euch herzlich ein, unseren besonderen Tag mit uns zu feiern. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
+                <p id="invitation-intro">wir laden euch herzlich ein, unseren besonderen Tag mit uns zu feiern. 
                 </p>
                 <p>
                     <strong>Wann:</strong> Samstag, 06. Juni 2026<br>
                     <strong>Wo:</strong> Wiesentalstraße 26, 72574 Bad Urach<br>
-                    <strong>Beginn:</strong> 14:00 Uhr
+                    <strong>Beginn:</strong> 14:00 Uhr<br>
+                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
                 </p>
 
                 <div class="divider">❦</div>
