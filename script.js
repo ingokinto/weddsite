@@ -125,6 +125,11 @@ function openInvitation() {
     /* Layout erst nach Ende der Umschlag-Animation umschalten, sonst clippt der Umschlag */
     setTimeout(() => {
         document.body.classList.add('letter-open');
+        /* Auf Smartphone landet die Seite sonst in der Mitte – explizit von oben starten */
+        requestAnimationFrame(() => {
+            window.scrollTo(0, 0);
+            requestAnimationFrame(() => window.scrollTo(0, 0));
+        });
     }, 600 + 1100);
 }
 
