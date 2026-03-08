@@ -40,6 +40,13 @@ function applyUrlParams() {
     }
 }
 
+// Prüft, ob der Passwort-Screen per URL-Parameter übersprungen werden soll (z. B. ?hannalukas oder #hannalukas)
+function hasBypassParam() {
+    const fromSearch = new URLSearchParams(window.location.search).has('hannalukas');
+    const fromHash = window.location.hash && new URLSearchParams(window.location.hash.replace(/^#/, '')).has('hannalukas');
+    return fromSearch || fromHash;
+}
+
 // Password Lock (structure from weddsite)
 document.addEventListener('DOMContentLoaded', function () {
     applyUrlParams();
@@ -49,7 +56,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const passwordInput = document.getElementById('password-input');
     const correctPassword = 'johanna';
 
-    if (sessionStorage.getItem('websiteUnlocked') === 'true') {
+    if (sessionStorage.getItem('websiteUnlocked') === 'true' || hasBypassParam()) {
+        if (hasBypassParam()) sessionStorage.setItem('websiteUnlocked', 'true');
         passwordOverlay.classList.add('unlocked');
         initEnvelope();
         return;
