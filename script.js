@@ -13,14 +13,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     passwordForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const enteredPassword = passwordInput.value.toLowerCase().trim();
-
+        let enteredPassword = passwordInput.value.toLowerCase().trim();
+        if (enteredPassword === 'hanna') {
+            enteredPassword = 'johanna';
+        }
         if (enteredPassword === correctPassword) {
             sessionStorage.setItem('websiteUnlocked', 'true');
             passwordForm.classList.add('password-success');
             const button = passwordForm.querySelector('.password-button');
             const originalText = button.textContent;
-            button.textContent = '🎉 Zugang gewährt!';
+            button.textContent = 'Zugang gewährt!';
             button.style.background = 'linear-gradient(45deg, #4ecdc4, #45b7d1)';
 
             setTimeout(() => {
@@ -43,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             passwordInput.classList.add('password-error');
             passwordInput.value = '';
-            passwordInput.placeholder = '❌ Falsches Passwort – versuche es erneut';
+            passwordInput.placeholder = 'Falsches Passwort – versuche es erneut';
             setTimeout(() => {
                 passwordInput.classList.remove('password-error');
                 passwordInput.placeholder = 'Passwort eingeben';
@@ -76,6 +78,10 @@ function openInvitation() {
         wrapper.classList.add('hidden');
         scroll.classList.add('visible');
     }, 600);
+    /* Layout erst nach Ende der Umschlag-Animation umschalten, sonst clippt der Umschlag */
+    setTimeout(() => {
+        document.body.classList.add('letter-open');
+    }, 600 + 1100);
 }
 
 function initEnvelope() {

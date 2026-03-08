@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
         emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
             .then(function (response) {
                 console.log('EmailJS success', response.status, response.text);
-                showFormStatus(formStatus, 'success', 'Vielen Dank! Die Antwort wurde versendet. 🎉');
+                showFormStatus(formStatus, 'success', 'Vielen Dank für Deine Zusage!');
                 rsvpForm.reset();
             }, function (err) {
                 console.error('EmailJS error', err);
