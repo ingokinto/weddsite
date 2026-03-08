@@ -129,6 +129,10 @@ function openInvitation() {
 
     if (!seal || !wrapper || !scroll) return;
 
+    // Beim Öffnen des Briefs Musik starten (Klick = User-Geste, erlaubt Audio)
+    if (typeof initMusicPlayer === 'function' && !musicPlayer) initMusicPlayer();
+    if (musicPlayer && typeof musicPlayer.startMusic === 'function') musicPlayer.startMusic();
+
     seal.style.opacity = '0';
     seal.style.pointerEvents = 'none';
     closedEnv.style.opacity = '0';
