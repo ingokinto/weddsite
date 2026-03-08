@@ -61,32 +61,43 @@
             justify-content: flex-start;
         }
 
-        /* Smartphone: nur Seiten-Scroll, Text fest unter der Rolle (Reihenfolge + z-index stabil) */
-        @media (max-width: 768px) {
+        /*
+         * Mobile: ein einheitliches Layout für alle Geräte.
+         * 1. Oben: nur der obere Rand der Schriftrolle (fixe Höhe, Bild von oben gecroppt).
+         * 2. Darunter: Überschrift + ganzer Text in normalem Fluss.
+         * 3. Eine scrollbare Seite – kein verschachteltes Scrollen.
+         */
+        @media (max-width: 820px) {
             body.letter-open .scroll-wrapper.visible {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            body.letter-open .scroll-wrapper.visible .scroll-img {
-                flex-shrink: 0;
-                order: 1;
-                z-index: 0;
-            }
-            body.letter-open .scroll-wrapper.visible .scroll-content {
+                display: block;
                 position: relative;
+            }
+            /* Nur den oberen Rand der Schriftrolle zeigen (ca. 100px), Rest wird abgeschnitten */
+            body.letter-open .scroll-wrapper.visible .scroll-img {
+                display: block;
+                width: 100%;
+                height: 100px;
+                object-fit: cover;
+                object-position: top center;
+                margin: 0;
+                vertical-align: top;
+            }
+            /* Text direkt darunter, normaler Block – kein Overlay, kein eigenes Scroll */
+            body.letter-open .scroll-wrapper.visible .scroll-content {
+                display: block;
+                position: static;
                 top: auto;
                 bottom: auto;
-                left: 0;
-                right: 0;
-                width: 100%;
+                left: auto;
+                right: auto;
+                width: auto;
                 height: auto;
                 min-height: 0;
                 overflow: visible;
-                padding: 0 15%;
+                padding: 1rem 15% 2rem;
                 box-sizing: border-box;
-                order: 2;
-                z-index: 1;
                 transform: none;
+                opacity: 1;
             }
         }
 
