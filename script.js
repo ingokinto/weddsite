@@ -1,5 +1,41 @@
+// URL-Parameter: ?Mpeter&FHanna → Lieber Peter, liebe Hanna (M = Lieber, F = Liebe)
+function applyUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const guests = [];
+    for (const key of params.keys()) {
+        const match = key.match(/^[MF](.+)$/i);
+        if (match) {
+            const gender = key[0].toUpperCase();
+            const name = match[1].trim().replace(/^\w/, (c) => c.toUpperCase());
+            if (name) guests.push({ gender, name });
+        }
+    }
+    if (guests.length === 0) return;
+
+    // Bei mindestens einem F: F zuerst, dann F; bei nur F: Reihenfolge der URL
+    guests.sort((a, b) => (a.gender === 'F' && b.gender === 'M' ? -1 : a.gender === 'M' && b.gender === 'F' ? 1 : 0));
+
+    const greetingEl = document.getElementById('greeting');
+    const introEl = document.getElementById('invitation-intro');
+    const namesInput = document.getElementById('guest_names');
+    if (greetingEl) {
+        const parts = guests.map((g) => (g.gender === 'M' ? 'Lieber' : 'Liebe') + ' ' + g.name);
+        greetingEl.textContent = parts.join(', ') + ',';
+    }
+    if (introEl) {
+        introEl.textContent = guests.length === 1
+            ? 'wir laden dich herzlich ein, unseren besonderen Tag mit uns zu feiern.'
+            : 'wir laden euch herzlich ein, unseren besonderen Tag mit uns zu feiern.';
+    }
+    if (namesInput) {
+        namesInput.value = guests.map((g) => g.name).join(' und ');
+    }
+}
+
 // Password Lock (structure from weddsite)
 document.addEventListener('DOMContentLoaded', function () {
+    applyUrlParams();
+
     const passwordOverlay = document.getElementById('password-overlay');
     const passwordForm = document.getElementById('password-form');
     const passwordInput = document.getElementById('password-input');
