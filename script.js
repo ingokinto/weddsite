@@ -18,6 +18,41 @@ function parseGuestsFromParamString(paramString) {
 function applyUrlParams() {
     let guests = parseGuestsFromParamString(window.location.search);
     if (guests.length === 0) guests = parseGuestsFromParamString(window.location.hash);
+
+    const isSingle = guests.length === 1;
+
+    // Accommodation label: "Ich" for one guest, "Wir" for two or none (default)
+    const accommodationLabel = document.getElementById('accommodation-label');
+    if (accommodationLabel) {
+        accommodationLabel.textContent = isSingle
+            ? 'Ich brauche eine Übernachtung'
+            : 'Wir brauchen eine Übernachtung';
+    }
+
+    // Einzahl/Mehrzahl: du/dich/dein vs ihr/euch/euer
+    const dresscodeEl = document.getElementById('dresscode-text');
+    if (dresscodeEl) {
+        dresscodeEl.textContent = isSingle
+            ? 'dass du entspannt feiern und tanzen kannst.'
+            : 'dass ihr entspannt feiern und tanzen könnt.';
+    }
+    const geschenkeEl = document.getElementById('geschenke-text');
+    if (geschenkeEl) {
+        geschenkeEl.textContent = isSingle ? 'Dein Kommen' : 'Euer Kommen';
+    }
+    const rsvpHeadingEl = document.getElementById('rsvp-heading');
+    if (rsvpHeadingEl) {
+        rsvpHeadingEl.textContent = isSingle ? 'Bist du dabei?' : 'Seid ihr dabei?';
+    }
+    const rsvpDeadlineEl = document.getElementById('rsvp-deadline-prefix');
+    if (rsvpDeadlineEl) {
+        rsvpDeadlineEl.textContent = isSingle ? 'Bitte gib uns' : 'Bitte gebt uns';
+    }
+    const attendanceYesEl = document.getElementById('attendance-yes-text');
+    if (attendanceYesEl) {
+        attendanceYesEl.textContent = isSingle ? 'Ja, ich komme!' : 'Ja, wir kommen!';
+    }
+
     if (guests.length === 0) return;
 
     // Bei mindestens einem F: F zuerst, dann F; bei nur F: Reihenfolge der URL
@@ -31,9 +66,9 @@ function applyUrlParams() {
         greetingEl.textContent = parts.join(', ') + ',';
     }
     if (introEl) {
-        introEl.textContent = guests.length === 1
-            ? 'wir laden dich herzlich ein, unseren besonderen Tag mit uns zu feiern.'
-            : 'wir laden euch herzlich ein, unseren besonderen Tag mit uns zu feiern.';
+        introEl.textContent = isSingle
+            ? 'wir laden dich von Herzen ein, unseren besonderen Tag mit uns zu feiern.'
+            : 'wir laden euch von Herzen ein, unseren besonderen Tag mit uns zu feiern.';
     }
     if (namesInput) {
         namesInput.value = guests.map((g) => g.name).join(' und ');

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
-<!-- add icon, maybe deactivate in production -->
 <link rel="icon" href="icon.png" type="image/x-icon">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
         rel="stylesheet">
 
     <style>
-        /* Seite ist für Hellmodus gestaltet – verhindert automatische Inversion in Dark Mode */
+        /* Seite ist für Hellmodus gestaltet */
         :root {
             color-scheme: light;
         }
@@ -33,10 +33,8 @@
             align-items: center;
             font-family: 'Cinzel', serif;
             overflow: hidden;
-            /* Verhindert Scrollen während der Animation */
         }
 
-        /* Brief offen: Seite scrollbar machen */
         body.letter-open {
             overflow: auto;
             min-height: 100%;
@@ -44,10 +42,10 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Sorgt dafür, dass auch das HTML-Element mitscrollen darf, wenn der Body die Klasse hat */
         html:has(body.letter-open) {
             overflow: auto;
         }
+
         body.letter-open .scene-container {
             height: auto;
             min-height: 100vh;
@@ -59,45 +57,36 @@
             position: relative;
         }
 
-        /* Text oben starten, damit auf dem Smartphone die Anrede sichtbar ist (nicht nur ab „Wann“) */
         body.letter-open .scroll-content {
             justify-content: flex-start;
         }
 
-        /*
-         * Mobile: ein einheitliches Layout für alle Geräte.
-         * 1. Oben: nur der obere Rand der Schriftrolle (fixe Höhe, Bild von oben gecroppt).
-         * 2. Darunter: Überschrift + ganzer Text in normalem Fluss.
-         * 3. Eine scrollbare Seite – kein verschachteltes Scrollen.
-         */
-         @media (max-width: 820px) {
+        @media (max-width: 820px) {
             body.letter-open .scroll-wrapper.visible {
                 display: flex;
                 position: relative;
-                width: 95%; /* Lässt einen kleinen Rand links und rechts */
-                min-height: 80vh; 
-                margin: 20px auto; 
+                width: 95%;
+                min-height: 80vh;
+                margin: 20px auto;
                 flex-direction: column;
             }
-            
-            /* Die Schriftrolle streckt sich dynamisch hinter dem Text */
+
             body.letter-open .scroll-wrapper.visible .scroll-img {
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                object-fit: cover; /* Zieht die Textur über den ganzen Bereich */
-                border-radius: 8px; /* Optional: macht die Kanten weicher */
+                object-fit: cover;
+                border-radius: 8px;
                 z-index: 1;
                 filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
             }
-            
-            /* Der Text liegt sicher ÜBER der Schriftrolle im normalen Fluss */
+
             body.letter-open .scroll-wrapper.visible .scroll-content {
                 display: block;
                 position: relative;
-                z-index: 2; /* Sehr wichtig, damit der Text vor dem Bild liegt */
+                z-index: 2;
                 top: auto;
                 bottom: auto;
                 left: auto;
@@ -106,12 +95,14 @@
                 height: auto;
                 min-height: 0;
                 overflow: visible;
-                padding: 2.5rem 10% 3rem; /* Ausreichend Abstand zu den Rändern */
+                padding: 2.5rem 5% 3rem;
+                /* Etwas weniger Padding auf Mobile für mehr Platz */
                 box-sizing: border-box;
                 transform: none;
                 opacity: 1;
             }
         }
+
         .scene-container {
             position: relative;
             width: 90%;
@@ -132,7 +123,6 @@
             z-index: 10;
         }
 
-        /* Envelope + seal grow on seal hover; envelope grows a little */
         .envelope-wrapper:has(.seal-img:hover) {
             transform: scale(1.16);
         }
@@ -142,30 +132,24 @@
             height: auto;
             filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.5));
             transition: opacity 0.4s ease-in-out;
-            /* Ermöglicht das Überblenden */
         }
 
-
-        /* Dein angepasster Basis-Zustand */
         .seal-img {
             position: absolute;
             width: 20%;
             top: 45%;
             left: 50%;
-            /* Deine neue Position */
             transform: translate(-50%, 35%);
             cursor: pointer;
             filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.6));
             transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Seal grows more than the envelope on hover */
         .seal-img:hover {
             transform: translate(-50%, 35%) scale(1.28);
             filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.8));
         }
 
-        /* Klassen für die Ausblend-Animation */
         .envelope-wrapper.hidden {
             opacity: 0;
             transform: scale(1.2) translateY(50px);
@@ -173,7 +157,7 @@
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
         }
 
-        /* --- ZUSTAND 2: 3D-AUFKLAPPEN (WIE EIN BRIEF) --- */
+        /* --- ZUSTAND 2: 3D-AUFKLAPPEN --- */
         .scroll-wrapper {
             position: absolute;
             width: 100%;
@@ -183,23 +167,15 @@
             justify-content: center;
             align-items: center;
             pointer-events: none;
-
-            /* NEUE ANIMATION: 3D-Aufklappen */
             opacity: 0;
             transform-style: preserve-3d;
-            /* Startet nach hinten geklappt und leicht gestaucht */
             transform: perspective(1200px) rotateX(-70deg) scaleY(0.5) translateY(-50px);
             transform-origin: top center;
-            /* Das Papier "hängt" quasi oben und klappt nach unten auf */
-
-            /* Ein dynamisches Timing: Erst schnell, dann federt es weich ein */
-            transition: opacity 0.5s ease-in-out 0.2s,
-                transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.15) 0.2s;
+            transition: opacity 0.5s ease-in-out 0.2s, transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.15) 0.2s;
         }
 
         .scroll-wrapper.visible {
             opacity: 1;
-            /* Endzustand: Liegt flach und ist voll sichtbar */
             transform: perspective(1200px) rotateX(0deg) scaleY(1) translateY(0);
             pointer-events: auto;
         }
@@ -210,14 +186,13 @@
             filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
         }
 
-        /* Der Text über der Schriftrolle */
+        /* --- INHALT DER SCHRIFTROLLE (NEU STRUKTURIERT) --- */
         .scroll-content {
             position: absolute;
-            top: 15%;
-            bottom: 15%;
-            left: 15%;
-            right: 15%;
-            text-align: center;
+            top: 10%;
+            bottom: 10%;
+            left: 12%;
+            right: 12%;
             color: #2c1e16;
             display: flex;
             flex-direction: column;
@@ -225,16 +200,11 @@
             align-items: center;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-
-            /* NEU: Text ist am Anfang unsichtbar und leicht nach unten verschoben */
             opacity: 0;
             transform: translateY(20px);
-
-            /* Der Text fadet erst nach 1.2 Sekunden ein (wenn die Rolle fast offen ist) */
             transition: opacity 0.8s ease-in-out 1.2s, transform 0.8s ease-out 1.2s;
         }
 
-        /* Wenn die Rolle offen ist (.visible), wird der Text sichtbar */
         .scroll-wrapper.visible .scroll-content {
             opacity: 1;
             transform: translateY(0);
@@ -244,64 +214,177 @@
             display: none;
         }
 
+        /* Typografie */
         h1 {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(2.5rem, 5vw, 4.5rem);
             color: #8b0000;
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             font-weight: normal;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: #d4af37;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
         }
 
         p {
-
-            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             line-height: 1.6;
             margin: 10px 0;
+            text-align: center;
         }
 
         .divider {
             font-size: 24px;
             color: #d4af37;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        /* --- NEUE WEB-STRUKTUREN --- */
+
+        /* Grid für Fakten (Wann & Wo) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
             margin: 20px 0;
         }
 
+        .info-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .info-card h3 {
+            margin: 0 0 10px 0;
+            color: #8b0000;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        /* Liste für Details (Stil etc.) */
+        .details-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .details-list li {
+            background: rgba(255, 255, 255, 0.2);
+            margin-bottom: 10px;
+            padding: 12px 20px;
+            border-left: 3px solid #8b0000;
+            border-radius: 0 4px 4px 0;
+            text-align: left;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .details-list strong {
+            color: #8b0000;
+            display: inline-block;
+            min-width: 90px;
+        }
+
         /* RSVP Formular Design */
+        .rsvp-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .rsvp-form {
             width: 100%;
-            max-width: 400px;
-            margin-top: 15px;
+            max-width: 450px;
+            margin-top: 10px;
             border: 1px solid rgba(212, 175, 55, 0.5);
-            padding: 20px;
+            padding: 25px;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.5);
             box-sizing: border-box;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .rsvp-form input[type="text"] {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #d4af37;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.7);
             font-family: 'Cinzel', serif;
             color: #2c1e16;
             box-sizing: border-box;
             border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        .rsvp-form input[type="text"]:focus {
+            outline: none;
+            border-color: #8b0000;
+            background: #fff;
         }
 
         .rsvp-form input::placeholder {
-            color: rgba(44, 30, 22, 0.6);
+            color: rgba(44, 30, 22, 0.5);
         }
 
         .radio-group {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 20px;
-            font-size: 0.9em;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 10px;
+            border-radius: 4px;
         }
 
         .radio-group label {
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #8b0000;
+        }
+
+        .checkbox-row label {
+            cursor: pointer;
+            margin: 0;
         }
 
         button {
@@ -310,40 +393,26 @@
             border: 2px solid #660000;
             padding: 12px 30px;
             font-family: 'Cinzel', serif;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
             border-radius: 4px;
             transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            width: 100%;
         }
 
         button:hover {
             background-color: #660000;
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Password Lock Overlay (structure from weddsite) -->
     <div id="password-overlay" class="password-overlay">
-        <div class="password-container">
-            <div class="password-content">
-                <h2 class="password-title">Einladung öffnen</h2>
-                <p class="password-subtitle">Bitte gib das Passwort ein.</p>
-
-                <form id="password-form" class="password-form">
-                    <input type="password" id="password-input" placeholder="Passwort eingeben" required>
-                    <button type="submit" class="password-button">Öffnen</button>
-                </form>
-
-                <div class="password-hint">
-                    <p>Tipp: Das Passwort ist der Name der Braut</p>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="scene-container">
@@ -352,54 +421,94 @@
             <img src="envelope.png" alt="Briefumschlag" class="envelope-img" id="envelopeClosed">
             <img src="envelopeopen.png" alt="Briefumschlag offen" class="envelope-img" id="envelopeOpen"
                 style="opacity: 0; position: absolute; top: 0; left: 0;">
-
             <img src="siegel.png" alt="Wachssiegel" class="seal-img" id="sealBtn">
         </div>
+
         <div class="scroll-wrapper" id="scrollWrapper">
             <img src="scroll.jpg" alt="Schriftrolle" class="scroll-img">
 
             <div class="scroll-content">
+
                 <h1>Unsere Hochzeit</h1>
                 <p id="greeting">Liebe Familie, liebe Freunde,</p>
-                <p id="invitation-intro">wir laden euch herzlich ein, unseren besonderen Tag mit uns zu feiern. 
-                </p>
-                <p>
-                    <strong>Wann:</strong> Samstag, 06. Juni 2026<br>
-                    <strong>Wo:</strong> Wiesentalstraße 26, 72574 Bad Urach<br>
-                    <strong>Beginn:</strong> 14:00 Uhr<br>
-                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
-                    <strong>Stil:</strong> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.<br>
+                <p id="invitation-intro">wir laden euch von Herzen ein, unseren besonderen Tag mit uns zu feiern.</p>
 
                 <div class="divider">❦</div>
 
-                <div class="rsvp-form">
-                    <form id="rsvp-form">
-                        <input type="text" name="guest_names" id="guest_names" placeholder="Name(n) der Gäste" required>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Trauung</h3>
+                        <p><strong>14:00 Uhr</strong><br>An der <a
+                                href="https://maps.app.goo.gl/psKCcpjrDJi3CSw16">hohlen Linde</a></p>
+                        <p style="font-size: 0.85em; opacity: 0.8; margin-top: 8px;">
+                            <em>Tipp: Es ist ein kurzer <a
+                                    href="https://maps.app.goo.gl/fxmRmUnfonwPBufz8">Spaziergang</a> vom Parkplatz durch
+                                den Wald, passendes Schuhwerk wird empfohlen!</em>
+                        </p>
+                    </div>
 
-                        <div class="radio-group">
-                            <label><input type="radio" name="attendance" value="yes" required> 💍 Ja, wir
-                                kommen!</label>
-                            <label><input type="radio" name="attendance" value="no"> Leider nicht</label>
-                        </div>
-
-                        <input type="text" name="notes" id="notes" placeholder="Bemerkungen oder Allergien?">
-
-                        <button type="submit">Antwort senden</button>
-                    </form>
-                    <div id="form-status" class="form-status"></div>
+                    <div class="info-card">
+                        <h3>Feier</h3>
+                        <p><strong>Im Anschluss</strong><br>
+                            <a href="https://maps.app.goo.gl/mcrs8F1tfCihQ5397">Schlössle Seeburg</a>
+                            <br>Wiesentalstraße 26<br>72574 Bad Urach
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Frühstück</h3>
+                        <p><strong>Am nächsten Morgen</strong><br>Zum gemeinsamen Ausklang gibt es an der Location noch
+                            ein Frühstück.</p>
+                    </div>
                 </div>
+
+                <div class="divider">❦</div>
+
+                <h2>Weitere Details</h2>
+                <ul class="details-list">
+                    <li><strong>Dresscode:</strong> Festlich, aber so, <span id="dresscode-text">dass ihr entspannt feiern und tanzen könnt.</span></li>
+                    <li><strong>Geschenke:</strong> <span id="geschenke-text">Euer Kommen</span> ist das schönste Geschenk. Wer trotzdem etwas geben
+                        möchte: Wir freuen uns über einen Zuschuss für die Flitterwochen.</li>
+                    <li><strong>Parken:</strong> Ausreichend Parkplätzegibt es direkt an der Location sowie in der <a
+                            href="https://maps.app.goo.gl/uSCafCsiSmMV8tJB7">Nähe der hohlen Linde</a>.</li>
+                </ul>
+
+                <div class="divider">❦</div>
+
+                <div class="rsvp-section">
+                    <h2 id="rsvp-heading">Seid ihr dabei?</h2>
+                    <p><span id="rsvp-deadline-prefix">Bitte gebt uns</span> bis zum <strong>01. April 2026</strong> Bescheid.</p>
+
+                    <div class="rsvp-form">
+                        <form id="rsvp-form">
+                            <input type="text" name="guest_names" id="guest_names" placeholder="Name(n) der Gäste"
+                                required>
+
+                            <div class="radio-group">
+                                <label><input type="radio" name="attendance" value="yes" required> <span id="attendance-yes-text">Ja, wir kommen!</span></label>
+                                <label><input type="radio" name="attendance" value="no"> Leider nicht</label>
+                            </div>
+                            <div class="checkbox-row">
+                                <input type="checkbox" name="accommodation" id="accommodation" value="yes">
+                                <label for="accommodation" id="accommodation-label">Ich brauche eine Übernachtung</label>
+                            </div>
+
+                            <input type="text" name="notes" id="notes" placeholder="Bemerkungen oder Allergien?">
+
+                            <button type="submit">Antwort senden</button>
+                        </form>
+                        <div id="form-status" class="form-status"></div>
+                    </div>
+                </div>
+
             </div>
+
+
         </div>
 
-    </div>
-
-    <script src="script.js"></script>
-    <script src="audio-player.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="emailjs-config.js"></script>
+        <script src="script.js"></script>
+        <script src="audio-player.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+        <script src="emailjs-config.js"></script>
 </body>
 
 </html>

@@ -21,6 +21,18 @@ if (typeof emailjs !== 'undefined') {
     window.addEventListener('load', initEmailJS);
 }
 
+// Guest count from URL (?Mpeter&FHanna or #Mpeter) for Ich/Wir in accommodation line
+function getGuestCountFromUrl() {
+    const paramString = window.location.search || (window.location.hash ? window.location.hash.replace(/^#/, '') : '');
+    if (!paramString.trim()) return 0;
+    const params = new URLSearchParams(paramString.replace(/^#?\??/, ''));
+    let count = 0;
+    for (const key of params.keys()) {
+        if (/^[MF].+$/i.test(key)) count++;
+    }
+    return count;
+}
+
 // RSVP form handling
 document.addEventListener('DOMContentLoaded', function () {
     const rsvpForm = document.getElementById('rsvp-form');
@@ -43,13 +55,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const guestNamesEl = document.getElementById('guest_names');
         const attendanceRadio = rsvpForm.querySelector('input[name="attendance"]:checked');
+        const accommodationEl = document.getElementById('accommodation');
         const notesEl = document.getElementById('notes');
 
         const guestNames = guestNamesEl ? guestNamesEl.value.trim() : '';
         const attendance = attendanceRadio ? attendanceRadio.value : '';
-        const attendanceText = attendance === 'yes' ? 'Ja, wir kommen!' : 'Leider nicht';
+        const guestCount = getGuestCountFromUrl();
+        const attendanceText = attendance === 'yes'
+            ? (guestCount === 1 ? 'Ja, ich komme!' : 'Ja, wir kommen!')
+            : 'Leider nicht';
+        const wantsAccommodation = accommodationEl && accommodationEl.checked;
+        const pronoun = guestCount === 1 ? 'Ich' : 'Wir';
+        const accommodationLine = wantsAccommodation
+            ? (pronoun + ' brauche' + (guestCount === 1 ? '' : 'n') + ' eine Übernachtung.')
+            : (pronoun + ' brauche' + (guestCount === 1 ? '' : 'n') + ' keine Übernachtung.');
         const notes = notesEl && notesEl.value ? notesEl.value.trim() : '–';
-        const message = 'Zusage: ' + attendanceText + '\n\nBemerkungen / Allergien: ' + notes;
+        const message = 'Zusage: ' + attendanceText + '\n\nÜbernachtung: ' + accommodationLine + '\n\nBemerkungen / Allergien: ' + notes;
+
+        const thankYouMsg = guestCount === 1
+            ? 'Vielen Dank für Deine Zusage!'
+            : 'Vielen Dank für Eure Zusage!';
 
         const templateParams = {
             from_name: guestNames || 'Unbekannt',
@@ -62,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
             .then(function (response) {
                 console.log('EmailJS success', response.status, response.text);
-                showFormStatus(formStatus, 'success', 'Vielen Dank für Deine Zusage!');
+                showFormStatus(formStatus, 'success', thankYouMsg);
                 rsvpForm.reset();
             }, function (err) {
                 console.error('EmailJS error', err);
