@@ -15,26 +15,58 @@ function parseGuestsFromParamString(paramString) {
     return guests;
 }
 
+function inferGuestCountFromNames(value) {
+    if (!value) return 0;
+    const normalized = value
+        .replace(/\s+und\s+/gi, ',')
+        .replace(/\s*&\s*/g, ',')
+        .replace(/\s*\+\s*/g, ',');
+    const parts = normalized
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+    return parts.length;
+}
+
+function currentGuestCount() {
+    const namesInput = document.getElementById('guest_names');
+    const typedCount = namesInput ? inferGuestCountFromNames(namesInput.value) : 0;
+    if (typedCount > 0) return typedCount;
+
+    let guests = parseGuestsFromParamString(window.location.search);
+    if (guests.length === 0) guests = parseGuestsFromParamString(window.location.hash);
+    return guests.length;
+}
+
+function updateCheckboxLabels() {
+    const isSingle = currentGuestCount() <= 1;
+    const accommodationLabel = document.getElementById('accommodation-label');
+    const breakfastLabel = document.getElementById('breakfast-label');
+
+    if (accommodationLabel) {
+        accommodationLabel.textContent = isSingle
+            ? 'Ich brauche eine Übernachtung'
+            : 'Wir brauchen eine Übernachtung';
+    }
+    if (breakfastLabel) {
+        breakfastLabel.textContent = isSingle
+            ? 'Ich komme zum Frühstück'
+            : 'Wir kommen zum Frühstück';
+    }
+}
+
 function applyUrlParams() {
     let guests = parseGuestsFromParamString(window.location.search);
     if (guests.length === 0) guests = parseGuestsFromParamString(window.location.hash);
 
     const isSingle = guests.length === 1;
 
-    // Accommodation label: "Ich" for one guest, "Wir" for two or none (default)
-    const accommodationLabel = document.getElementById('accommodation-label');
-    if (accommodationLabel) {
-        accommodationLabel.textContent = isSingle
-            ? 'Ich brauche eine Übernachtung'
-            : 'Wir brauchen eine Übernachtung';
-    }
-
     // Einzahl/Mehrzahl: du/dich/dein vs ihr/euch/euer
     const dresscodeEl = document.getElementById('dresscode-text');
     if (dresscodeEl) {
         dresscodeEl.textContent = isSingle
-            ? 'dass du entspannt feiern und tanzen kannst.'
-            : 'dass ihr entspannt feiern und tanzen könnt.';
+            ? 'dass du entspannt feiern kannst.'
+            : 'dass ihr entspannt feiern könnt.';
     }
     const geschenkeEl = document.getElementById('geschenke-text');
     if (geschenkeEl) {
@@ -72,12 +104,15 @@ function applyUrlParams() {
     }
     if (namesInput) {
         namesInput.value = guests.map((g) => g.name).join(' und ');
+        namesInput.addEventListener('input', updateCheckboxLabels);
     }
+
+    updateCheckboxLabels();
 }
 
 // Prüft, ob der Passwort-Screen per URL-Parameter übersprungen werden soll (z. B. ?hannalukas oder #hannalukas oder ?lukashanna oder #lukashanna)
 function hasBypassParam() {
-    const fromSearch = new URLSearchParams(window.location.search).has('hannalukas') ;
+    const fromSearch = new URLSearchParams(window.location.search).has('hannalukas');
     const fromHash = window.location.hash && new URLSearchParams(window.location.hash.replace(/^#/, '')).has('hannalukas');
     return fromSearch || fromHash;
 }
@@ -85,6 +120,12 @@ function hasBypassParam() {
 // Password Lock (structure from weddsite)
 document.addEventListener('DOMContentLoaded', function () {
     applyUrlParams();
+
+    const guestNamesInput = document.getElementById('guest_names');
+    if (guestNamesInput) {
+        guestNamesInput.addEventListener('input', updateCheckboxLabels);
+        updateCheckboxLabels();
+    }
 
     const passwordOverlay = document.getElementById('password-overlay');
     const passwordForm = document.getElementById('password-form');
@@ -194,3 +235,29 @@ function initEnvelope() {
 }
 
 window.openInvitation = openInvitation;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const treeEmblem = document.getElementById('tree-emblem');
+    const scrollContent = document.querySelector('.scroll-content');
+
+    if (treeEmblem) {
+        const updateTreeTransform = (scrolled, yOffset = 0) => {
+            const scaleFactor = 1 + (scrolled * 0.002);
+            treeEmblem.style.transform = `translateY(${yOffset}px) scale(${scaleFactor})`;
+        };
+
+        if (scrollContent) {
+            scrollContent.addEventListener('scroll', () => {
+                if (window.innerWidth > 820) {
+                    updateTreeTransform(scrollContent.scrollTop, 0);
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 820) {
+                updateTreeTransform(window.scrollY, window.scrollY);
+            }
+        });
+    }
+});

@@ -21,8 +21,23 @@ if (typeof emailjs !== 'undefined') {
     window.addEventListener('load', initEmailJS);
 }
 
-// Guest count from URL (?Mpeter&FHanna or #Mpeter) for Ich/Wir in accommodation line
-function getGuestCountFromUrl() {
+function inferGuestCountFromNames(value) {
+    if (!value) return 0;
+    const normalized = value
+        .replace(/\s+und\s+/gi, ',')
+        .replace(/\s*&\s*/g, ',')
+        .replace(/\s*\+\s*/g, ',');
+    const parts = normalized
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+    return parts.length;
+}
+
+function getGuestCount(guestNames) {
+    const typedCount = inferGuestCountFromNames(guestNames);
+    if (typedCount > 0) return typedCount;
+
     const paramString = window.location.search || (window.location.hash ? window.location.hash.replace(/^#/, '') : '');
     if (!paramString.trim()) return 0;
     const params = new URLSearchParams(paramString.replace(/^#?\??/, ''));
@@ -56,23 +71,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const guestNamesEl = document.getElementById('guest_names');
         const attendanceRadio = rsvpForm.querySelector('input[name="attendance"]:checked');
         const accommodationEl = document.getElementById('accommodation');
+        const breakfastEl = document.getElementById('breakfast');
         const notesEl = document.getElementById('notes');
 
         const guestNames = guestNamesEl ? guestNamesEl.value.trim() : '';
         const attendance = attendanceRadio ? attendanceRadio.value : '';
-        const guestCount = getGuestCountFromUrl();
+        const guestCount = getGuestCount(guestNames);
+        const isSingle = guestCount <= 1;
         const attendanceText = attendance === 'yes'
-            ? (guestCount === 1 ? 'Ja, ich komme!' : 'Ja, wir kommen!')
+            ? (isSingle ? 'Ja, ich komme!' : 'Ja, wir kommen!')
             : 'Leider nicht';
-        const wantsAccommodation = accommodationEl && accommodationEl.checked;
-        const pronoun = guestCount === 1 ? 'Ich' : 'Wir';
-        const accommodationLine = wantsAccommodation
-            ? (pronoun + ' brauche' + (guestCount === 1 ? '' : 'n') + ' eine Übernachtung.')
-            : (pronoun + ' brauche' + (guestCount === 1 ? '' : 'n') + ' keine Übernachtung.');
+        const accommodationLine = accommodationEl && accommodationEl.checked
+            ? (isSingle ? 'Ja, ich brauche eine Übernachtung.' : 'Ja, wir brauchen eine Übernachtung.')
+            : 'Nein';
+        const breakfastLine = breakfastEl && breakfastEl.checked
+            ? (isSingle ? 'Ja, ich komme zum Frühstück.' : 'Ja, wir kommen zum Frühstück.')
+            : 'Nein';
         const notes = notesEl && notesEl.value ? notesEl.value.trim() : '–';
-        const message = 'Zusage: ' + attendanceText + '\n\nÜbernachtung: ' + accommodationLine + '\n\nBemerkungen / Allergien: ' + notes;
+        const message = 'Zusage: ' + attendanceText + '\n\nÜbernachtung: ' + accommodationLine + '\n\nFrühstück: ' + breakfastLine + '\n\nBemerkungen / Allergien: ' + notes;
 
-        const thankYouMsg = guestCount === 1
+        const thankYouMsg = isSingle
             ? 'Vielen Dank für Deine Zusage!'
             : 'Vielen Dank für Eure Zusage!';
 

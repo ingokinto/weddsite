@@ -1,14 +1,38 @@
 /* Password overlay only (structure from weddsite) */
 @keyframes fractalMove {
-    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
-    25% { transform: scale(1.2) rotate(90deg); opacity: 0.8; }
-    50% { transform: scale(1.1) rotate(180deg); opacity: 0.9; }
-    75% { transform: scale(1.3) rotate(270deg); opacity: 0.7; }
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.6;
+    }
+
+    25% {
+        transform: scale(1.2) rotate(90deg);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.1) rotate(180deg);
+        opacity: 0.9;
+    }
+
+    75% {
+        transform: scale(1.3) rotate(270deg);
+        opacity: 0.7;
+    }
 }
 
 @keyframes titleGlow {
-    0% { opacity: 1; filter: brightness(1); }
-    100% { opacity: 0.85; filter: brightness(1.15); }
+    0% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    100% {
+        opacity: 0.85;
+        filter: brightness(1.15);
+    }
 }
 
 .password-overlay {
@@ -53,7 +77,9 @@
     text-align: center;
 }
 
-.password-content { color: white; }
+.password-content {
+    color: white;
+}
 
 .password-title {
     font-family: 'Cinzel', serif;
@@ -91,7 +117,9 @@
     font-family: 'Cinzel', serif;
 }
 
-#password-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+#password-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
 
 #password-input:focus {
     border-color: #d4af37;
@@ -117,7 +145,9 @@
     box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
 }
 
-.password-button:active { transform: translateY(0); }
+.password-button:active {
+    transform: translateY(0);
+}
 
 .password-hint {
     background: rgba(255, 255, 255, 0.05);
@@ -138,17 +168,37 @@
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
 }
 
-.password-success { animation: successPulse 0.5s ease-in-out; }
+.password-success {
+    animation: successPulse 0.5s ease-in-out;
+}
 
 @keyframes successPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .password-overlay.unlocked {
@@ -165,10 +215,38 @@
     transition: opacity 0.3s ease;
 }
 
-.form-status.loading { color: #2c1e16; }
+.form-status.loading {
+    color: #2c1e16;
+}
 
-.form-status.success { color: #1e6b1e; }
+.form-status.success {
+    color: #1e6b1e;
+}
 
-.form-status.error { color: #8b0000; }
+.form-status.error {
+    color: #8b0000;
+}
 
-.form-disabled { pointer-events: none; opacity: 0.8; }
+.form-disabled {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+#tree-emblem {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    margin-top: -300px;
+    margin-left: -300px;
+    background-image: url('tree.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.05;
+    z-index: 1;
+    pointer-events: none;
+    transform: scale(1);
+    transition: transform 0.1s ease-out;
+}
