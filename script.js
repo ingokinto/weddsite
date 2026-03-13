@@ -65,8 +65,8 @@ function applyUrlParams() {
     const dresscodeEl = document.getElementById('dresscode-text');
     if (dresscodeEl) {
         dresscodeEl.textContent = isSingle
-            ? 'dass du entspannt feiern kannst.'
-            : 'dass ihr entspannt feiern könnt.';
+            ? 'wenn du dich festlich und elegant kleidest.'
+            : 'wenn ihr euch festlich und elegant kleidet.';
     }
     const geschenkeEl = document.getElementById('geschenke-text');
     if (geschenkeEl) {
