@@ -36,25 +36,36 @@
         }
 
         body.letter-open {
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+            /* Verhindert seitliches Scrollen */
             min-height: 100%;
             height: auto;
             -webkit-overflow-scrolling: touch;
         }
 
         html:has(body.letter-open) {
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+            /* Verhindert seitliches Scrollen */
         }
 
         body.letter-open .scene-container {
             height: auto;
             min-height: 100vh;
             align-items: flex-start;
-            padding: 20px 0 40px;
+            padding: 20px 0 0 0;
+            /* Unten auf 0 gesetzt, damit kein leerer Raum entsteht */
         }
 
         body.letter-open .scroll-wrapper.visible {
+            display: flex;
             position: relative;
+            width: 95%;
+            min-height: 80vh;
+            margin: 20px auto 0 auto;
+            /* Margin unten auf 0 */
+            flex-direction: column;
         }
 
         body.letter-open .scroll-content {
@@ -154,7 +165,9 @@
             opacity: 0;
             transform: scale(1.2) translateY(50px);
             pointer-events: none;
-            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            visibility: hidden;
+            /* Nimmt das Element komplett aus dem Scroll-Bereich */
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out, visibility 0s linear 1s;
         }
 
         /* --- ZUSTAND 2: 3D-AUFKLAPPEN --- */
@@ -227,7 +240,7 @@
 
         h2 {
             font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-            color: #07591a;
+            color: #5d0a0a;
             margin: 10px 0;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -622,14 +635,16 @@
 
             .t-content {
                 width: calc(100% - 20px);
+                /* Sorgt dafür, dass der Inhalt von allen Reihen einheitlich linksbündig startet */
+                justify-content: flex-start;
+                text-align: left;
             }
 
             .t-row.left .t-content {
                 padding-right: 0;
                 padding-left: 25px;
-                justify-content: flex-start;
-                text-align: left;
-                flex-direction: row-reverse;
+                /* Wir setzen die Laufrichtung wieder auf normal (links nach rechts) */
+                flex-direction: row;
             }
 
             .t-row.left::before,
@@ -642,6 +657,8 @@
             .t-row.left .t-icon {
                 margin-left: 0;
                 margin-right: 15px;
+                /* Schiebt das Icon visuell VOR den Text, ohne die Ausrichtung kaputt zu machen */
+                order: -1;
             }
 
             .t-text p.small-desc {
@@ -677,7 +694,7 @@
 
                 <h3>06. Juni 2026</h3>
 
-                mit uns gemeinsam zu feiern.</p>
+                <p id="invitation-outro">mit uns gemeinsam zu feiern.</p>
 
                 <div class="divider">❦</div>
 
