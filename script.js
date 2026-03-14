@@ -99,8 +99,9 @@ function applyUrlParams() {
     }
     if (introEl) {
         introEl.textContent = isSingle
-            ? 'wir laden dich von Herzen ein, unseren besonderen Tag mit uns zu feiern.'
-            : 'wir laden euch von Herzen ein, unseren besonderen Tag mit uns zu feiern.';
+            // wir laden euch von Herzen ein,
+            ? 'wir laden dich von Herzen ein,'
+            : 'wir laden euch von Herzen ein,';
     }
     if (namesInput) {
         namesInput.value = guests.map((g) => g.name).join(' und ');
