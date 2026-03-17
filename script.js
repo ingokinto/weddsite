@@ -15,6 +15,114 @@ function parseGuestsFromParamString(paramString) {
     return guests;
 }
 
+const CALENDAR_TIME_ZONE = 'Europe/Berlin';
+const CALENDAR_EVENT_CONFIG = {
+    ceremony: {
+        title: 'Trauung Hanna und Lukas',
+        description: 'Trauung an der hohlen Linde.',
+        location: 'Hohle Linde, Dettingen an der Erms',
+        date: '2026-06-06',
+        startTime: '13:30',
+        endTime: '14:30'
+    },
+    reception: {
+        title: 'Feier Hanna und Lukas',
+        description: 'Feier im Schloessle Seeburg.',
+        location: 'Schloessle Seeburg, Wiesentalstrasse 26, 72574 Bad Urach',
+        date: '2026-06-06',
+        startTime: '15:00',
+        endTime: '23:30'
+    },
+    brunch: {
+        title: 'Brunch Hanna und Lukas',
+        description: 'Gemeinsamer Brunch am Morgen nach der Hochzeit.',
+        location: 'Schloessle Seeburg, Wiesentalstrasse 26, 72574 Bad Urach',
+        date: '2026-06-07',
+        startTime: '09:30',
+        endTime: '12:00'
+    }
+};
+
+function toCalendarDateParts(date, time) {
+    const [year, month, day] = date.split('-').map(Number);
+    const [hours, minutes] = time.split(':').map(Number);
+    return { year, month, day, hours, minutes };
+}
+
+function toLocalIcsString(date, time) {
+    const { year, month, day, hours, minutes } = toCalendarDateParts(date, time);
+    const pad = (value) => String(value).padStart(2, '0');
+    return [
+        year,
+        pad(month),
+        pad(day)
+    ].join('') + 'T' + [pad(hours), pad(minutes), '00'].join('');
+}
+
+function escapeIcsText(value) {
+    return String(value || '')
+        .replace(/\\/g, '\\\\')
+        .replace(/\n/g, '\\n')
+        .replace(/,/g, '\\,')
+        .replace(/;/g, '\\;');
+}
+
+function buildIcsEvent(eventKey, event) {
+    const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+    return [
+        'BEGIN:VEVENT',
+        `UID:${eventKey}-20260617@weddsite`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART;TZID=${CALENDAR_TIME_ZONE}:${toLocalIcsString(event.date, event.startTime)}`,
+        `DTEND;TZID=${CALENDAR_TIME_ZONE}:${toLocalIcsString(event.date, event.endTime)}`,
+        `SUMMARY:${escapeIcsText(event.title)}`,
+        `DESCRIPTION:${escapeIcsText(event.description)}`,
+        `LOCATION:${escapeIcsText(event.location)}`,
+        'END:VEVENT'
+    ].join('\r\n');
+}
+
+function downloadCalendarBundle() {
+    const orderedEventKeys = ['ceremony', 'reception', 'brunch'];
+    const eventBlocks = orderedEventKeys
+        .map((eventKey) => {
+            const event = CALENDAR_EVENT_CONFIG[eventKey];
+            return event ? buildIcsEvent(eventKey, event) : '';
+        })
+        .filter(Boolean);
+
+    if (eventBlocks.length === 0) return;
+
+    const icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//weddsite//Wedding Invitation//DE',
+        'CALSCALE:GREGORIAN',
+        ...eventBlocks,
+        'END:VCALENDAR'
+    ].join('\r\n');
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'hanna-und-lukas-hochzeit.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+function initCalendarButtons() {
+    document.querySelectorAll('[data-calendar-event]').forEach((button) => {
+        button.addEventListener('click', () => {
+            if (button.dataset.calendarEvent === 'full-wedding') {
+                downloadCalendarBundle();
+            }
+        });
+    });
+}
+
 function inferGuestCountFromNames(value) {
     if (!value) return 0;
     const normalized = value
@@ -121,6 +229,7 @@ function hasBypassParam() {
 // Password Lock (structure from weddsite)
 document.addEventListener('DOMContentLoaded', function () {
     applyUrlParams();
+    initCalendarButtons();
 
     const guestNamesInput = document.getElementById('guest_names');
     if (guestNamesInput) {

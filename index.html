@@ -235,6 +235,30 @@
             display: none;
         }
 
+        .calendar-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 14px;
+            padding: 10px 16px;
+            border: 1px solid rgba(93, 10, 10, 0.22);
+            border-radius: 999px;
+            background: rgba(255, 248, 235, 0.88);
+            color: #5d0a0a;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .calendar-button:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 252, 245, 0.96);
+            box-shadow: 0 8px 18px rgba(44, 30, 22, 0.12);
+        }
+
         /* Typografie */
         h1 {
             font-family: 'Great Vibes', cursive;
@@ -725,6 +749,10 @@
                         <p> <strong>Am nächsten Morgen</strong> möchten wir mit einem gemeinsamen Brunch abschließen.
                         </p>
                     </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button type="button" class="calendar-button" data-calendar-event="full-wedding">Zum Kalender hinzufügen</button>
                 </div>
 
                 <div class="divider">❦</div>
