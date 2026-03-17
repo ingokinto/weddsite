@@ -90,9 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const notes = notesEl && notesEl.value ? notesEl.value.trim() : '–';
         const message = 'Zusage: ' + attendanceText + '\n\nÜbernachtung: ' + accommodationLine + '\n\nFrühstück: ' + breakfastLine + '\n\nBemerkungen / Allergien: ' + notes;
 
-        const thankYouMsg = isSingle
-            ? 'Vielen Dank für Deine Zusage!'
-            : 'Vielen Dank für Eure Zusage!';
+        const thankYouMsg = attendance === 'yes'
+            ? (isSingle ? 'Vielen Dank fuer Deine Zusage!' : 'Vielen Dank fuer Eure Zusage!')
+            : (isSingle ? 'Vielen Dank fuer Deine Rueckmeldung!' : 'Vielen Dank fuer Eure Rueckmeldung!');
+        const telegramInviteUrl = 'https://t.me/+MpLJqd_ZhSM2MmMy';
+        const thankYouHtml = attendance === 'yes'
+            ? thankYouMsg + '<br><a href="' + telegramInviteUrl + '" target="_blank" rel="noopener noreferrer">Telegram-Gruppe beitreten</a>'
+            : thankYouMsg;
 
         const templateParams = {
             from_name: guestNames || 'Unbekannt',
@@ -105,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
         emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
             .then(function (response) {
                 console.log('EmailJS success', response.status, response.text);
-                showFormStatus(formStatus, 'success', thankYouMsg);
+                showFormStatus(formStatus, 'success', thankYouHtml);
                 rsvpForm.reset();
             }, function (err) {
                 console.error('EmailJS error', err);
@@ -119,7 +123,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showFormStatus(el, type, message) {
         if (!el) return;
-        el.textContent = message;
+        if (type === 'success') {
+            el.innerHTML = message;
+        } else {
+            el.textContent = message;
+        }
         el.className = 'form-status ' + type;
         if (type === 'success') {
             setTimeout(function () {

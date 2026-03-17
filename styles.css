@@ -223,6 +223,13 @@
     color: #1e6b1e;
 }
 
+.form-status.success a {
+    color: inherit;
+    display: inline-block;
+    margin-top: 6px;
+    text-decoration: underline;
+}
+
 .form-status.error {
     color: #8b0000;
 }
