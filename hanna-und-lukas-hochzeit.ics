@@ -1,0 +1,32 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//weddsite//Wedding Invitation//DE
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:ceremony-20260617@weddsite
+DTSTAMP:20260319T000000Z
+DTSTART;TZID=Europe/Berlin:20260606T133000
+DTEND;TZID=Europe/Berlin:20260606T143000
+SUMMARY:Trauung Hanna und Lukas
+DESCRIPTION:Trauung an der hohlen Linde.
+LOCATION:Hohle Linde\, Dettingen an der Erms
+END:VEVENT
+BEGIN:VEVENT
+UID:reception-20260617@weddsite
+DTSTAMP:20260319T000000Z
+DTSTART;TZID=Europe/Berlin:20260606T150000
+DTEND;TZID=Europe/Berlin:20260606T233000
+SUMMARY:Feier Hanna und Lukas
+DESCRIPTION:Feier im Schloessle Seeburg.
+LOCATION:Schloessle Seeburg\, Wiesentalstrasse 26\, 72574 Bad Urach
+END:VEVENT
+BEGIN:VEVENT
+UID:brunch-20260617@weddsite
+DTSTAMP:20260319T000000Z
+DTSTART;TZID=Europe/Berlin:20260607T093000
+DTEND;TZID=Europe/Berlin:20260607T120000
+SUMMARY:Brunch Hanna und Lukas
+DESCRIPTION:Gemeinsamer Brunch am Morgen nach der Hochzeit.
+LOCATION:Schloessle Seeburg\, Wiesentalstrasse 26\, 72574 Bad Urach
+END:VEVENT
+END:VCALENDAR
